@@ -1,0 +1,4 @@
+GET http://localhost:8080/calculate?price=99000&salesTax=19
+Accept: application/json
+
+###

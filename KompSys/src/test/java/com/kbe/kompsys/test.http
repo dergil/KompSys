@@ -1,0 +1,13 @@
+### GET request with a header
+GET http://localhost:8080/ip/get
+Accept: application/json
+
+
+### GET request with a header
+GET https://kompsys.herokuapp.com/ip/get
+Accept: application/json
+
+
+### GET request with a header
+GET http://localhost:8081/car/tax?id=3
+Accept: application/json
