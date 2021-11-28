@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping(path = "/car")
 public class CarApi {
 

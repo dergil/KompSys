@@ -12,9 +12,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
 public class KompSysApplication {
-
-
-
     public static void main(String[] args) {
         SpringApplication.run(KompSysApplication.class, args);
 

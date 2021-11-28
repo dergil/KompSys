@@ -9,6 +9,7 @@ import com.kbe.kompsys.domain.mapper.CarTaxResponseMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.repository.CarRepository;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +30,11 @@ public class CarService {
     @Autowired
     private CarTaxResponseMapper carTaxResponseMapper;
 
+
     @Transactional
     public CarView create(EditCarRequest request) {
+        CarEditMapper carEditMapper = Mappers.getMapper(CarEditMapper.class);
+
         Car car = carEditMapper.create(request);
         carRepository.save(car);
         return carViewMapper.toCarView(car);
