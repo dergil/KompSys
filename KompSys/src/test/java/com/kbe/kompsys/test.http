@@ -1,9 +1,13 @@
-PUT http://localhost:8081/car/123
+
+
+
+# hro
+PUT http://localhost:8081/car/1
 Content-Type: application/json
 
+  //  "price": -1,
 {
   "name":"chevrolet chevelle malibu",
-  "price": 90000,
   "milesPerGallon":18,
   "cylinders":8,
   "displacement":307,
@@ -14,12 +18,8 @@ Content-Type: application/json
   "origin":"USA"
 }
 
-###
-
-
-###
 ### GET request with a header
-GET http://localhost:8080/ip/get
+DELETE http://localhost:8081/car/3
 Accept: application/json
 
 
@@ -27,6 +27,13 @@ Accept: application/json
 GET https://kompsys.herokuapp.com/ip/get
 Accept: application/json
 
+### GET request with a header
+GET http://localhost:8081/car/3
+Accept: application/json
+
+### GET request with a header
+GET http://localhost:8081/car/
+Accept: application/json
 
 ### GET request with a header
 GET http://localhost:8081/car/tax?id=3

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-28T11:59:28+0100",
+    date = "2021-12-01T19:57:35+0100",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 @Component
@@ -23,9 +23,10 @@ public class CarEditMapperImpl implements CarEditMapper {
 
         Car car = new Car();
 
-        car.setId( request.getId() );
         car.setName( request.getName() );
-        car.setPrice( (int) request.getPrice() );
+        if ( request.getPrice() != null ) {
+            car.setPrice( request.getPrice().intValue() );
+        }
         car.setMilesPerGallon( (int) request.getMilesPerGallon() );
         car.setCylinders( request.getCylinders() );
         car.setDisplacement( request.getDisplacement() );
@@ -38,5 +39,31 @@ public class CarEditMapperImpl implements CarEditMapper {
         car.setOrigin( request.getOrigin() );
 
         return car;
+    }
+
+    @Override
+    public void update(EditCarRequest request, Car car) {
+        if ( request == null ) {
+            return;
+        }
+
+        if ( request.getName() != null ) {
+            car.setName( request.getName() );
+        }
+        if ( request.getPrice() != null ) {
+            car.setPrice( request.getPrice().intValue() );
+        }
+        car.setMilesPerGallon( (int) request.getMilesPerGallon() );
+        car.setCylinders( request.getCylinders() );
+        car.setDisplacement( request.getDisplacement() );
+        car.setHorsepower( request.getHorsepower() );
+        car.setWeightInPounds( request.getWeightInPounds() );
+        car.setAcceleration( (int) request.getAcceleration() );
+        if ( request.getYear() != null ) {
+            car.setYear( LocalDateTime.ofInstant( request.getYear().toInstant(), ZoneOffset.UTC ).toLocalDate() );
+        }
+        if ( request.getOrigin() != null ) {
+            car.setOrigin( request.getOrigin() );
+        }
     }
 }
