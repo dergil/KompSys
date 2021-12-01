@@ -13,14 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
+
 @RestController
 @RequestMapping(path = "/car")
 public class CarApi {
 
     @Autowired
     private CarService carService;
+    @Autowired
+    private CarRepository carRepository;
 
-    @PostMapping()
+    @PostMapping("/create")
     public CarView create(@RequestBody @Valid EditCarRequest request){
         return carService.create(request);
     }
@@ -44,6 +47,7 @@ public class CarApi {
     public List<CarView> getAll(){
         return carService.getAll();
     }
+
 
     @GetMapping("/tax")
     public TaxResponse tax(@RequestParam long id, HttpServletRequest httpRequest) throws JsonProcessingException {
