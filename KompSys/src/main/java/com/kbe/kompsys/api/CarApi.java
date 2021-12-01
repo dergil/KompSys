@@ -5,21 +5,13 @@ import com.kbe.kompsys.domain.dto.CarView;
 import com.kbe.kompsys.domain.dto.EditCarRequest;
 import com.kbe.kompsys.domain.dto.TaxRequest;
 import com.kbe.kompsys.domain.dto.TaxResponse;
-import com.kbe.kompsys.domain.exception.NotFoundException;
-import com.kbe.kompsys.domain.model.Car;
-import com.kbe.kompsys.repository.CarRepository;
 import com.kbe.kompsys.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/car")
@@ -35,11 +27,7 @@ public class CarApi {
 
     @PutMapping("{id}")
     public CarView update(@PathVariable long id, @RequestBody @Valid EditCarRequest request){
-        try {
-            return carService.update(id, request);
-        } catch (NotFoundException ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
-        }
+        return carService.update(id, request);
     }
 
     @DeleteMapping("{id}")
@@ -58,7 +46,7 @@ public class CarApi {
     }
 
     @GetMapping("/tax")
-    public TaxResponse tax(@RequestParam(required = true) long id, HttpServletRequest httpRequest) throws JsonProcessingException {
+    public TaxResponse tax(@RequestParam long id, HttpServletRequest httpRequest) throws JsonProcessingException {
         TaxRequest taxRequest = new TaxRequest();
         taxRequest.setId(id);
         taxRequest.setIpAddr(httpRequest.getRemoteAddr());
