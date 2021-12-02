@@ -2,15 +2,18 @@ package com.kbe.kompsys.domain.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 public class EditCarRequest {
 
-    private long id;
-
+    @NotBlank
     private String name;
-    private double price;
+    @NotNull
+    private Double price;
     private float milesPerGallon;
     private int cylinders;
     private int displacement;
