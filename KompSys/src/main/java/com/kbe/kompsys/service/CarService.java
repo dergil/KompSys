@@ -1,9 +1,9 @@
 package com.kbe.kompsys.service;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kbe.kompsys.domain.dto.*;
+import com.kbe.kompsys.domain.exception.NotFoundException;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarTaxResponseMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
@@ -16,11 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.text.Format;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CarService {
-// test
+
     @Autowired
     private CarEditMapper carEditMapper;
     @Autowired
@@ -33,11 +35,40 @@ public class CarService {
 
     @Transactional
     public CarView create(EditCarRequest request) {
-        CarEditMapper carEditMapper = Mappers.getMapper(CarEditMapper.class);
-
         Car car = carEditMapper.create(request);
         carRepository.save(car);
         return carViewMapper.toCarView(car);
+    }
+
+    @Transactional
+    public CarView update(long id, EditCarRequest request) {
+        Car car = carRepository.getCarById(id);
+        carEditMapper.update(request, car);
+        car = carRepository.save(car);
+        return carViewMapper.toCarView(car);
+    }
+
+    @Transactional
+    public CarView delete(long id){
+        Car car = carRepository.getCarById(id);
+        carRepository.delete(car);
+        return carViewMapper.toCarView(car);
+    }
+
+    @Transactional
+    public CarView get(long id){
+        Car car = carRepository.getCarById(id);
+        return carViewMapper.toCarView(car);
+    }
+
+    @Transactional
+    public List<CarView> getAll(){
+        List<Car> cars = carRepository.findAll();
+        List<CarView> carViews = new ArrayList<>();
+        for (Car car : cars) {
+            carViews.add(carViewMapper.toCarView(car));
+        }
+        return carViews;
     }
 
     @Transactional
@@ -56,8 +87,8 @@ public class CarService {
         TaxResponse taxResponse = carTaxResponseMapper.create(foundCar);
         taxResponse.setSalesTax(calculateResponse.getSalesTax());
         taxResponse.setTaxAmount(calculateResponse.getTaxAmount());
-//        taxResponse.setCountryCode(geolocationResponse.getCountryCode());
-//        taxResponse.setRegion(geolocationResponse.getRegion());
+        taxResponse.setCountryCode(geolocationResponse.getCountryCode());
+        taxResponse.setRegion(geolocationResponse.getRegion());
         return taxResponse;
     }
 
