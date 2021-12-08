@@ -21,27 +21,27 @@ public class CarApi {
     private CarService carService;
 
     @PostMapping()
-    public CarView create(@RequestBody @Valid EditCarRequest request){
+    public CarView create(@RequestBody @Valid EditCarRequest request) {
         return carService.create(request);
     }
 
     @PutMapping("{id}")
-    public CarView update(@PathVariable long id, @RequestBody @Valid EditCarRequest request){
+    public CarView update(@PathVariable long id, @RequestBody @Valid EditCarRequest request) {
         return carService.update(id, request);
     }
 
     @DeleteMapping("{id}")
-    public CarView delete(@PathVariable long id){
+    public CarView delete(@PathVariable long id) {
         return carService.delete(id);
     }
 
     @GetMapping("{id}")
-    public CarView get(@PathVariable long id){
+    public CarView get(@PathVariable long id) {
         return carService.get(id);
     }
 
     @GetMapping()
-    public List<CarView> getAll(){
+    public List<CarView> getAll() {
         return carService.getAll();
     }
 

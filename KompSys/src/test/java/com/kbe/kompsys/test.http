@@ -5,15 +5,15 @@ Content-Type: application/json
 
   //  "price": -1,
 {
-  "name":"chevrolet chevelle malibu",
-  "milesPerGallon":18,
-  "cylinders":8,
-  "displacement":307,
-  "horsepower":130,
-  "weightInPounds":3504,
-  "acceleration":12,
-  "year":"1970-01-01",
-  "origin":"USA"
+    "name": "chevrolet chevelle malibu",
+    "milesPerGallon": 18,
+    "cylinders": 8,
+    "displacement": 307,
+    "horsepower": 130,
+    "weightInPounds": 3504,
+    "acceleration": 12,
+    "year": "1970-01-01",
+    "origin": "USA"
 }
 
 ### GET request with a header
