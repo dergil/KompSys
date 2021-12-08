@@ -7,5 +7,5 @@ import lombok.Data;
 public class CarCalculateRequest {
 
     private long price;
-    
+
 }

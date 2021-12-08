@@ -29,7 +29,7 @@ public class CarApi {
 
 
     @PostMapping("/create")
-    public CarView create(@RequestBody @Valid EditCarRequest request){
+    public CarView create(@RequestBody @Valid EditCarRequest request) {
         return carService.create(request);
     }
 
@@ -40,4 +40,4 @@ public class CarApi {
         carTaxRequest.setIpAddress(httpRequest.getRemoteAddr());
         return carService.queryCarTaxView(carTaxRequest);
     }
-    }
+}

@@ -26,7 +26,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     @Autowired
     private CarRepository carRepository;
     //@Autowired
-   // private TaxRepository taxRepository;
+    // private TaxRepository taxRepository;
 
 
 //    @Autowired
@@ -39,12 +39,10 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         carRepository.saveAll(cars);
 
 
-
-
 //        testService.test();
     }
 
-    private File importJsonAsFile(String jsonFilename){
+    private File importJsonAsFile(String jsonFilename) {
         File file = null;
         try {
             file = ResourceUtils.getFile("classpath:" + jsonFilename);
@@ -54,7 +52,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         return file;
     }
 
-    private List<Car> readCars(File file){
+    private List<Car> readCars(File file) {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module =
                 new SimpleModule("CustomCarDeserializer",
@@ -64,14 +62,13 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
 
         List<Car> cars = null;
         try {
-            cars = mapper.readValue(file, new TypeReference<>(){});
+            cars = mapper.readValue(file, new TypeReference<>() {
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
         return cars;
     }
-
-
 
 
 }
