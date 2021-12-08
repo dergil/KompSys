@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.kbe.kompsys.domain.dto.TaxView;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.repository.CarRepository;
+import com.kbe.kompsys.repository.TaxRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -23,6 +25,9 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
 
     @Autowired
     private CarRepository carRepository;
+    //@Autowired
+   // private TaxRepository taxRepository;
+
 
 //    @Autowired
 //    private TestService testService;
@@ -32,6 +37,10 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         File jsonfile = importJsonAsFile("cars.json");
         List<Car> cars = readCars(jsonfile);
         carRepository.saveAll(cars);
+
+
+
+
 //        testService.test();
     }
 
@@ -61,5 +70,9 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         }
         return cars;
     }
+
+
+
+
 }
 

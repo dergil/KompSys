@@ -8,6 +8,7 @@ import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarTaxResponseMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.model.Car;
+import com.kbe.kompsys.domain.model.Tax;
 import com.kbe.kompsys.repository.CarRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class CarService {
     private CarRepository carRepository;
     @Autowired
     private CarTaxResponseMapper carTaxResponseMapper;
+    @Autowired
+    private GeolocationService geolocationService;
+
+    @Autowired
+    private CarCalculatorService carCalculatorService;
 
 
     @Transactional
@@ -40,57 +46,48 @@ public class CarService {
         return carViewMapper.toCarView(car);
     }
 
-    @Transactional
-    public TaxResponse calculateTax(TaxRequest request) throws JsonProcessingException {
+    public CarTaxView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException {
+
+
+        GeolocationResponse geolocationResponse = queryGeolocation(request.getIpAddress());
+        TaxResponse taxResponse = queryTaxRate(geolocationResponse);
+
         Optional<Car> car = carRepository.findById(request.getId());
         if (car.isEmpty())
             return null;
-        GeolocationResponse geolocationResponse = queryGeolocation(request.getIpAddr());
-        double taxRate = queryTaxRate(geolocationResponse);
+
         CalculateRequest calculateRequest = new CalculateRequest();
         calculateRequest.setPrice(car.get().getPrice());
-        calculateRequest.setSalesTax(taxRate);
-        CalculateResponse calculateResponse = queryCalculator(calculateRequest);
-//        todo: mapping klären
-        Car foundCar = car.get();
-        TaxResponse taxResponse = carTaxResponseMapper.create(foundCar);
-        taxResponse.setSalesTax(calculateResponse.getSalesTax());
-        taxResponse.setTaxAmount(calculateResponse.getTaxAmount());
-//        taxResponse.setCountryCode(geolocationResponse.getCountryCode());
-//        taxResponse.setRegion(geolocationResponse.getRegion());
-        return taxResponse;
+        calculateRequest.setSalesTax(taxResponse.getTax().getTax()); //unschoen
+
+        CalculateResponse calculateResponse = carCalculatorService.queryCalculator(calculateRequest);
+
+        CarTaxResponse response = new CarTaxResponse();
+        /// BUild RESPONSE
+        //        Car foundCar = car.get();
+        //        CarTaxResponse carTaxResponse = carTaxResponseMapper.create(foundCar);
+//        carTaxResponse.setSalesTax(calculateResponse.getSalesTax());
+//        carTaxResponse.setTaxAmount(calculateResponse.getTaxAmount());
+//        carTaxResponse.setCountryCode(geolocationResponse.getCountryCode());
+//        carTaxResponse.setRegion(geolocationResponse.getRegion());
+        return null; // todo Mapping toView klaeren
     }
 
-    private CalculateResponse queryCalculator(CalculateRequest request) throws JsonProcessingException {
-        WebClient client = WebClient.create();
-        String uri = String.format("http://localhost:8080/calculate?price=%s&salesTax=%s",
-                request.getPrice(), request.getSalesTax());
-        WebClient.ResponseSpec responseSpec = client.get().uri(uri).retrieve();
-        String jsonResponse = responseSpec.bodyToMono(String.class).block();
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(jsonResponse, CalculateResponse.class);
+    private Tax queryTax(GeolocationResponse geolocation) {
+        //search entitys for region/country
+        return null;
     }
 
-    private GeolocationResponse queryGeolocation(String ipAddr) throws JsonProcessingException {
-        if (ipAddr.equals("127.0.0.1"))
-            ipAddr = "141.45.44.203";
-        WebClient client = WebClient.create();
-        String response = client.get()
-                .uri("http://ip-api.com/json/" + ipAddr)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(response);
-        GeolocationResponse geolocationResponse = new GeolocationResponse();
-        geolocationResponse.setCountryCode(jsonNode.get("countryCode").asText());
-        geolocationResponse.setRegion(jsonNode.get("region").asText());
-        return geolocationResponse;
+    private GeolocationResponse queryGeolocation(String ipAdress) throws JsonProcessingException {
+        return geolocationService.getGeolocation(ipAdress);
     }
 
-    private double queryTaxRate(GeolocationResponse geolocationResponse){
-        if (geolocationResponse.getCountryCode().equals("DE"))
-            return 19;
-        else return 0;
+    private TaxResponse queryTaxRate(GeolocationResponse geolocation) throws JsonProcessingException {
+
+        TaxResponse tr = new TaxResponse();
+        tr.setCountry(geolocation.getCountryCode());
+        tr.setRegion(geolocation.getRegion());
+        tr.setTax(queryTax(geolocation));//get Tax from repo
+        return tr;
     }
 }

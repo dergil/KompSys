@@ -3,8 +3,9 @@ package com.kbe.kompsys.domain.dto;
 import lombok.Data;
 
 @Data
-public class TaxRequest {
+public class TaxView {
     private double price;
-    private String country;
-    private String region;
+    private double tax;
+    private String countrycode;
+
 }
