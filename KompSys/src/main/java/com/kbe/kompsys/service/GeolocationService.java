@@ -3,7 +3,7 @@ package com.kbe.kompsys.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kbe.kompsys.domain.dto.GeolocationResponse;
+import com.kbe.kompsys.domain.dto.geolocation.GeolocationResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
