@@ -1,4 +1,4 @@
-package com.kbe.kompsys.domain.dto;
+package com.kbe.kompsys.domain.dto.calculate;
 
 import lombok.Data;
 

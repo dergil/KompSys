@@ -12,7 +12,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
-//import com.kbe.kompsys.domain.model.Car;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,17 +27,11 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     // private TaxRepository taxRepository;
 
 
-//    @Autowired
-//    private TestService testService;
-
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         File jsonfile = importJsonAsFile("cars.json");
         List<Car> cars = readCars(jsonfile);
         carRepository.saveAll(cars);
-
-
-//        testService.test();
     }
 
     private File importJsonAsFile(String jsonFilename) {
@@ -68,7 +61,5 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         }
         return cars;
     }
-
-
 }
 

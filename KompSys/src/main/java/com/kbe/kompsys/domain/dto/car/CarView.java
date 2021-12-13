@@ -1,22 +1,22 @@
-package com.kbe.kompsys.domain.dto;
+package com.kbe.kompsys.domain.dto.car;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
-public class EditCarRequest {
+public class CarView {
 
     private long id;
 
     private String name;
-    private double price;
-    private float milesPerGallon;
+    private int price;
+    private int milesPerGallon;
     private int cylinders;
     private int displacement;
     private int horsepower;
     private int weightInPounds;
-    private float acceleration;
-    private Date year;
+    private int acceleration;
+    private LocalDate year;
     private String origin;
 }

@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,16 +44,42 @@ public class CarService {
 
     @Transactional
     public CarView create(EditCarRequest request) {
-        CarEditMapper carEditMapper = Mappers.getMapper(CarEditMapper.class);
-
         Car car = carEditMapper.create(request);
         carRepository.save(car);
         return carViewMapper.toCarView(car);
     }
+    @Transactional
+    public CarView update(long id, EditCarRequest request) {
+        Car car = carRepository.getCarById(id);
+        carEditMapper.update(request, car);
+        car = carRepository.save(car);
+        return carViewMapper.toCarView(car);
+    }
+
+    @Transactional
+    public CarView delete(long id) {
+        Car car = carRepository.getCarById(id);
+        carRepository.delete(car);
+        return carViewMapper.toCarView(car);
+    }
+
+    @Transactional
+    public CarView get(long id) {
+        Car car = carRepository.getCarById(id);
+        return carViewMapper.toCarView(car);
+    }
+
+    @Transactional
+    public List<CarView> getAll() {
+        List<Car> cars = carRepository.findAll();
+        List<CarView> carViews = new ArrayList<>();
+        for (Car car : cars) {
+            carViews.add(carViewMapper.toCarView(car));
+        }
+        return carViews;
+    }
 
     public CarTaxCalculateView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException {
-
-
         GeolocationResponse geolocationResponse = queryGeolocation(request.getIpAddress());
         TaxResponse taxResponse = queryTaxRate(geolocationResponse);
 

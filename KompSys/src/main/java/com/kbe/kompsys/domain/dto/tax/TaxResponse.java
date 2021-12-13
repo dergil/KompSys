@@ -1,4 +1,4 @@
-package com.kbe.kompsys.domain.dto;
+package com.kbe.kompsys.domain.dto.tax;
 
 import com.kbe.kompsys.domain.model.Tax;
 import lombok.Data;

@@ -25,14 +25,10 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 ENTRYPOINT["java","-cp","app:app/lib/*","com.kbe.kompsys.KompSysApplication"]
 
 
-
-
+#FROM openjdk:11
 #RUN adduser --system --group spring
 #USER spring:spring
-#EXPOSE 8001
-#CMD ["./mvnw", "spring-boot:run"]
-
+#EXPOSE 8081
+#ARG JAR_FILE=target/*.jar
+#COPY ${JAR_FILE} app.jar
 #ENTRYPOINT ["java","-jar","/app.jar"]
-
-#docker build --tag kompsys:v1.0.0 .
-#docker run -p 8080:8080 kompsys/ip
