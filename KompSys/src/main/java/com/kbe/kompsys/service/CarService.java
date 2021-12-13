@@ -1,4 +1,5 @@
 package com.kbe.kompsys.service;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,20 +53,20 @@ public class CarService {
     }
 
     @Transactional
-    public CarView delete(long id){
+    public CarView delete(long id) {
         Car car = carRepository.getCarById(id);
         carRepository.delete(car);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
-    public CarView get(long id){
+    public CarView get(long id) {
         Car car = carRepository.getCarById(id);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
-    public List<CarView> getAll(){
+    public List<CarView> getAll() {
         List<Car> cars = carRepository.findAll();
         List<CarView> carViews = new ArrayList<>();
         for (Car car : cars) {
@@ -122,7 +123,7 @@ public class CarService {
         return geolocationResponse;
     }
 
-    private double queryTaxRate(GeolocationResponse geolocationResponse){
+    private double queryTaxRate(GeolocationResponse geolocationResponse) {
         if (geolocationResponse.getCountryCode().equals("DE"))
             return 19;
         else return 0;
