@@ -1,4 +1,4 @@
-package com.kbe.kompsys.domain.dto;
+package com.kbe.kompsys.domain.dto.car;
 
 import lombok.Data;
 

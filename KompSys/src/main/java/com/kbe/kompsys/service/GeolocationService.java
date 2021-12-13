@@ -12,7 +12,7 @@ public class GeolocationService {
 
 
     GeolocationResponse getGeolocation(String ipAddr) throws JsonProcessingException {
-        if (ipAddr.equals("127.0.0.1"))
+        if (ipAddr.equals("127.0.0.1") || ipAddr.equals("0:0:0:0:0:0:0:1"))
             ipAddr = "141.45.44.203";
         WebClient client = WebClient.create();
         String response = client.get()

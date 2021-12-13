@@ -9,7 +9,6 @@ import com.kbe.kompsys.domain.model.Car;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CustomCarDeserializer extends StdDeserializer<Car> {
@@ -26,7 +25,6 @@ public class CustomCarDeserializer extends StdDeserializer<Car> {
         Car car = new Car();
         ObjectCodec codec = parser.getCodec();
         JsonNode node = codec.readTree(parser);
-
         car.setName(node.get("Name").asText());
         car.setPrice(ThreadLocalRandom.current().nextInt(40, 120 + 1) * 1000);
         car.setMilesPerGallon(node.get("Miles_per_Gallon").asInt());

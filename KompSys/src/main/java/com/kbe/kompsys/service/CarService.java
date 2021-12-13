@@ -1,29 +1,27 @@
 package com.kbe.kompsys.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kbe.kompsys.domain.dto.*;
-import com.kbe.kompsys.domain.dto.CarTaxCalculateView;
 import com.kbe.kompsys.domain.dto.calculate.CalculateRequest;
 import com.kbe.kompsys.domain.dto.calculate.CalculateResponse;
+import com.kbe.kompsys.domain.dto.car.CarTaxCalculateView;
+import com.kbe.kompsys.domain.dto.car.CarTaxRequest;
 import com.kbe.kompsys.domain.dto.car.CarView;
 import com.kbe.kompsys.domain.dto.car.EditCarRequest;
 import com.kbe.kompsys.domain.dto.geolocation.GeolocationResponse;
-import com.kbe.kompsys.domain.dto.tax.TaxResponse;
+import com.kbe.kompsys.domain.mapper.CalculateViewMapper;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
-import com.kbe.kompsys.domain.mapper.CarTaxResponseMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
+import com.kbe.kompsys.domain.mapper.TaxViewMapper;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.domain.model.Tax;
 import com.kbe.kompsys.repository.CarRepository;
 import com.kbe.kompsys.repository.TaxRepository;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CarService {
@@ -33,7 +31,9 @@ public class CarService {
     @Autowired
     private CarViewMapper carViewMapper;
     @Autowired
-    private CarTaxResponseMapper carTaxResponseMapper;
+    private TaxViewMapper taxViewMapper;
+    @Autowired
+    private CalculateViewMapper calculateViewMapper;
 
     // Repos
     @Autowired
@@ -54,6 +54,7 @@ public class CarService {
         carRepository.save(car);
         return carViewMapper.toCarView(car);
     }
+
     @Transactional
     public CarView update(long id, EditCarRequest request) {
         Car car = carRepository.getCarById(id);
@@ -87,44 +88,33 @@ public class CarService {
 
     public CarTaxCalculateView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException {
         GeolocationResponse geolocationResponse = queryGeolocation(request.getIpAddress());
-        TaxResponse taxResponse = queryTaxRate(geolocationResponse);
 
         Car car = carRepository.getById(request.getId());
+        Tax tax = findTax(geolocationResponse);
 
         CalculateRequest calculateRequest = new CalculateRequest();
         calculateRequest.setPrice(car.getPrice());
 
-        Tax taxR = taxResponse.getTax();
-        calculateRequest.setSalesTax(taxR.getTax());
+
+        calculateRequest.setSalesTax(tax.getTax());
 
         CalculateResponse calculateResponse = carCalculatorService.queryCalculator(calculateRequest);
 
         CarTaxCalculateView response = new CarTaxCalculateView();
-        response.setCar(car);
-        response.setCalculateResponse(calculateResponse);
-        response.setTax(taxR);
+        response.setCarView(carViewMapper.toCarView(car));
+        response.setCalculateView(calculateViewMapper.toCalculateView(calculateResponse));
+        response.setTaxView(taxViewMapper.toTaxView(tax));
 
-        return response; // todo Mapping toView klaeren
+        return response;
     }
 
     private Tax findTax(GeolocationResponse geolocation) {
-        Tax tax = new Tax();
-        tax.setTax(12.2);
-        tax.setCountryCodeID("1");
-        return tax;
-        //return taxRepository.getTaxById(geolocation.getCountryCode());
+        return taxRepository.getTaxById(geolocation.getCountryCode());
     }
 
     private GeolocationResponse queryGeolocation(String ipAdress) throws JsonProcessingException {
         return geolocationService.getGeolocation(ipAdress);
     }
 
-    private TaxResponse queryTaxRate(GeolocationResponse geolocation) {
 
-        TaxResponse tr = new TaxResponse();
-        tr.setCountry(geolocation.getCountryCode());
-        tr.setRegion(geolocation.getRegion());
-        tr.setTax(findTax(geolocation));
-        return tr;
-    }
 }

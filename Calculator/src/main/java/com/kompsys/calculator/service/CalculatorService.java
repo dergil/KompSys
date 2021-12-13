@@ -14,6 +14,7 @@ public class CalculatorService {
 
         CalculateResponse calculateResponse = new CalculateResponse();
 
+        calculateResponse.setPriceTotal(price + taxAmount);
         calculateResponse.setPrice(price);
         calculateResponse.setSalesTax(salesTax);
         calculateResponse.setTaxAmount(taxAmount);

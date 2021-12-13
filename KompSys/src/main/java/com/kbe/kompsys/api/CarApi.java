@@ -1,8 +1,8 @@
 package com.kbe.kompsys.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kbe.kompsys.domain.dto.*;
-import com.kbe.kompsys.domain.dto.CarTaxCalculateView;
+import com.kbe.kompsys.domain.dto.car.CarTaxCalculateView;
+import com.kbe.kompsys.domain.dto.car.CarTaxRequest;
 import com.kbe.kompsys.domain.dto.car.CarView;
 import com.kbe.kompsys.domain.dto.car.EditCarRequest;
 import com.kbe.kompsys.service.CarCalculatorService;
