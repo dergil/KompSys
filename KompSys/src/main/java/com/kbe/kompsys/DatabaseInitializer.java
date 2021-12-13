@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.kbe.kompsys.domain.dto.TaxView;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.repository.CarRepository;
 import com.kbe.kompsys.repository.TaxRepository;

@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class CalculateResponse {
-    double price;
-    double salesTax;
+    double pricetotal;
     double taxAmount;
 }
