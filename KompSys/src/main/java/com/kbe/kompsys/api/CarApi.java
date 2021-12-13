@@ -1,10 +1,10 @@
 package com.kbe.kompsys.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kbe.kompsys.domain.dto.CarView;
-import com.kbe.kompsys.domain.dto.EditCarRequest;
-import com.kbe.kompsys.domain.dto.TaxRequest;
-import com.kbe.kompsys.domain.dto.TaxResponse;
+import com.kbe.kompsys.domain.dto.car.CarView;
+import com.kbe.kompsys.domain.dto.car.EditCarRequest;
+import com.kbe.kompsys.domain.dto.tax.TaxRequest;
+import com.kbe.kompsys.domain.dto.tax.TaxResponse;
 import com.kbe.kompsys.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
