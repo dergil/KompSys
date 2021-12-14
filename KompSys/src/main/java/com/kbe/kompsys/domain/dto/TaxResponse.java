@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Data
 public class TaxResponse {
-    private long id;
+    private String id;
 
     private String name;
     private double price;

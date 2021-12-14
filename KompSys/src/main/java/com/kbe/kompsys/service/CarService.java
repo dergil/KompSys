@@ -42,7 +42,7 @@ public class CarService {
     }
 
     @Transactional
-    public CarView update(long id, EditCarRequest request) {
+    public CarView update(String id, EditCarRequest request) {
         Car car = carRepository.getCarById(id);
         carEditMapper.update(request, car);
         car = carRepository.save(car);
@@ -50,21 +50,21 @@ public class CarService {
     }
 
     @Transactional
-    public CarView delete(long id) {
+    public CarView delete(String id) {
         Car car = carRepository.getCarById(id);
         carRepository.delete(car);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
-    public CarView get(long id) {
+    public CarView get(String id) {
         Car car = carRepository.getCarById(id);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
     public List<CarView> getAll() {
-        List<Car> cars = carRepository.findAll();
+        Iterable<Car> cars = carRepository.findAll();
         List<CarView> carViews = new ArrayList<>();
         for (Car car : cars) {
             carViews.add(carViewMapper.toCarView(car));

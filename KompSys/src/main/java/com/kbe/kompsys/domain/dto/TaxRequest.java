@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class TaxRequest {
     @NotNull
-    private Long id;
+    private String id;
     @NotBlank
     private String ipAddr;
 }

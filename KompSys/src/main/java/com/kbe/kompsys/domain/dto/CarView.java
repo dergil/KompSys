@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Data
 public class CarView {
 
-    private long id;
+    private String id;
 
     private String name;
     private int price;

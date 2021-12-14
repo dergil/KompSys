@@ -26,17 +26,17 @@ public class CarApi {
     }
 
     @PutMapping("{id}")
-    public CarView update(@PathVariable long id, @RequestBody @Valid EditCarRequest request) {
+    public CarView update(@PathVariable String id, @RequestBody @Valid EditCarRequest request) {
         return carService.update(id, request);
     }
 
     @DeleteMapping("{id}")
-    public CarView delete(@PathVariable long id) {
+    public CarView delete(@PathVariable String id) {
         return carService.delete(id);
     }
 
     @GetMapping("{id}")
-    public CarView get(@PathVariable long id) {
+    public CarView get(@PathVariable String id) {
         return carService.get(id);
     }
 
@@ -46,7 +46,7 @@ public class CarApi {
     }
 
     @GetMapping("/tax")
-    public TaxResponse tax(@RequestParam long id, HttpServletRequest httpRequest) throws JsonProcessingException {
+    public TaxResponse tax(@RequestParam String id, HttpServletRequest httpRequest) throws JsonProcessingException {
         TaxRequest taxRequest = new TaxRequest();
         taxRequest.setId(id);
         taxRequest.setIpAddr(httpRequest.getRemoteAddr());

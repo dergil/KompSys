@@ -1,11 +1,11 @@
 
 # hro
-PUT http://localhost:8081/car/1
+PUT http://localhost:8081/car/3
 Content-Type: application/json
 
-  //  "price": -1,
 {
     "name": "chevrolet chevelle malibu",
+    "price": 110000,
     "milesPerGallon": 18,
     "cylinders": 8,
     "displacement": 307,
