@@ -1,4 +1,3 @@
-
 # hro
 PUT http://localhost:8081/car/3
 Content-Type: application/json
@@ -36,3 +35,83 @@ Accept: application/json
 ### GET request with a header
 GET http://localhost:8081/car/tax?id=3
 Accept: application/json
+
+### hro
+PUT http://localhost:8082/car/13
+Content-Type: application/json
+
+  //  "price": -1,
+{
+  "name":"chevrolet chevelle malibu",
+  "price": 100000,
+  "milesPerGallon":18,
+  "cylinders":8,
+  "displacement":307,
+  "horsepower":130,
+  "weightInPounds":3504,
+  "acceleration":12,
+  "year":"1970-01-01",
+  "origin":"USA"
+}
+
+###
+POST http://localhost:8082/car
+Content-Type: application/json
+
+//  "price": -1,
+{
+  "name":"chevrolet chevelle malibu",
+  "price": 100000,
+  "milesPerGallon":18,
+  "cylinders":8,
+  "displacement":307,
+  "horsepower":130,
+  "weightInPounds":3504,
+  "acceleration":12,
+  "year":"1970-01-01",
+  "origin":"USA"
+}
+
+###
+POST http://localhost:8082/car
+Content-Type: application/json
+
+//  "price": -1,
+{
+"name":"chevrolet chevelle malibu",
+"price": 100000,
+"milesPerGallon":18,
+"cylinders":8,
+"displacement":307,
+"horsepower":130,
+"weightInPounds":3504,
+"acceleration":12,
+"year":"1970-01-01",
+"origin":"USA"
+}
+
+### GET request with a header
+DELETE http://localhost:8082/car/20
+Accept: application/json
+
+
+### GET request with a header
+GET https://kompsys.herokuapp.com/ip/get
+Accept: application/json
+
+### GET request with a header
+GET http://localhost:8082/car/13
+Accept: application/json
+
+### GET request with a header
+GET http://localhost:8081/car/
+Accept: application/json
+
+### GET request with a header
+GET http://localhost:8081/car/tax?id=3
+Accept: application/json
+
+### GET request with a header
+GET http://localhost:8082/calculate?price=300000&salesTax=19.0
+Accept: application/json
+

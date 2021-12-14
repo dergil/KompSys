@@ -1,6 +1,6 @@
 package com.kbe.kompsys.domain.mapper;
 
-import com.kbe.kompsys.domain.dto.EditCarRequest;
+import com.kbe.kompsys.domain.dto.car.EditCarRequest;
 import com.kbe.kompsys.domain.model.Car;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

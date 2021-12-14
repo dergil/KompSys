@@ -5,6 +5,7 @@
       <list>
         <option value="$PROJECT_DIR$/KompSys/pom.xml" />
         <option value="$PROJECT_DIR$/Calculator/pom.xml" />
+        <option value="$PROJECT_DIR$/Gateway/pom.xml" />
       </list>
     </option>
   </component>
