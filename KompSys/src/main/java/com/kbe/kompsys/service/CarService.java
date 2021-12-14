@@ -3,7 +3,6 @@ package com.kbe.kompsys.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kbe.kompsys.domain.dto.*;
 import com.kbe.kompsys.domain.dto.calculate.CalculateRequest;
 import com.kbe.kompsys.domain.dto.calculate.CalculateResponse;
 import com.kbe.kompsys.domain.dto.car.CarView;
@@ -11,24 +10,28 @@ import com.kbe.kompsys.domain.dto.car.EditCarRequest;
 import com.kbe.kompsys.domain.dto.geolocation.GeolocationResponse;
 import com.kbe.kompsys.domain.dto.tax.TaxRequest;
 import com.kbe.kompsys.domain.dto.tax.TaxResponse;
-import com.kbe.kompsys.domain.exception.NotFoundException;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarTaxResponseMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.repository.CarRepository;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//https://medium.com/echohub/spring-boot-redis-postgresql-caching-58ca352280a3
+
 @Service
+@CacheConfig(cacheNames = "carCache")
 public class CarService {
 
     @Autowired
@@ -42,6 +45,7 @@ public class CarService {
 
 
     @Transactional
+    @CacheEvict(cacheNames = "cars", allEntries = true)
     public CarView create(EditCarRequest request) {
         Car car = carEditMapper.create(request);
         carRepository.save(car);
@@ -49,6 +53,7 @@ public class CarService {
     }
 
     @Transactional
+    @CacheEvict(cacheNames = "cars", allEntries = true)
     public CarView update(String id, EditCarRequest request) {
         Car car = carRepository.getCarById(id);
         carEditMapper.update(request, car);
@@ -57,6 +62,8 @@ public class CarService {
     }
 
     @Transactional
+    @Caching(evict = { @CacheEvict(cacheNames = "car", key = "#id"),
+            @CacheEvict(cacheNames = "cars", allEntries = true) })
     public CarView delete(String id) {
         Car car = carRepository.getCarById(id);
         carRepository.delete(car);
@@ -64,12 +71,14 @@ public class CarService {
     }
 
     @Transactional
+    @Cacheable(cacheNames = "car", key = "#id", unless = "#result == null")
     public CarView get(String id) {
         Car car = carRepository.getCarById(id);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
+    @Cacheable(cacheNames = "customers")
     public List<CarView> getAll() {
         Iterable<Car> cars = carRepository.findAll();
         List<CarView> carViews = new ArrayList<>();
