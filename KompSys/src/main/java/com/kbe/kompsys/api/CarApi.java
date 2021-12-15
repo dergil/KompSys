@@ -1,10 +1,11 @@
 package com.kbe.kompsys.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.kbe.kompsys.domain.dto.car.CarTaxCalculateView;
+import com.kbe.kompsys.domain.dto.car.CarTaxRequest;
 import com.kbe.kompsys.domain.dto.car.CarView;
 import com.kbe.kompsys.domain.dto.car.EditCarRequest;
-import com.kbe.kompsys.domain.dto.tax.TaxRequest;
-import com.kbe.kompsys.domain.dto.tax.TaxResponse;
+import com.kbe.kompsys.service.CarCalculatorService;
 import com.kbe.kompsys.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,9 @@ public class CarApi {
 
     @Autowired
     private CarService carService;
+    @Autowired
+    private CarCalculatorService carCalculatorService;
+
 
     @PostMapping()
     public CarView create(@RequestBody @Valid EditCarRequest request) {
@@ -46,10 +50,10 @@ public class CarApi {
     }
 
     @GetMapping("/tax")
-    public TaxResponse tax(@RequestParam long id, HttpServletRequest httpRequest) throws JsonProcessingException {
-        TaxRequest taxRequest = new TaxRequest();
-        taxRequest.setId(id);
-        taxRequest.setIpAddr(httpRequest.getRemoteAddr());
-        return carService.calculateTax(taxRequest);
+    public CarTaxCalculateView tax(@RequestParam(required = true) long id, HttpServletRequest httpRequest) throws JsonProcessingException {
+        CarTaxRequest carTaxRequest = new CarTaxRequest();
+        carTaxRequest.setId(id);
+        carTaxRequest.setIpAddress(httpRequest.getRemoteAddr());
+        return carService.queryCarTaxView(carTaxRequest);
     }
 }

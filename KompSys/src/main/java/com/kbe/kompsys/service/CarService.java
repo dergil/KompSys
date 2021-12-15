@@ -1,40 +1,51 @@
 package com.kbe.kompsys.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kbe.kompsys.domain.dto.calculate.CalculateRequest;
 import com.kbe.kompsys.domain.dto.calculate.CalculateResponse;
+import com.kbe.kompsys.domain.dto.car.CarTaxCalculateView;
+import com.kbe.kompsys.domain.dto.car.CarTaxRequest;
 import com.kbe.kompsys.domain.dto.car.CarView;
 import com.kbe.kompsys.domain.dto.car.EditCarRequest;
 import com.kbe.kompsys.domain.dto.geolocation.GeolocationResponse;
-import com.kbe.kompsys.domain.dto.tax.TaxRequest;
-import com.kbe.kompsys.domain.dto.tax.TaxResponse;
+import com.kbe.kompsys.domain.mapper.CalculateViewMapper;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
-import com.kbe.kompsys.domain.mapper.CarTaxResponseMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
+import com.kbe.kompsys.domain.mapper.TaxViewMapper;
 import com.kbe.kompsys.domain.model.Car;
+import com.kbe.kompsys.domain.model.Tax;
 import com.kbe.kompsys.repository.CarRepository;
+import com.kbe.kompsys.repository.TaxRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CarService {
-
+    // Mapper
     @Autowired
     private CarEditMapper carEditMapper;
     @Autowired
     private CarViewMapper carViewMapper;
     @Autowired
+    private TaxViewMapper taxViewMapper;
+    @Autowired
+    private CalculateViewMapper calculateViewMapper;
+
+    // Repos
+    @Autowired
     private CarRepository carRepository;
     @Autowired
-    private CarTaxResponseMapper carTaxResponseMapper;
+    private TaxRepository taxRepository;
+
+    // Services
+    @Autowired
+    private GeolocationService geolocationService;
+    @Autowired
+    private CarCalculatorService carCalculatorService;
 
 
     @Transactional
@@ -75,57 +86,35 @@ public class CarService {
         return carViews;
     }
 
-    @Transactional
-    public TaxResponse calculateTax(TaxRequest request) throws JsonProcessingException {
-        Optional<Car> car = carRepository.findById(request.getId());
-        if (car.isEmpty())
-            return null;
-        GeolocationResponse geolocationResponse = queryGeolocation(request.getIpAddr());
-        double taxRate = queryTaxRate(geolocationResponse);
+    public CarTaxCalculateView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException {
+        GeolocationResponse geolocationResponse = queryGeolocation(request.getIpAddress());
+
+        Car car = carRepository.getById(request.getId());
+        Tax tax = findTax(geolocationResponse);
+
         CalculateRequest calculateRequest = new CalculateRequest();
-        calculateRequest.setPrice(car.get().getPrice());
-        calculateRequest.setSalesTax(taxRate);
-        CalculateResponse calculateResponse = queryCalculator(calculateRequest);
-//        todo: mapping klären
-        Car foundCar = car.get();
-        TaxResponse taxResponse = carTaxResponseMapper.create(foundCar);
-        taxResponse.setSalesTax(calculateResponse.getSalesTax());
-        taxResponse.setTaxAmount(calculateResponse.getTaxAmount());
-        taxResponse.setCountryCode(geolocationResponse.getCountryCode());
-        taxResponse.setRegion(geolocationResponse.getRegion());
-        return taxResponse;
+        calculateRequest.setPrice(car.getPrice());
+
+
+        calculateRequest.setSalesTax(tax.getTax());
+
+        CalculateResponse calculateResponse = carCalculatorService.queryCalculator(calculateRequest);
+
+        CarTaxCalculateView response = new CarTaxCalculateView();
+        response.setCarView(carViewMapper.toCarView(car));
+        response.setCalculateView(calculateViewMapper.toCalculateView(calculateResponse));
+        response.setTaxView(taxViewMapper.toTaxView(tax));
+
+        return response;
     }
 
-    private CalculateResponse queryCalculator(CalculateRequest request) throws JsonProcessingException {
-        WebClient client = WebClient.create();
-        String uri = String.format("http://localhost:8080/calculate?price=%s&salesTax=%s",
-                request.getPrice(), request.getSalesTax());
-        WebClient.ResponseSpec responseSpec = client.get().uri(uri).retrieve();
-        String jsonResponse = responseSpec.bodyToMono(String.class).block();
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(jsonResponse, CalculateResponse.class);
+    private Tax findTax(GeolocationResponse geolocation) {
+        return taxRepository.getTaxById(geolocation.getCountryCode());
     }
 
-    private GeolocationResponse queryGeolocation(String ipAddr) throws JsonProcessingException {
-        if (ipAddr.equals("127.0.0.1"))
-            ipAddr = "141.45.44.203";
-        WebClient client = WebClient.create();
-        String response = client.get()
-                .uri("http://ip-api.com/json/" + ipAddr)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(response);
-        GeolocationResponse geolocationResponse = new GeolocationResponse();
-        geolocationResponse.setCountryCode(jsonNode.get("countryCode").asText());
-        geolocationResponse.setRegion(jsonNode.get("region").asText());
-        return geolocationResponse;
+    private GeolocationResponse queryGeolocation(String ipAdress) throws JsonProcessingException {
+        return geolocationService.getGeolocation(ipAdress);
     }
 
-    private double queryTaxRate(GeolocationResponse geolocationResponse) {
-        if (geolocationResponse.getCountryCode().equals("DE"))
-            return 19;
-        else return 0;
-    }
+
 }
