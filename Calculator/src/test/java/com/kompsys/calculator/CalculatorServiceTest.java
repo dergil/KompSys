@@ -6,8 +6,6 @@ import com.kompsys.calculator.service.CalculatorService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.constraints.AssertTrue;
-
 public class CalculatorServiceTest {
 
     @Test
