@@ -16,7 +16,8 @@ public class Scheduler {
     public void scheduleFixedDelayTask() throws JSchException, SftpException {
         System.out.println(
                 "Fixed delay task - " + System.currentTimeMillis() / 10000);
-        storageService.transferFile("/home/archdoc/file.txt", "/home/archdoc/temp7/written");
+//        relative path needed remotely
+        storageService.transferFile("/home/archdoc/temp7/file.txt", "./");
     }
 
 }
