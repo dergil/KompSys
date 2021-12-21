@@ -7,7 +7,6 @@ import com.kbe.kompsys.domain.dto.car.CarTaxCalculateView;
 import com.kbe.kompsys.domain.dto.car.CarTaxRequest;
 import com.kbe.kompsys.domain.dto.geolocation.GeolocationResponse;
 import com.kbe.kompsys.domain.mapper.CalculateViewMapper;
-import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.mapper.TaxViewMapper;
 import com.kbe.kompsys.domain.model.Car;
@@ -21,12 +20,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaxServiceImpl implements TaxService {
     // Mapper
-    @Autowired
-    private CarViewMapper carViewMapper;
-    @Autowired
-    private TaxViewMapper taxViewMapper;
-    @Autowired
-    private CalculateViewMapper calculateViewMapper;
+    private final CarViewMapper carViewMapper;
+    private final TaxViewMapper taxViewMapper;
+    private final CalculateViewMapper calculateViewMapper;
 
     // Repos
     @Autowired
@@ -35,10 +31,17 @@ public class TaxServiceImpl implements TaxService {
     private TaxRepository taxRepository;
 
     // Services
+    private final GeolocationService geolocationService;
+    private final CarCalculatorService carCalculatorService;
+
     @Autowired
-    private GeolocationService geolocationService;
-    @Autowired
-    private CarCalculatorService carCalculatorService;
+    public TaxServiceImpl(CarViewMapper carViewMapper, TaxViewMapper taxViewMapper, CalculateViewMapper calculateViewMapper, GeolocationService geolocationService, CarCalculatorService carCalculatorService) {
+        this.carViewMapper = carViewMapper;
+        this.taxViewMapper = taxViewMapper;
+        this.calculateViewMapper = calculateViewMapper;
+        this.geolocationService = geolocationService;
+        this.carCalculatorService = carCalculatorService;
+    }
 
     @Override
     public CarTaxCalculateView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException {

@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CalculatorApi {
 
+    private final CalculatorService calculatorService;
+
     @Autowired
-    private CalculatorService calculatorService;
+    public CalculatorApi(CalculatorService calculatorService) {
+        this.calculatorService = calculatorService;
+    }
 
     @GetMapping("/calculate")
     public CalculateResponse calculate(
-            @RequestParam(required = true)  double price,
-            @RequestParam(required = true)  double salesTax
-            ){
+            @RequestParam(required = true) double price,
+            @RequestParam(required = true) double salesTax
+    ) {
         CalculateRequest request = new CalculateRequest();
         request.setPrice(price);
         request.setSalesTax(salesTax);

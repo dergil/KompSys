@@ -5,7 +5,6 @@ import com.kbe.kompsys.domain.dto.car.CarTaxCalculateView;
 import com.kbe.kompsys.domain.dto.car.CarTaxRequest;
 import com.kbe.kompsys.domain.dto.car.CarView;
 import com.kbe.kompsys.domain.dto.car.EditCarRequest;
-import com.kbe.kompsys.service.CarCalculatorService;
 import com.kbe.kompsys.service.CarServiceImpl;
 import com.kbe.kompsys.service.TaxServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,14 @@ import java.util.List;
 @RequestMapping(path = "/car")
 public class CarApi {
 
+    private final CarServiceImpl carServiceImpl;
+    private final TaxServiceImpl taxService;
+
     @Autowired
-    private CarServiceImpl carServiceImpl;
-    @Autowired
-    private TaxServiceImpl taxService;
+    public CarApi(CarServiceImpl carServiceImpl, TaxServiceImpl taxService) {
+        this.carServiceImpl = carServiceImpl;
+        this.taxService = taxService;
+    }
 
 
     @PostMapping()

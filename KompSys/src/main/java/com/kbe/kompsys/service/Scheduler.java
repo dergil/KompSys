@@ -9,8 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class Scheduler {
 
+    private final StorageServiceImpl storageService;
+
     @Autowired
-    private StorageServiceImpl storageService;
+    public Scheduler(StorageServiceImpl storageService) {
+        this.storageService = storageService;
+    }
 
     @Scheduled(fixedDelay = 10000)
     public void scheduleFixedDelayTask() throws JSchException, SftpException {
