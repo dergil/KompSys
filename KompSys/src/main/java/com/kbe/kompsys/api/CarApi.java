@@ -6,7 +6,8 @@ import com.kbe.kompsys.domain.dto.car.CarTaxRequest;
 import com.kbe.kompsys.domain.dto.car.CarView;
 import com.kbe.kompsys.domain.dto.car.EditCarRequest;
 import com.kbe.kompsys.service.CarCalculatorService;
-import com.kbe.kompsys.service.CarService;
+import com.kbe.kompsys.service.CarServiceImpl;
+import com.kbe.kompsys.service.TaxServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,34 +20,34 @@ import java.util.List;
 public class CarApi {
 
     @Autowired
-    private CarService carService;
+    private CarServiceImpl carServiceImpl;
     @Autowired
-    private CarCalculatorService carCalculatorService;
+    private TaxServiceImpl taxService;
 
 
     @PostMapping()
     public CarView create(@RequestBody @Valid EditCarRequest request) {
-        return carService.create(request);
+        return carServiceImpl.create(request);
     }
 
     @PutMapping("{id}")
     public CarView update(@PathVariable long id, @RequestBody @Valid EditCarRequest request) {
-        return carService.update(id, request);
+        return carServiceImpl.update(id, request);
     }
 
     @DeleteMapping("{id}")
     public CarView delete(@PathVariable long id) {
-        return carService.delete(id);
+        return carServiceImpl.delete(id);
     }
 
     @GetMapping("{id}")
     public CarView get(@PathVariable long id) {
-        return carService.get(id);
+        return carServiceImpl.get(id);
     }
 
     @GetMapping()
     public List<CarView> getAll() {
-        return carService.getAll();
+        return carServiceImpl.getAll();
     }
 
     @GetMapping("/tax")
@@ -54,6 +55,6 @@ public class CarApi {
         CarTaxRequest carTaxRequest = new CarTaxRequest();
         carTaxRequest.setId(id);
         carTaxRequest.setIpAddress(httpRequest.getRemoteAddr());
-        return carService.queryCarTaxView(carTaxRequest);
+        return taxService.queryCarTaxView(carTaxRequest);
     }
 }
