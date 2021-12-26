@@ -11,12 +11,14 @@ import com.kbe.kompsys.repository.TaxRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Component
@@ -30,26 +32,27 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        File jsonfile_cars = importJsonAsFile("cars.json");
+        InputStream jsonfile_cars = importJsonAsFile("cars.json");
         List<Car> cars = readCars(jsonfile_cars);
         carRepository.saveAll(cars);
 
-        File jsonfile_taxes = importJsonAsFile("taxes.json");
+        InputStream jsonfile_taxes = importJsonAsFile("taxes.json");
         List<Tax> taxes = readTaxes(jsonfile_taxes);
         taxRepository.saveAll(taxes);
     }
 
-    private File importJsonAsFile(String jsonFilename) {
-        File file = null;
+    private InputStream importJsonAsFile(String jsonFilename) {
+        InputStream file = null;
         try {
-            file = ResourceUtils.getFile("classpath:" + jsonFilename);
-        } catch (FileNotFoundException e) {
+//            file = ResourceUtils.getFile("classpath:" + jsonFilename);
+            file = new ClassPathResource(jsonFilename).getInputStream();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return file;
     }
 
-    private List<Car> readCars(File file) {
+    private List<Car> readCars(InputStream file) {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module =
                 new SimpleModule("CustomCarDeserializer",
@@ -67,7 +70,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         return cars;
     }
 
-    private List<Tax> readTaxes(File file) {
+    private List<Tax> readTaxes(InputStream file) {
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module =
                 new SimpleModule("CustomTaxDeserializer",
