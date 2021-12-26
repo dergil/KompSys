@@ -12,7 +12,7 @@ public class Scheduler {
     @Autowired
     private StorageServiceImpl storageService;
 
-    @Scheduled(fixedDelay = 10000)
+//    @Scheduled(fixedDelay = 10000)
     public void scheduleFixedDelayTask() throws JSchException, SftpException {
         System.out.println(
                 "Fixed delay task - " + System.currentTimeMillis() / 10000);

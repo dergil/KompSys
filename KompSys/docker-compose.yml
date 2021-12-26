@@ -1,11 +1,11 @@
-services:
-  app:
-    container_name: Springbootapp
-    command: java -jar target/demo-0.0.1-SNAPSHOT.jar
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 8081:8081
-    volumes:
-      - ./:/app/app
+#services:
+#  app:
+#    container_name: Springbootapp
+#    command: java -jar target/demo-0.0.1-SNAPSHOT.jar
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - 8081:8081
+#    volumes:
+#      - ./:/app/app
