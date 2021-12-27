@@ -1,6 +1,7 @@
 
 # hro
-PUT http://localhost:8082/car/13
+PUT http://localhost:8081/car/14
+#PUT app:8081/car/13
 Content-Type: application/json
 
   //  "price": -1,
@@ -18,7 +19,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8082/car
+POST http://localhost:8081/car
 Content-Type: application/json
 
 //  "price": -1,

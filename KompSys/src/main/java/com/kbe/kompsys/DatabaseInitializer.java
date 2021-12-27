@@ -13,10 +13,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -44,6 +41,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     private InputStream importJsonAsFile(String jsonFilename) {
         InputStream file = null;
         try {
+//            https://stackoverflow.com/questions/14876836/file-inside-jar-is-not-visible-for-spring
 //            file = ResourceUtils.getFile("classpath:" + jsonFilename);
             file = new ClassPathResource(jsonFilename).getInputStream();
         } catch (IOException e) {
