@@ -1,12 +1,12 @@
 #version: '2'
 
 services:
-  app:
+  main:
     working_dir: /KompSys
-    image: 'kompsys:latest'
+    image: 'main:latest'
     build:
       context: .
-    container_name: app
+    container_name: main
     ports:
       - "127.0.0.1:8081:8081"
     depends_on:

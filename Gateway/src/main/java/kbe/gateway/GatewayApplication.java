@@ -14,13 +14,13 @@ public class GatewayApplication {
         return builder.routes()
                 .route(p -> p
                         .path("/car/*")
-                        .uri("http://localhost:8081"))
+                        .uri("http://main:8081"))
                 .route(p -> p
                         .path("/car")
-                        .uri("http://localhost:8081"))
+                        .uri("http://main:8081"))
                 .route(p -> p
                         .path("/calculate")
-                        .uri("http://localhost:8080"))
+                        .uri("http://calculator:8080"))
                 .build();
     }
 
