@@ -1,18 +1,18 @@
 package com.kbe.storage.service.interfaces;
 
-import com.kbe.storage.domain.dto.car.EditCarRequest;
-import com.kbe.storage.domain.model.Car;
+import com.kbe.storage.domain.dto.tax.EditTaxRequest;
+import com.kbe.storage.domain.dto.tax.TaxView;
 
 import java.util.List;
 
 public interface StorageService {
-    Car update(long id, EditCarRequest request);
+    TaxView update(String id, EditTaxRequest request);
 
-    Car create(EditCarRequest request);
+    TaxView create(EditTaxRequest request);
 
-    Car delete(long id);
+    TaxView delete(String id);
 
-    Car get(long id);
+    TaxView get(String id);
 
-    List<Car> getAll();
+    List<TaxView> getAll();
 }

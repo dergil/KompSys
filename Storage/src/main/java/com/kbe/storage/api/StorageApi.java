@@ -1,7 +1,7 @@
 package com.kbe.storage.api;
 
-import com.kbe.storage.domain.dto.car.EditCarRequest;
-import com.kbe.storage.domain.model.Car;
+import com.kbe.storage.domain.dto.tax.EditTaxRequest;
+import com.kbe.storage.domain.dto.tax.TaxView;
 import com.kbe.storage.service.StorageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,27 +22,27 @@ public class StorageApi {
 
 
     @PostMapping()
-    public Car create(@RequestBody @Valid EditCarRequest request) {
+    public TaxView create(@RequestBody @Valid EditTaxRequest request) {
         return storageService.create(request);
     }
 
     @PutMapping("{id}")
-    public Car update(@PathVariable long id, @RequestBody @Valid EditCarRequest request) {
+    public TaxView update(@PathVariable String id, @RequestBody @Valid EditTaxRequest request) {
         return storageService.update(id, request);
     }
 
     @DeleteMapping("{id}")
-    public Car delete(@PathVariable long id) {
+    public TaxView delete(@PathVariable String id) {
         return storageService.delete(id);
     }
 
     @GetMapping("{id}")
-    public Car get(@PathVariable long id) {
+    public TaxView get(@PathVariable String id) {
         return storageService.get(id);
     }
 
     @GetMapping()
-    public List<Car> getAll() {
+    public List<TaxView> getAll() {
         return storageService.getAll();
     }
 }
