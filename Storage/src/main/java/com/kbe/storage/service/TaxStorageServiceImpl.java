@@ -6,7 +6,8 @@ import com.kbe.storage.domain.mapper.TaxEditMapper;
 import com.kbe.storage.domain.mapper.TaxViewMapper;
 import com.kbe.storage.domain.model.Tax;
 import com.kbe.storage.repository.TaxRepository;
-import com.kbe.storage.service.interfaces.StorageService;
+import com.kbe.storage.service.interfaces.CsvImportService;
+import com.kbe.storage.service.interfaces.TaxStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StorageServiceImpl implements StorageService {
+public class TaxStorageServiceImpl implements TaxStorageService {
 
     @Autowired
-    private TaxRepository taxRepository;
+    private final TaxRepository taxRepository;
     @Autowired
-    private TaxEditMapper taxEditMapper;
+    private final TaxEditMapper taxEditMapper;
     @Autowired
-    private TaxViewMapper taxViewMapper;
+    private final TaxViewMapper taxViewMapper;
+
+
+    public TaxStorageServiceImpl(TaxRepository taxRepository, TaxEditMapper taxEditMapper, TaxViewMapper taxViewMapper, CsvImportService csvImportService) {
+        this.taxRepository = taxRepository;
+        this.taxEditMapper = taxEditMapper;
+        this.taxViewMapper = taxViewMapper;
+    }
 
     @Override
     public TaxView update(String id, EditTaxRequest request) {

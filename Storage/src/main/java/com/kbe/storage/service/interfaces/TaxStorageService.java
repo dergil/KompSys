@@ -5,7 +5,7 @@ import com.kbe.storage.domain.dto.tax.TaxView;
 
 import java.util.List;
 
-public interface StorageService {
+public interface TaxStorageService {
     TaxView update(String id, EditTaxRequest request);
 
     TaxView create(EditTaxRequest request);
