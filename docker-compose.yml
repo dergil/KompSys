@@ -1,5 +1,6 @@
 #version: '2'
 
+# compile services, then docker-compose up
 services:
   main:
     image: main:0.0.1-SNAPSHOT
