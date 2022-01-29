@@ -1,6 +1,9 @@
+GET http://localhost:8082/calculate?price=99000&salesTax=0.19
+Accept: application/json
 
+###
 # hro
-PUT http://localhost:8081/car/14
+PUT http://localhost:8081/car/9
 #PUT app:8081/car/13
 Content-Type: application/json
 

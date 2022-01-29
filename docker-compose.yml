@@ -2,10 +2,8 @@
 
 services:
   main:
-    working_dir: /KompSys
-    image: 'main:latest'
-    build:
-      context: .
+    image: main:0.0.1-SNAPSHOT
+    build: ./KompSys
     container_name: main
     ports:
       - "127.0.0.1:8081:8081"
@@ -25,19 +23,15 @@ services:
       - POSTGRES_PASSWORD=compose-postgres
 
   gateway:
-    working_dir: /Gateway
-    image: 'gateway:latest'
-    build:
-      context: .
+    image: gateway:0.0.1-SNAPSHOT
+    build: ./Gateway
     container_name: gateway
     ports:
       - "127.0.0.1:8082:8082"
 
   calculator:
-    working_dir: /Calculator
-    image: 'calculator:latest'
-    build:
-      context: .
+    image: calculator:0.0.1-SNAPSHOT
+    build: ./Calculator
     container_name: calculator
     ports:
       - "127.0.0.1:8080:8080"
