@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Gateway" />
+        <module name="kompsys_dtos" />
         <module name="Calculator" />
       </profile>
       <profile name="Annotation profile for KompSys" enabled="true">
@@ -28,6 +29,7 @@
       <module name="Gateway" target="11" />
       <module name="gateway" target="11" />
       <module name="KompSys" target="11" />
+      <module name="kompsys_dtos" target="11" />
       <module name="wrapper (1)" target="1.5" />
       <module name="wrapper (2)" target="1.5" />
     </bytecodeTargetLevel>
