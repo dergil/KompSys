@@ -33,7 +33,7 @@ public class CustomCarDeserializer extends StdDeserializer<Car> {
         car.setHorsepower(node.get("Horsepower").asInt());
         car.setWeightInPounds(node.get("Weight_in_lbs").asInt());
         car.setAcceleration(node.get("Acceleration").asInt());
-        car.setYear(LocalDate.parse(node.get("Year").asText()));
+        car.setYear((node.get("Year").asText()));
         car.setOrigin(node.get("Origin").asText());
         return car;
     }

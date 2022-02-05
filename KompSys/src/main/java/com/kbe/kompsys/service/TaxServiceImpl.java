@@ -1,11 +1,11 @@
 package com.kbe.kompsys.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kbe.kompsys.domain.dto.calculate.CalculateRequest;
-import com.kbe.kompsys.domain.dto.calculate.CalculateResponse;
-import com.kbe.kompsys.domain.dto.car.CarTaxCalculateView;
-import com.kbe.kompsys.domain.dto.car.CarTaxRequest;
-import com.kbe.kompsys.domain.dto.geolocation.GeolocationResponse;
+import com.github.dergil.kompsys.dto.calculate.CalculateRequest;
+import com.github.dergil.kompsys.dto.calculate.CalculateResponse;
+import com.github.dergil.kompsys.dto.car.CarTaxCalculateView;
+import com.github.dergil.kompsys.dto.car.CarTaxRequest;
+import com.github.dergil.kompsys.dto.geolocation.GeolocationResponse;
 import com.kbe.kompsys.domain.mapper.CalculateViewMapper;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;

@@ -1,13 +1,10 @@
 package com.kbe.kompsys.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kbe.kompsys.domain.dto.calculate.CalculateRequest;
-import com.kbe.kompsys.domain.dto.calculate.CalculateResponse;
-import com.kbe.kompsys.domain.dto.car.CarTaxCalculateView;
-import com.kbe.kompsys.domain.dto.car.CarTaxRequest;
-import com.kbe.kompsys.domain.dto.car.CarView;
-import com.kbe.kompsys.domain.dto.car.EditCarRequest;
-import com.kbe.kompsys.domain.dto.geolocation.GeolocationResponse;
+import com.github.dergil.kompsys.dto.car.CarView;
+import com.github.dergil.kompsys.dto.car.CreateCarRequest;
+import com.github.dergil.kompsys.dto.car.DeleteCarRequest;
+import com.github.dergil.kompsys.dto.car.EditCarRequest;
 import com.kbe.kompsys.domain.mapper.CalculateViewMapper;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
@@ -34,23 +31,24 @@ public class CarServiceImpl implements CarService {
     private CarRepository carRepository;
 
     @Transactional
-    public CarView create(EditCarRequest request) {
+    public CarView create(CreateCarRequest request) {
         Car car = carEditMapper.create(request);
         carRepository.save(car);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
-    public CarView update(long id, EditCarRequest request) {
-        Car car = carRepository.getCarById(id);
+    public CarView update(EditCarRequest request) {
+        Car car = carRepository.getCarById(request.getId());
         carEditMapper.update(request, car);
         car = carRepository.save(car);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
-    public CarView delete(long id) {
-        Car car = carRepository.getCarById(id);
+    public CarView delete(DeleteCarRequest request) {
+//        TODO: return only id, not empty carview
+        Car car = carRepository.getCarById(request.getId());
         carRepository.delete(car);
         return carViewMapper.toCarView(car);
     }

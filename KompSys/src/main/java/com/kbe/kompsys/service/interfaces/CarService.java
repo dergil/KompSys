@@ -1,16 +1,20 @@
 package com.kbe.kompsys.service.interfaces;
 
-import com.kbe.kompsys.domain.dto.car.CarView;
-import com.kbe.kompsys.domain.dto.car.EditCarRequest;
+
+
+import com.github.dergil.kompsys.dto.car.CarView;
+import com.github.dergil.kompsys.dto.car.CreateCarRequest;
+import com.github.dergil.kompsys.dto.car.DeleteCarRequest;
+import com.github.dergil.kompsys.dto.car.EditCarRequest;
 
 import java.util.List;
 
 public interface CarService {
-    public CarView create(EditCarRequest request);
+    public CarView create(CreateCarRequest request);
 
-    public CarView update(long id, EditCarRequest request);
+    public CarView update(EditCarRequest request);
 
-    public CarView delete(long id);
+    public CarView delete(DeleteCarRequest request);
 
     public CarView get(long id);
 

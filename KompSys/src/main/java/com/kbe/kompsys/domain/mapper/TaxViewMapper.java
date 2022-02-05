@@ -1,6 +1,6 @@
 package com.kbe.kompsys.domain.mapper;
 
-import com.kbe.kompsys.domain.dto.tax.TaxView;
+import com.github.dergil.kompsys.dto.tax.TaxView;
 import com.kbe.kompsys.domain.model.Tax;
 import org.mapstruct.Mapper;
 

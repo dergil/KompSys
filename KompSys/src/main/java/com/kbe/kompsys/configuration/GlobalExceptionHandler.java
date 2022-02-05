@@ -16,6 +16,7 @@ import java.util.List;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+//    TODO: RabbitMQ exception handling
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiCallError<String>> handleNotFoundException(HttpServletRequest request, NotFoundException ex) {
