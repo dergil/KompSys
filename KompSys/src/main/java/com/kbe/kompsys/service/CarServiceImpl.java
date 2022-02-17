@@ -1,19 +1,13 @@
 package com.kbe.kompsys.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.dergil.kompsys.dto.car.CarView;
 import com.github.dergil.kompsys.dto.car.CreateCarRequest;
 import com.github.dergil.kompsys.dto.car.DeleteCarRequest;
 import com.github.dergil.kompsys.dto.car.EditCarRequest;
-import com.kbe.kompsys.domain.exception.NotFoundException;
-import com.kbe.kompsys.domain.mapper.CalculateViewMapper;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
-import com.kbe.kompsys.domain.mapper.TaxViewMapper;
 import com.kbe.kompsys.domain.model.Car;
-import com.kbe.kompsys.domain.model.Tax;
 import com.kbe.kompsys.repository.CarRepository;
-import com.kbe.kompsys.repository.TaxRepository;
 import com.kbe.kompsys.service.interfaces.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +44,7 @@ public class CarServiceImpl implements CarService {
 
     @Transactional
     public CarView delete(DeleteCarRequest request) {
-//        TODO: return only id, not empty carview
+//        TODO: return only id, not empty carview; at FEB17 it retunred full carview with apparently deleted car
         Car car = carRepository.getCarById(request.getId());
         carRepository.delete(car);
         return carViewMapper.toCarView(car);

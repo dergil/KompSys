@@ -2,10 +2,11 @@ package com.github.dergil.kompsys.dto.car;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
-public class CarView {
+public class CarView implements Serializable {
 
     private long id;
 

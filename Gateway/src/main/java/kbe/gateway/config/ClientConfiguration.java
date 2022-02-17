@@ -1,6 +1,7 @@
-package kbe.gateway;
+package kbe.gateway.config;
 
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -12,12 +13,6 @@ class ClientConfiguration {
     @Bean
     public DirectExchange directExchange() {
         return new DirectExchange("kompsys");
-    }
-
-    @Bean
-//    evtl. anderer import für MessageConverter
-    public MessageConverter jackson2MessageConverter() {
-        return new Jackson2JsonMessageConverter();
     }
 }
 

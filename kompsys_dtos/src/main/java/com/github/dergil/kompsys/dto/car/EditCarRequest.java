@@ -4,10 +4,12 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class EditCarRequest {
+public class EditCarRequest implements Serializable {
 
     long id;
     @NotBlank

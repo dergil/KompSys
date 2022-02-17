@@ -1,4 +1,4 @@
-package com.kbe.kompsys.domain.exception;
+package com.github.dergil.kompsys.dto.exception;
 
 public class NotFoundException extends RuntimeException {
 

@@ -6,10 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarTaxCalculateView {
+public class CarTaxCalculateView implements Serializable {
     private CarView carView;
     private TaxView taxView;
     private CalculateView calculateView;

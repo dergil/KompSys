@@ -33,9 +33,9 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         List<Car> cars = readCars(jsonfile_cars);
         carRepository.saveAll(cars);
 
-        InputStream jsonfile_taxes = importJsonAsFile("taxes.json");
-        List<Tax> taxes = readTaxes(jsonfile_taxes);
-        taxRepository.saveAll(taxes);
+//        InputStream jsonfile_taxes = importJsonAsFile("taxes.json");
+//        List<Tax> taxes = readTaxes(jsonfile_taxes);
+//        taxRepository.saveAll(taxes);
     }
 
     private InputStream importJsonAsFile(String jsonFilename) {

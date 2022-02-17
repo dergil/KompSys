@@ -6,6 +6,7 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.amqp.support.converter.RemoteInvocationAwareMessageConverterAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,20 +18,51 @@ public class RabbitMQServerConfig {
     }
 
     @Bean
-    public Queue queue() {
-        return new Queue("car");
+    public Queue create_queue() {
+        return new Queue("create_car", false);
     }
 
     @Bean
-    public Binding binding(DirectExchange directExchange,
-                           Queue queue) {
-        return BindingBuilder.bind(queue)
+    public Binding create_binding(DirectExchange directExchange,
+                           Queue create_queue) {
+        return BindingBuilder.bind(create_queue)
                 .to(directExchange)
-                .with("car");
+                .with("create_car");
     }
 
     @Bean
-    public MessageConverter jackson2MessageConverter() {
-        return new Jackson2JsonMessageConverter();
+    public Queue update_queue() {
+        return new Queue("update_car", false);
     }
+
+    @Bean
+    public Binding update_binding(DirectExchange directExchange,
+                           Queue update_queue) {
+        return BindingBuilder.bind(update_queue)
+                .to(directExchange)
+                .with("update_car");
+    }
+
+    @Bean
+    public Queue delete_queue() {
+        return new Queue("delete_car", false);
+    }
+
+    @Bean
+    public Binding delete_binding(DirectExchange directExchange,
+                           Queue delete_queue) {
+        return BindingBuilder.bind(delete_queue)
+                .to(directExchange)
+                .with("delete_car");
+    }
+
+
+
+
+//    @Bean
+//    public MessageConverter remoteInvocationAwareMessageConverterAdapter() {
+//        return new RemoteInvocationAwareMessageConverterAdapter();
+//    }
+
+
 }
