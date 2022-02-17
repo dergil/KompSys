@@ -5,6 +5,7 @@ import com.github.dergil.kompsys.dto.car.CarView;
 import com.github.dergil.kompsys.dto.car.CreateCarRequest;
 import com.github.dergil.kompsys.dto.car.DeleteCarRequest;
 import com.github.dergil.kompsys.dto.car.EditCarRequest;
+import com.kbe.kompsys.domain.exception.NotFoundException;
 import com.kbe.kompsys.domain.mapper.CalculateViewMapper;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
@@ -39,10 +40,12 @@ public class CarServiceImpl implements CarService {
 
     @Transactional
     public CarView update(EditCarRequest request) {
+//        TODO: mustn't create new car on request with invalid id
         Car car = carRepository.getCarById(request.getId());
         carEditMapper.update(request, car);
         car = carRepository.save(car);
         return carViewMapper.toCarView(car);
+//        throw new NotFoundException(Car.class, request.getId());
     }
 
     @Transactional

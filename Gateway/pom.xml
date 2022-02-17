@@ -91,6 +91,12 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.13.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.dergil</groupId>
+            <artifactId>kompsys_dtos</artifactId>
+            <version>0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

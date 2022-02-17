@@ -131,6 +131,12 @@
             <version>0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.dergil</groupId>
+            <artifactId>kompsys_dtos</artifactId>
+            <version>0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
