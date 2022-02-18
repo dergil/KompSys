@@ -2,37 +2,48 @@
 
 # compile services, then docker-compose up
 services:
-    main:
-      image: main:0.0.1-SNAPSHOT
-      build: ./KompSys
-      container_name: main
-      ports:
-        - "127.0.0.1:8081:8081"
-      depends_on:
-        - db
-      environment:
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-        - SPRING_DATASOURCE_USERNAME=compose-postgres
-        - SPRING_DATASOURCE_PASSWORD=compose-postgres
-        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#    main:
+#      image: main:0.0.1-SNAPSHOT
+#      build: ./KompSys
+#      container_name: main
+#      ports:
+#        - "127.0.0.1:8081:8081"
+#      depends_on:
+#        - db
+#      environment:
+#        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+#        - SPRING_DATASOURCE_USERNAME=compose-postgres
+#        - SPRING_DATASOURCE_PASSWORD=compose-postgres
+#        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#
+#    db:
+#      image: 'postgres:13.1-alpine'
+#      container_name: db
+#      environment:
+#        - POSTGRES_USER=compose-postgres
+#        - POSTGRES_PASSWORD=compose-postgres
 
-    db:
-      image: 'postgres:13.1-alpine'
-      container_name: db
-      environment:
-        - POSTGRES_USER=compose-postgres
-        - POSTGRES_PASSWORD=compose-postgres
+#    configserver:
+#      image: config:0.0.1-SNAPSHOT
+#      build: ./Config
+#      container_name: config
+#      ports:
+#        - "127.0.0.1:8888:8888"
 
     gateway:
       image: gateway:0.0.1-SNAPSHOT
       build: ./Gateway
       container_name: gateway
       ports:
-        - "127.0.0.1:8082:8082"
+        - "127.0.0.1:8085:8085"
+#      depends_on:
+#        - configserver
 
-    calculator:
-      image: calculator:0.0.1-SNAPSHOT
-      build: ./Calculator
-      container_name: calculator
-      ports:
-        - "127.0.0.1:8084:8084"
+#    calculator:
+#      image: calculator:0.0.1-SNAPSHOT
+#      build: ./Calculator
+#      container_name: calculator
+#      ports:
+#        - "127.0.0.1:8084:8084"
+
+

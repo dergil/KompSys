@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Gateway" />
+        <module name="Config" />
         <module name="Calculator" />
       </profile>
       <profile name="Annotation profile for KompSys" enabled="true">
@@ -25,6 +26,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Calculator" target="11" />
+      <module name="Config" target="11" />
       <module name="Gateway" target="11" />
       <module name="gateway" target="11" />
       <module name="KompSys" target="11" />
@@ -35,6 +37,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Calculator" options="-parameters" />
+      <module name="Config" options="-parameters" />
       <module name="Gateway" options="-parameters" />
       <module name="KompSys" options="-parameters" />
       <module name="gateway" options="-parameters" />
