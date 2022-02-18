@@ -7,11 +7,13 @@ import com.github.dergil.kompsys.dto.car.DeleteCarRequest;
 import com.github.dergil.kompsys.dto.car.EditCarRequest;
 import com.kbe.kompsys.service.interfaces.CarService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@RabbitListener(queues = "car", returnExceptions = "true")
 public class RabbitListeners {
     private final CarService carService;
 
@@ -19,21 +21,21 @@ public class RabbitListeners {
         this.carService = carService;
     }
 
-    @RabbitListener(queues = "create_car")
-    public CarView receive(CreateCarRequest request) {
-        log.info("Recevied as CreateCarRequest");
+    @RabbitHandler
+    public CarView handleCreateCarRequest(CreateCarRequest request) {
+        log.info("Received " + request.toString());
         return carService.create(request);
     }
 
-    @RabbitListener(queues = "update_car", returnExceptions = "true")
-    public CarView receive(EditCarRequest request) {
-        log.info("Recevied as EditCarRequest"+ request.toString());
+    @RabbitHandler
+    public CarView handleEditCarRequest(EditCarRequest request) {
+        log.info("Received " + request.toString());
         return carService.update(request);
     }
 
-    @RabbitListener(queues = "delete_car", returnExceptions = "true")
-    public CarView receive(DeleteCarRequest request) {
-        log.info("Recevied as DeleteCarRequest: " + request.toString());
+    @RabbitHandler
+    public CarView handleDeleteCarRequest(DeleteCarRequest request) {
+        log.info("Received " + request.toString());
         return carService.delete(request);
     }
 }

@@ -9,9 +9,9 @@ import java.io.Serializable;
 public class CalculateResponse implements Serializable {
 
     @NotNull
-    Double priceTotal;
+    Double pricePostTax;
     @NotNull
-    Double price;
+    Double pricePreTax;
     @NotNull
     Double salesTax;
     @NotNull

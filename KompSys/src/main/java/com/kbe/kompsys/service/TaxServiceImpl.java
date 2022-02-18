@@ -7,7 +7,6 @@ import com.github.dergil.kompsys.dto.car.CarTaxCalculateView;
 import com.github.dergil.kompsys.dto.car.CarTaxRequest;
 import com.github.dergil.kompsys.dto.geolocation.GeolocationResponse;
 import com.kbe.kompsys.domain.mapper.CalculateViewMapper;
-import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.mapper.TaxViewMapper;
 import com.kbe.kompsys.domain.model.Car;
@@ -48,7 +47,7 @@ public class TaxServiceImpl implements TaxService {
         Tax tax = findTax(geolocationResponse);
 
         CalculateRequest calculateRequest = new CalculateRequest();
-        calculateRequest.setPrice(car.getPrice());
+        calculateRequest.setPricePreTax(car.getPrice());
 
 
         calculateRequest.setSalesTax(tax.getTax());

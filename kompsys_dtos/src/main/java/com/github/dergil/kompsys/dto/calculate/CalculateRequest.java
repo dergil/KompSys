@@ -6,6 +6,6 @@ import java.io.Serializable;
 
 @Data
 public class CalculateRequest implements Serializable {
-    double price;
+    double pricePreTax;
     double salesTax;
 }

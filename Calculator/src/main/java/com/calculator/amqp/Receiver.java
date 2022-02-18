@@ -1,29 +1,20 @@
 package com.calculator.amqp;
 
-import com.calculator.domain.dto.CalculateResponse;
+import com.calculator.service.CalculatorService;
 import com.github.dergil.kompsys.dto.calculate.CalculateRequest;
+import com.github.dergil.kompsys.dto.calculate.CalculateResponse;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Receiver {
 
-//    public void receiveMessage(CalculateRequest calculateRequest) {
-//        System.out.println("Received <" + calculateRequest.toString() + ">");
-//    }
+    @Autowired
+    public CalculatorService calculatorService;
 
-    @RabbitListener(queues = "request", concurrency = "3")
+    @RabbitListener(queues = "calculate")
     public CalculateResponse receive(CalculateRequest request) {
-        double price = request.getPrice();
-        double salesTax = request.getSalesTax();
-        double taxAmount = price * salesTax;
-
-        CalculateResponse calculateResponse = new CalculateResponse();
-
-        calculateResponse.setPriceTotal(price + taxAmount);
-        calculateResponse.setPrice(price);
-        calculateResponse.setSalesTax(salesTax);
-        calculateResponse.setTaxAmount(taxAmount);
-        return calculateResponse;
+        return calculatorService.calculate(request);
     }
 }

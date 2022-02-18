@@ -16,7 +16,7 @@ public class CarCalculatorService {
     CalculateResponse queryCalculator(CalculateRequest request) throws JsonProcessingException {
         WebClient client = WebClient.create();
         String uri = String.format("http://localhost:8080/calculate?price=%s&salesTax=%s",
-                request.getPrice(), request.getSalesTax());
+                request.getPricePreTax(), request.getSalesTax());
         WebClient.ResponseSpec responseSpec = client.get().uri(uri).retrieve();
         String jsonResponse = responseSpec.bodyToMono(String.class).block();
         ObjectMapper objectMapper = new ObjectMapper();
