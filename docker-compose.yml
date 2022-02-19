@@ -1,4 +1,4 @@
-#version: '2'
+version: '2.1'
 
 # compile services, then docker-compose up
 services:
@@ -29,6 +29,10 @@ services:
       container_name: config
       ports:
         - "127.0.0.1:8888:8888"
+      networks:
+        backend:
+          aliases:
+            - "configserver"
 
 
     gateway:
@@ -38,7 +42,13 @@ services:
       ports:
         - "127.0.0.1:8085:8085"
       depends_on:
-        - configserver
+        configserver:
+          condition: service_started
+      networks:
+        backend:
+          aliases:
+            - "gateway"
+
 
 #    calculator:
 #      image: calculator:0.0.1-SNAPSHOT
@@ -48,3 +58,6 @@ services:
 #        - "127.0.0.1:8084:8084"
 
 
+networks:
+  backend:
+    driver: bridge
