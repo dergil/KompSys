@@ -23,12 +23,13 @@ services:
 #        - POSTGRES_USER=compose-postgres
 #        - POSTGRES_PASSWORD=compose-postgres
 
-#    configserver:
-#      image: config:0.0.1-SNAPSHOT
-#      build: ./Config
-#      container_name: config
-#      ports:
-#        - "127.0.0.1:8888:8888"
+    configserver:
+      image: config:0.0.1-SNAPSHOT
+      build: ./Config
+      container_name: config
+      ports:
+        - "127.0.0.1:8888:8888"
+
 
     gateway:
       image: gateway:0.0.1-SNAPSHOT
@@ -36,8 +37,8 @@ services:
       container_name: gateway
       ports:
         - "127.0.0.1:8085:8085"
-#      depends_on:
-#        - configserver
+      depends_on:
+        - configserver
 
 #    calculator:
 #      image: calculator:0.0.1-SNAPSHOT
