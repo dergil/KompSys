@@ -8,7 +8,9 @@ import java.io.Serializable;
 @Data
 public class CalculateView implements Serializable {
     @NotNull
-    Double price;
+    Double pricePostTax;
+    @NotNull
+    Double pricePreTax;
     @NotNull
     Double salesTax;
     @NotNull

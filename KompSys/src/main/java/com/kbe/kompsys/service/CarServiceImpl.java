@@ -1,9 +1,6 @@
 package com.kbe.kompsys.service;
 
-import com.github.dergil.kompsys.dto.car.CarView;
-import com.github.dergil.kompsys.dto.car.CreateCarRequest;
-import com.github.dergil.kompsys.dto.car.DeleteCarRequest;
-import com.github.dergil.kompsys.dto.car.EditCarRequest;
+import com.github.dergil.kompsys.dto.car.*;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.model.Car;
@@ -39,7 +36,6 @@ public class CarServiceImpl implements CarService {
         carEditMapper.update(request, car);
         car = carRepository.save(car);
         return carViewMapper.toCarView(car);
-//        throw new NotFoundException(Car.class, request.getId());
     }
 
     @Transactional
@@ -51,13 +47,13 @@ public class CarServiceImpl implements CarService {
     }
 
     @Transactional
-    public CarView get(long id) {
-        Car car = carRepository.getCarById(id);
+    public CarView get(ReadCarRequest request) {
+        Car car = carRepository.getCarById(request.getId());
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
-    public List<CarView> getAll() {
+    public List<CarView> getAll(ReadAllCarsRequest request) {
         List<Car> cars = carRepository.findAll();
         List<CarView> carViews = new ArrayList<>();
         for (Car car : cars) {

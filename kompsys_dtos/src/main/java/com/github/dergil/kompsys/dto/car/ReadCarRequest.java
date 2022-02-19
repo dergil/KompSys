@@ -1,11 +1,13 @@
 package com.github.dergil.kompsys.dto.car;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class CarTaxRequest implements Serializable {
+@AllArgsConstructor
+public class ReadCarRequest implements Serializable{
+
     private long id;
-    private String ipAddress;
 }

@@ -1,27 +1,32 @@
 package com.kbe.kompsys.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dergil.kompsys.dto.calculate.CalculateRequest;
 import com.github.dergil.kompsys.dto.calculate.CalculateResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
 
 
 @Service
+@Slf4j
 public class CarCalculatorService {
+    private final RabbitTemplate rabbitTemplate;
+    private final DirectExchange directExchange;
+    public static final String ROUTING_KEY = "calculate";
 
-    @Transactional
-    CalculateResponse queryCalculator(CalculateRequest request) throws JsonProcessingException {
-        WebClient client = WebClient.create();
-        String uri = String.format("http://localhost:8080/calculate?price=%s&salesTax=%s",
-                request.getPricePreTax(), request.getSalesTax());
-        WebClient.ResponseSpec responseSpec = client.get().uri(uri).retrieve();
-        String jsonResponse = responseSpec.bodyToMono(String.class).block();
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(jsonResponse, CalculateResponse.class);
+    public CarCalculatorService(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
+        this.rabbitTemplate = rabbitTemplate;
+        this.directExchange = directExchange;
     }
 
-
+    public CalculateResponse queryCalculator(CalculateRequest request) {
+        log.info("Sending " + request);
+        CalculateResponse response = (CalculateResponse) rabbitTemplate.convertSendAndReceive(
+                directExchange.getName(),
+                ROUTING_KEY,
+                request);
+        log.info("Received " + response);
+        return response;
+    }
 }

@@ -1,6 +1,7 @@
-package com.github.dergil.kompsys.dto.car;
+package com.github.dergil.kompsys.dto.car.tax;
 
 import com.github.dergil.kompsys.dto.calculate.CalculateView;
+import com.github.dergil.kompsys.dto.car.CarView;
 import com.github.dergil.kompsys.dto.tax.TaxView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
