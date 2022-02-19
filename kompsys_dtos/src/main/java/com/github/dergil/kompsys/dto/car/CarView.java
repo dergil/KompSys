@@ -18,6 +18,6 @@ public class CarView implements Serializable {
     private int horsepower;
     private int weightInPounds;
     private int acceleration;
-    private String year;
+    private LocalDate year;
     private String origin;
 }

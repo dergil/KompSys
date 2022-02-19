@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.kbe.kompsys.domain.model.Car;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class CustomCarDeserializer extends StdDeserializer<Car> {
         car.setHorsepower(node.get("Horsepower").asInt());
         car.setWeightInPounds(node.get("Weight_in_lbs").asInt());
         car.setAcceleration(node.get("Acceleration").asInt());
-        car.setYear((node.get("Year").asText()));
+        car.setYear(LocalDate.parse(node.get("Year").asText()));
         car.setOrigin(node.get("Origin").asText());
         return car;
     }

@@ -1,10 +1,12 @@
 package com.github.dergil.kompsys.dto.car;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -20,7 +22,8 @@ public class CreateCarRequest implements Serializable {
     private int horsepower;
     private int weightInPounds;
     private float acceleration;
-    private String year;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate year;
     private String origin;
 
 }
