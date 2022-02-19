@@ -15,5 +15,5 @@ public interface CarService {
 
     CarView get(ReadCarRequest request);
 
-    List<CarView> getAll(ReadAllCarsRequest request) ;
+    CarViewList getAll(ReadAllCarsRequest request) ;
 }

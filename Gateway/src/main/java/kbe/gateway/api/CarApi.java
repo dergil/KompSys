@@ -10,10 +10,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -40,7 +38,7 @@ public class CarApi {
     }
 
     @GetMapping("/all")
-    public List<CarView> getAll() {
+    public CarViewList getAll() {
         return transferRequest(new ReadAllCarsRequest());
     }
 
@@ -70,9 +68,8 @@ public class CarApi {
     }
 
     @Nullable
-    private List<CarView> transferRequest(ReadAllCarsRequest request) {
-//        todo: put list in dto?
-        return (List<CarView>) sendRequestAndReceiveResponseObject(request);
+    private CarViewList transferRequest(ReadAllCarsRequest request) {
+        return (CarViewList) sendRequestAndReceiveResponseObject(request);
     }
 
     @Nullable

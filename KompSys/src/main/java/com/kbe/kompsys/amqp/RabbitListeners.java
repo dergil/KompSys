@@ -40,7 +40,7 @@ public class RabbitListeners {
     }
 
     @RabbitHandler
-    public List<CarView> handleReadAllCarsRequest(ReadAllCarsRequest request) {
+    public CarViewList handleReadAllCarsRequest(ReadAllCarsRequest request) {
         log.info("Received " + request.toString());
         return carService.getAll(request);
     }

@@ -31,7 +31,6 @@ public class CarServiceImpl implements CarService {
 
     @Transactional
     public CarView update(EditCarRequest request) {
-//        TODO: mustn't create new car on request with invalid id
         Car car = carRepository.getCarById(request.getId());
         carEditMapper.update(request, car);
         car = carRepository.save(car);
@@ -40,7 +39,6 @@ public class CarServiceImpl implements CarService {
 
     @Transactional
     public CarView delete(DeleteCarRequest request) {
-//        TODO: return only id, not empty carview; at FEB17 it retunred full carview with apparently deleted car
         Car car = carRepository.getCarById(request.getId());
         carRepository.delete(car);
         return carViewMapper.toCarView(car);
@@ -53,12 +51,12 @@ public class CarServiceImpl implements CarService {
     }
 
     @Transactional
-    public List<CarView> getAll(ReadAllCarsRequest request) {
+    public CarViewList getAll(ReadAllCarsRequest request) {
         List<Car> cars = carRepository.findAll();
         List<CarView> carViews = new ArrayList<>();
         for (Car car : cars) {
             carViews.add(carViewMapper.toCarView(car));
         }
-        return carViews;
+        return new CarViewList(carViews);
     }
 }
