@@ -23,7 +23,6 @@ public class Car {
     private int horsepower;
     private int weightInPounds;
     private int acceleration;
-//    TODO: use Date etc. instead of String; Deserializer needs to be adapted, as well as DB (currently postgres has Date saved, not String)
     private LocalDate year;
     private String origin;
 
