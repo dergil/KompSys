@@ -8,19 +8,30 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 @Service
 public class GeolocationService {
 
-    GeolocationResponse getGeolocation(String ipAddr) throws JsonProcessingException {
-        if (ipAddr.equals("127.0.0.1") || ipAddr.equals("0:0:0:0:0:0:0:1"))
-            ipAddr = "141.45.44.203";
+    GeolocationResponse getGeolocation(String ipAddr) throws JsonProcessingException, UnknownHostException {
+        InetAddress inetAddress = validateIP(ipAddr);
         WebClient client = WebClient.create();
         String response = client.get()
-                .uri("http://ip-api.com/json/" + ipAddr)
+                .uri("http://ip-api.com/json/" + inetAddress.getHostAddress())
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
         return extractGeolocationResponse(response);
+    }
+
+    private InetAddress validateIP(String ipAddr) throws UnknownHostException {
+        InetAddress inetAddress = InetAddress.getByName(ipAddr);
+        if (inetAddress.isSiteLocalAddress() || inetAddress.isLoopbackAddress()) {
+//            university address
+            return InetAddress.getByName("141.45.44.203");
+        }
+        return inetAddress;
     }
 
     @NotNull

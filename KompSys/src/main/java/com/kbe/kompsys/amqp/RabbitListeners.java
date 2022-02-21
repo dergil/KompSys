@@ -13,6 +13,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 @Slf4j
@@ -59,7 +60,7 @@ public class RabbitListeners {
 
     @RabbitHandler
     @Transactional
-    public CarTaxCalculateView handleCarTaxRequest(CarTaxRequest request) throws JsonProcessingException {
+    public CarTaxCalculateView handleCarTaxRequest(CarTaxRequest request) throws JsonProcessingException, UnknownHostException {
         log.info("Received " + request.toString());
         return taxService.queryCarTaxView(request);
     }

@@ -69,7 +69,7 @@ GET http://localhost:8082/car/all
 Accept: application/json
 
 ### GET request with a header
-GET http://localhost:8082/car?id=
+GET http://localhost:8082/car?id=3
 Accept: application/json
 
 ### GET request with a header

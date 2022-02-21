@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.UnknownHostException;
+
 @Service
 @Slf4j
 public class TaxServiceImpl implements TaxService {
@@ -38,7 +40,7 @@ public class TaxServiceImpl implements TaxService {
     private CarCalculatorService carCalculatorService;
 
     @Override
-    public CarTaxCalculateView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException {
+    public CarTaxCalculateView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException, UnknownHostException {
         GeolocationResponse geolocationResponse = queryGeolocation(request.getIpAddress());
         Car car = carRepository.getById(request.getId());
         Tax tax = determineTax(geolocationResponse);
@@ -50,7 +52,7 @@ public class TaxServiceImpl implements TaxService {
         return taxRepository.getTaxById(geolocation.getCountryCode());
     }
 
-    private GeolocationResponse queryGeolocation(String ipAdress) throws JsonProcessingException {
+    private GeolocationResponse queryGeolocation(String ipAdress) throws JsonProcessingException, UnknownHostException {
         return geolocationService.getGeolocation(ipAdress);
     }
 

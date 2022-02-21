@@ -44,12 +44,19 @@ services:
     environment:
       SPRING_RABBITMQ_HOST: rabbitmq
 
-#  calculator:
-#    image: calculator:0.0.1-SNAPSHOT
-#    build: ./Calculator
-#    container_name: calculator
-#    ports:
-#      - "127.0.0.1:8084:8084"
+  calculator:
+    image: calculator:0.0.1-SNAPSHOT
+    build: ./Calculator
+    container_name: calculator
+    depends_on:
+      rabbitmq:
+        condition: service_started
+    networks:
+      backend2:
+        aliases:
+          - "calculator"
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
 
   rabbitmq:
     image: rabbitmq:management
