@@ -1,7 +1,7 @@
 package com.kbe.kompsys.domain.mapper;
 
-import com.kbe.kompsys.domain.dto.calculate.CalculateResponse;
-import com.kbe.kompsys.domain.dto.calculate.CalculateView;
+import com.github.dergil.kompsys.dto.calculate.CalculateResponse;
+import com.github.dergil.kompsys.dto.calculate.CalculateView;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -1,6 +1,6 @@
 package com.kbe.kompsys.repository;
 
-import com.kbe.kompsys.domain.exception.NotFoundException;
+import com.github.dergil.kompsys.dto.exception.NotFoundException;
 import com.kbe.kompsys.domain.model.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

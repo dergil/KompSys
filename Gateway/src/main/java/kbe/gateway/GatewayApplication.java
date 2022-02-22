@@ -11,23 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @SpringBootApplication
 public class GatewayApplication {
 
-//    @Bean
-//    public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-//        return builder.routes()
-//                .route(p -> p
-//                        .path("/car/*")
-//                        .uri("http://localhost:8081"))
-//                .route(p -> p
-//                        .path("/car")
-//                        .uri("http://localhost:8081"))
-//                .route(p -> p
-//                        .path("/calculate")
-//                        .uri("http://localhost:8080"))
-//                .build();
-//    }
 
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
