@@ -7,9 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.http.server.reactive.ServerHttpRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.Objects;
@@ -53,10 +54,13 @@ public class CarApi {
     }
 
     @GetMapping("/tax")
-    public CarTaxCalculateView tax(@RequestParam @Valid long id, ServerHttpRequest httpRequest) {
+    public CarTaxCalculateView tax(@RequestParam @Valid long id, HttpServletRequest httpRequest) {
+//        , ServerHttpRequest httpRequest
         CarTaxRequest carTaxRequest = new CarTaxRequest();
         carTaxRequest.setId(id);
-        String ip = Objects.requireNonNull(httpRequest.getRemoteAddress()).getAddress().getHostAddress();
+//        String ip = Objects.requireNonNull(httpRequest.getRemoteAddress()).getAddress().getHostAddress();
+        String ip = Objects.requireNonNull(httpRequest.getRemoteAddr());
+//        String ip = "127.0.0.1";
         log.info(ip);
         carTaxRequest.setIpAddress(ip);
         return transferRequest(carTaxRequest);

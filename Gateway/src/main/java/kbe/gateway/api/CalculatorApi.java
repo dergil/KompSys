@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class CalculatorApi {
     private final RabbitTemplate rabbitTemplate;
     private final DirectExchange directExchange;
-    public static final String ROUTING_KEY = "calculate";
+//    public static final String ROUTING_KEY = "calculate";
+    @Value("${calculate_routingkey}")
+    private String ROUTING_KEY;
 
     public CalculatorApi(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
         this.rabbitTemplate = rabbitTemplate;
