@@ -1,7 +1,4 @@
-# additions
 .idea
-
-
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,archlinuxpackages,java,maven,intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,archlinuxpackages,java,maven,intellij
 
@@ -90,6 +87,8 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Editor-based Rest Client
+.idea/httpRequests
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
@@ -126,7 +125,7 @@ fabric.properties
 
 ### Java ###
 # Compiled class file
-#*.class
+*.class
 
 # Log file
 
@@ -175,6 +174,11 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 ### Maven Patch ###
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
 
 ### Windows ###
 # Windows thumbnail cache files
