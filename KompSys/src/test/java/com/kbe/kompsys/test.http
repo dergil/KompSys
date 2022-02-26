@@ -4,7 +4,7 @@ Accept: application/json
 ###
 
 
-POST http://localhost:8085/car
+POST http://localhost:8082/car
 Content-Type: application/json
 
 {
@@ -40,7 +40,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8085/car
+POST http://localhost:8082/car
 Content-Type: application/json
 
 {
@@ -69,15 +69,15 @@ GET http://localhost:8082/car/all
 Accept: application/json
 
 ### GET request with a header
-GET http://localhost:8085/car?id=3
+GET http://localhost:8082/car?id=3
 Accept: application/json
 
 ### GET request with a header
-GET http://localhost:8085/car/tax?id=3
+GET http://localhost:8082/car/tax?id=3
 Accept: application/json
 
 ### GET request with a header
-GET http://localhost:8085/calculate?pricePreTax=300000&salesTax=0.19
+GET http://localhost:8082/calculate?pricePreTax=300000&salesTax=0.19
 Accept: application/json
 
 ###

@@ -19,10 +19,7 @@ services:
       build: ./Gateway
       container_name: gateway
       ports:
-        - "127.0.0.1:8085:8085"
-      depends_on:
-        configserver:
-          condition: service_started
+        - "127.0.0.1:8082:8082"
       networks:
         backend2:
           aliases:
@@ -30,6 +27,9 @@ services:
       environment:
         - SPRING_RABBITMQ_HOST=rabbitmq
 #      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+#      depends_on:
+#        configserver:
+#          condition: service_started
 
 
 
@@ -39,8 +39,6 @@ services:
       build: ./KompSys
       container_name: main
       depends_on:
-        configserver:
-          condition: service_started
         rabbitmq:
           condition: service_started
       networks:
@@ -54,6 +52,9 @@ services:
 #        - SPRING_DATASOURCE_PASSWORD=compose-postgres
 #        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 #      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+#      depends_on:
+#        configserver:
+#          condition: service_started
 
 
   #    db:
