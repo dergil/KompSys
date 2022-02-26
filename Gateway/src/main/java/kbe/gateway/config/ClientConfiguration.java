@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 class ClientConfiguration {
 
-    @Value("${main_service_exchange_name}")
+    @Value("${main_service_exchange_name:kompsys}")
     private String main_service_exchange_name;
 
     @Bean

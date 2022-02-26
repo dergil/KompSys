@@ -2,16 +2,16 @@ version: '2.1'
 
 # compile services, then docker-compose up
 services:
-    configserver:
-      image: config:0.0.1-SNAPSHOT
-      build: ./Config
-      container_name: config
-      ports:
-        - "127.0.0.1:8888:8888"
-      networks:
-        backend2:
-          aliases:
-            - "configserver"
+#    configserver:
+#      image: config:0.0.1-SNAPSHOT
+#      build: ./Config
+#      container_name: config
+#      ports:
+#        - "127.0.0.1:8888:8888"
+#      networks:
+#        backend2:
+#          aliases:
+#            - "configserver"
 
 
     gateway:
@@ -23,13 +23,14 @@ services:
       depends_on:
         configserver:
           condition: service_started
-      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
       networks:
         backend2:
           aliases:
             - "gateway"
       environment:
         - SPRING_RABBITMQ_HOST=rabbitmq
+#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+
 
 
 
@@ -42,7 +43,6 @@ services:
           condition: service_started
         rabbitmq:
           condition: service_started
-      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
       networks:
         backend2:
           aliases:
@@ -53,8 +53,10 @@ services:
 #        - SPRING_DATASOURCE_USERNAME=compose-postgres
 #        - SPRING_DATASOURCE_PASSWORD=compose-postgres
 #        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
 
-#    db:
+
+  #    db:
 #      image: 'postgres:13.1-alpine'
 #      container_name: db
 #      environment:
@@ -74,13 +76,14 @@ services:
       depends_on:
         rabbitmq:
           condition: service_started
-      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
       networks:
         backend2:
           aliases:
             - "calculator"
       environment:
         SPRING_RABBITMQ_HOST: rabbitmq
+#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+
 
     rabbitmq:
       image: rabbitmq:management

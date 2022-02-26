@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 class ServerConfiguration {
 
-    @Value("${calculate_routingkey}")
+    @Value("${calculate_routingkey:calculate}")
     private String ROUTING_KEY;
 
-    @Value("${main_service_exchange_name}")
+    @Value("${main_service_exchange_name:kompsys}")
     private String main_service_exchange_name;
 
     @Bean

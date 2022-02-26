@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,9 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/car")
 public class CarApi {
+
+    @Value("${car_queue_routing_key:car}")
+    private String car_queue_routing_key;
 
     private final RabbitTemplate rabbitTemplate;
     private final DirectExchange directExchange;
@@ -85,7 +89,7 @@ public class CarApi {
         log.info("Sending " + request.toString());
         return  (Serializable) rabbitTemplate.convertSendAndReceive(
                 directExchange.getName(),
-                "car",
+                car_queue_routing_key,
                 request
         );
     }

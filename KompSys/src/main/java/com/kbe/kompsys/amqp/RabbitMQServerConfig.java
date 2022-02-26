@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQServerConfig {
-    @Value("${main_service_exchange_name}")
+    @Value("${main_service_exchange_name:kompsys}")
     private String main_service_exchange_name;
 
-    @Value("${car_queue}")
+    @Value("${car_queue:car}")
     private String car_queue;
 
-    @Value("${car_queue_routing_key}")
+    @Value("${car_queue_routing_key:car}")
     private String car_queue_routing_key;
 
     @Bean

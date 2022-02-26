@@ -17,7 +17,7 @@ public class CalculatorApi {
     private final RabbitTemplate rabbitTemplate;
     private final DirectExchange directExchange;
 //    public static final String ROUTING_KEY = "calculate";
-    @Value("${calculate_routingkey}")
+    @Value("${calculate_routingkey:calculate}")
     private String ROUTING_KEY;
 
     public CalculatorApi(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
