@@ -13,7 +13,7 @@ public class Receiver {
     @Autowired
     public CalculatorService calculatorService;
 
-    @RabbitListener(queues = "calculate")
+    @RabbitListener(id="foo", queues = "calculate")
     public CalculateResponse receive(CalculateRequest request) {
         return calculatorService.calculate(request);
     }

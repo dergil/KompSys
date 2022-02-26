@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-class ServerConfiguration {
+public class ServerConfiguration {
 
     @Bean
     public DirectExchange directExchange() {

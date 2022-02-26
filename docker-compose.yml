@@ -2,80 +2,80 @@
 
 # compile services, then docker-compose up
 services:
-  main:
-    image: main:0.0.1-SNAPSHOT
-    build: ./KompSys
-    container_name: main
-    depends_on:
-      rabbitmq:
-        condition: service_started
-    networks:
-      backend2:
-        aliases:
-          - "configserver"
-    environment:
-      - SPRING_RABBITMQ_HOST=rabbitmq
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-      - SPRING_DATASOURCE_USERNAME=compose-postgres
-      - SPRING_DATASOURCE_PASSWORD=compose-postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-
-  db:
-    image: 'postgres:13.1-alpine'
-    container_name: db
-    environment:
-      - POSTGRES_USER=compose-postgres
-      - POSTGRES_PASSWORD=compose-postgres
-    ports:
-      - "5432:5432"
-    networks:
-      backend2:
-        aliases:
-          - "db"
-
-  gateway:
-    image: gateway:0.0.1-SNAPSHOT
-    build: ./Gateway
-    container_name: gateway
-    ports:
-      - "8082:8082"
-    depends_on:
-      rabbitmq:
-        condition: service_started
-    networks:
-      backend2:
-        aliases:
-          - "gateway"
-    environment:
-      SPRING_RABBITMQ_HOST: rabbitmq
-
-  calculator:
-    image: calculator:0.0.1-SNAPSHOT
-    build: ./Calculator
-    container_name: calculator
-    depends_on:
-      rabbitmq:
-        condition: service_started
-    networks:
-      backend2:
-        aliases:
-          - "calculator"
-    environment:
-      SPRING_RABBITMQ_HOST: rabbitmq
+#  main:
+#    image: main:0.0.1-SNAPSHOT
+#    build: ./KompSys
+#    container_name: main
+#    depends_on:
+#      rabbitmq:
+#        condition: service_started
+#    networks:
+#      backend2:
+#        aliases:
+#          - "configserver"
+#    environment:
+#      - SPRING_RABBITMQ_HOST=rabbitmq
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+#      - SPRING_DATASOURCE_USERNAME=compose-postgres
+#      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#
+#  db:
+#    image: 'postgres:13.1-alpine'
+#    container_name: db
+#    environment:
+#      - POSTGRES_USER=compose-postgres
+#      - POSTGRES_PASSWORD=compose-postgres
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      backend2:
+#        aliases:
+#          - "db"
+#
+#  gateway:
+#    image: gateway:0.0.1-SNAPSHOT
+#    build: ./Gateway
+#    container_name: gateway
+#    ports:
+#      - "8082:8082"
+#    depends_on:
+#      rabbitmq:
+#        condition: service_started
+#    networks:
+#      backend2:
+#        aliases:
+#          - "gateway"
+#    environment:
+#      SPRING_RABBITMQ_HOST: rabbitmq
+#
+#  calculator:
+#    image: calculator:0.0.1-SNAPSHOT
+#    build: ./Calculator
+#    container_name: calculator
+#    depends_on:
+#      rabbitmq:
+#        condition: service_started
+#    networks:
+#      backend2:
+#        aliases:
+#          - "calculator"
+#    environment:
+#      SPRING_RABBITMQ_HOST: rabbitmq
 
   rabbitmq:
     image: rabbitmq:management
     ports:
       - "5672:5672"
       - "15672:15672"
-    networks:
-      backend2:
-        aliases:
-          - "rabbitmq"
-
-networks:
-  backend2:
-    driver: bridge
+#    networks:
+#      backend2:
+#        aliases:
+#          - "rabbitmq"
+#
+#networks:
+#  backend2:
+#    driver: bridge
 
 
 #    environment:
