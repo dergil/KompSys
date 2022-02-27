@@ -1,4 +1,4 @@
-package kbe.gateway.service;
+package kbe.gateway;
 
 import com.github.dergil.kompsys.dto.calculate.CalculateRequest;
 import com.github.dergil.kompsys.dto.calculate.CalculateResponse;
@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +17,7 @@ public class CalculatorService {
     private final DirectExchange directExchange;
     public static final String ROUTING_KEY = "calculate";
 
+    @Autowired
     public CalculatorService(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
         this.rabbitTemplate = rabbitTemplate;
         this.directExchange = directExchange;
