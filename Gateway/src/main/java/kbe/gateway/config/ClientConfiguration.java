@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-class ClientConfiguration {
+public class ClientConfiguration {
 
     @Bean
     public DirectExchange directExchange() {
