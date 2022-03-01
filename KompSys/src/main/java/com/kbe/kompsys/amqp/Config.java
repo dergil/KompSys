@@ -7,12 +7,22 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.test.RabbitListenerTest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RabbitListenerTest(capture = true)
 public class Config {
+
+    @Value("${main_service_exchange_name:kompsys}")
+    private String main_service_exchange_name;
+
+    @Value("${car_queue:car}")
+    private String car_queue;
+
+    @Value("${car_queue_routing_key:car}")
+    private String car_queue_routing_key;
 
     @Bean
     public Receiver listener() {
@@ -27,12 +37,12 @@ public class Config {
 
     @Bean
     public DirectExchange directExchange() {
-        return new DirectExchange("kompsys");
+        return new DirectExchange(main_service_exchange_name);
     }
 
     @Bean
     public Queue carQueue() {
-        return new Queue("car", false);
+        return new Queue(car_queue, false);
     }
 
     @Bean
@@ -40,7 +50,7 @@ public class Config {
                               Queue carQueue) {
         return BindingBuilder.bind(carQueue)
                 .to(directExchange)
-                .with("car");
+                .with(car_queue_routing_key);
     }
 
     @Bean

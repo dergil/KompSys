@@ -10,12 +10,19 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.test.RabbitListenerTest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RabbitListenerTest(capture = true)
 public class Config {
+
+    @Value("${calculate_routingkey:calculate}")
+    private String ROUTING_KEY;
+
+    @Value("${main_service_exchange_name:kompsys}")
+    private String main_service_exchange_name;
 
     @Bean
     public Listener listener() {
@@ -29,7 +36,7 @@ public class Config {
 
     @Bean
     public DirectExchange directExchange() {
-        return new DirectExchange("kompsys");
+        return new DirectExchange(main_service_exchange_name);
     }
 
     @Bean
@@ -41,7 +48,7 @@ public class Config {
     public Binding binding(DirectExchange directExchange, Queue queue) {
         return BindingBuilder.bind(queue)
                 .to(directExchange)
-                .with("calculate");
+                .with(ROUTING_KEY);
     }
 
     @Bean

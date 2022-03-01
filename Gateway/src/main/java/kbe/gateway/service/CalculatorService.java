@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service;
 public class CalculatorService {
     private final RabbitTemplate rabbitTemplate;
     private final DirectExchange directExchange;
-    public static final String ROUTING_KEY = "calculate";
+
+    @Value("${calculate_routingkey:calculate}")
+    private String ROUTING_KEY;
 
     @Autowired
     public CalculatorService(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
