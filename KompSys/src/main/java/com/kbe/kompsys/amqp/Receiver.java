@@ -10,6 +10,7 @@ import com.kbe.kompsys.service.interfaces.TaxService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,16 +18,12 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 @Slf4j
-@Component
-@RabbitListener(queues = "car", returnExceptions = "true")
-public class RabbitListeners {
-    private final CarService carService;
-    private final TaxService taxService;
-
-    public RabbitListeners(CarService carService, TaxService taxService) {
-        this.carService = carService;
-        this.taxService = taxService;
-    }
+@RabbitListener(id = "foo", queues = "car", returnExceptions = "true")
+public class Receiver {
+    @Autowired
+    private CarService carService;
+    @Autowired
+    private TaxService taxService;
 
     @RabbitHandler
     public CarView handleCreateCarRequest(CreateCarRequest request) {

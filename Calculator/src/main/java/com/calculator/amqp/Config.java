@@ -1,5 +1,8 @@
 package com.calculator.amqp;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -25,13 +28,20 @@ public class Config {
     }
 
     @Bean
-    public Queue queue1() {
-        return new Queue("queue1");
+    public DirectExchange directExchange() {
+        return new DirectExchange("kompsys");
     }
 
     @Bean
-    public Queue queue2() {
-        return new Queue("queue2");
+    public Queue queue() {
+        return new Queue("calculate");
+    }
+
+    @Bean
+    public Binding binding(DirectExchange directExchange, Queue queue) {
+        return BindingBuilder.bind(queue)
+                .to(directExchange)
+                .with("calculate");
     }
 
     @Bean
