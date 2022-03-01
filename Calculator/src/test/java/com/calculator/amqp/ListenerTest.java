@@ -71,20 +71,4 @@ public class ListenerTest {
         CalculateResponse receivedResponse = (CalculateResponse) this.rabbitTemplate.convertSendAndReceive(this.queue.getName(), calculateRequest);
         Assertions.assertEquals(mockedResponse, receivedResponse);
     }
-
-//    @Test
-//    public void receivesRequestAndDeliversResponse() throws Exception {
-//        CalculateRequest calculateRequest = new CalculateRequest(0.19, 10000);
-//        CalculateResponse calculateResponse = calculatorService.calculate(calculateRequest);
-//        assertThat(this.rabbitTemplate.convertSendAndReceive(this.queue1.getName(), calculateRequest)).isEqualTo(calculateResponse);
-//
-//        Listener listener = this.harness.getSpy("foo");
-//        assertThat(listener).isNotNull();
-//        verify(listener).foo(calculateRequest);
-//
-//        InvocationData invocationData = this.harness.getNextInvocationDataFor("foo", 10, TimeUnit.SECONDS);
-//        assertThat(invocationData).isNotNull();
-//        assertThat((CalculateRequest) invocationData.getArguments()[0]).isEqualTo(calculateRequest);
-//        assertThat((CalculateResponse) invocationData.getResult()).isEqualTo(calculateResponse);
-//    }
 }
