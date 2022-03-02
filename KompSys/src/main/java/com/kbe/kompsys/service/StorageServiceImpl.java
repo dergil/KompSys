@@ -15,9 +15,7 @@ public class StorageServiceImpl implements StorageService {
     public void transferFile (String localFile, String remoteDir) throws JSchException, SftpException {
         ChannelSftp channelSftp = setupJsch();
         channelSftp.connect();
-
         channelSftp.put(localFile, remoteDir + "jschFile.txt");
-
         channelSftp.exit();
     }
 

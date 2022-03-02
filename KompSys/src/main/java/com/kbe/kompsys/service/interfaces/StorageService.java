@@ -6,5 +6,5 @@ import com.jcraft.jsch.SftpException;
 import java.io.File;
 
 public interface StorageService {
-    public void transferFile(String localFile, String remoteDir) throws JSchException, SftpException;
+    void transferFile(String localFile, String remoteDir) throws JSchException, SftpException;
 }

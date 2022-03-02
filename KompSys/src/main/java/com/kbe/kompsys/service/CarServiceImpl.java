@@ -1,7 +1,6 @@
 package com.kbe.kompsys.service;
 
-import com.kbe.kompsys.domain.dto.car.CarView;
-import com.kbe.kompsys.domain.dto.car.EditCarRequest;
+import com.github.dergil.kompsys.dto.car.*;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.model.Car;
@@ -24,30 +23,30 @@ public class CarServiceImpl implements CarService {
     private CarRepository carRepository;
 
     @Transactional
-    public CarView create(EditCarRequest request) {
+    public CarView create(CreateCarRequest request) {
         Car car = carEditMapper.create(request);
         carRepository.save(car);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
-    public CarView update(long id, EditCarRequest request) {
-        Car car = carRepository.getCarById(id);
+    public CarView update(EditCarRequest request) {
+        Car car = carRepository.getCarById(request.getId());
         carEditMapper.update(request, car);
         car = carRepository.save(car);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
-    public CarView delete(long id) {
-        Car car = carRepository.getCarById(id);
+    public CarView delete(DeleteCarRequest request) {
+        Car car = carRepository.getCarById(request.getId());
         carRepository.delete(car);
         return carViewMapper.toCarView(car);
     }
 
     @Transactional
-    public CarView get(long id) {
-        Car car = carRepository.getCarById(id);
+    public CarView get(ReadCarRequest request) {
+        Car car = carRepository.getCarById(request.getId());
         return carViewMapper.toCarView(car);
     }
 
@@ -58,6 +57,6 @@ public class CarServiceImpl implements CarService {
         for (Car car : cars) {
             carViews.add(carViewMapper.toCarView(car));
         }
-        return carViews;
+        return new CarViewList(carViews);
     }
 }

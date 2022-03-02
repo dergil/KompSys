@@ -1,7 +1,6 @@
 package com.kbe.kompsys.domain.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.File;
@@ -11,7 +10,6 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@EqualsAndHashCode
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,12 +17,12 @@ public class Car {
 
     private String name;
     private int price;
-    private double milesPerGallon;
+    private int milesPerGallon;
     private int cylinders;
     private int displacement;
     private int horsepower;
     private int weightInPounds;
-    private double acceleration;
+    private int acceleration;
     private LocalDate year;
     private String origin;
     private String hash;
