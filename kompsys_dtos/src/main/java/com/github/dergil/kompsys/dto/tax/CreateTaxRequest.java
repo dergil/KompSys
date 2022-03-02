@@ -7,9 +7,12 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class TaxRequest implements Serializable {
-    @NotNull
-    private Long id;
-    @NotBlank
-    private String ipAddr;
+public class CreateTaxRequest implements Serializable {
+
+  @NotBlank
+  private String countryCodeID;
+  @NotNull
+  private double tax;
 }
+
+

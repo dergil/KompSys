@@ -1,6 +1,6 @@
 package com.kbe.storage.domain.mapper;
 
-import com.kbe.storage.domain.dto.tax.EditTaxRequest;
+import com.github.dergil.kompsys.dto.tax.EditTaxRequest;
 import com.kbe.storage.domain.model.Tax;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
@@ -11,8 +11,8 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 @Mapper(componentModel = "spring")
 public interface TaxEditMapper {
-    Tax create(EditTaxRequest request);
+  Tax create(EditTaxRequest request);
 
-    @BeanMapping(nullValueCheckStrategy = ALWAYS, nullValuePropertyMappingStrategy = IGNORE)
-    void update(EditTaxRequest request, @MappingTarget Tax tax);
+  @BeanMapping(nullValueCheckStrategy = ALWAYS, nullValuePropertyMappingStrategy = IGNORE)
+  void update(EditTaxRequest request, @MappingTarget Tax tax);
 }

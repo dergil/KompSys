@@ -1,15 +1,12 @@
 package com.kbe.storage.service.interfaces;
 
 
-import com.kbe.storage.domain.dto.car.EditCarRequest;
-import com.kbe.storage.domain.model.Car;
+import com.github.dergil.kompsys.dto.update.UpdateStorage;
+
+import java.io.FileNotFoundException;
 
 public interface CarStorageService {
 
-    Car update(long id, EditCarRequest request);
-
-    Car create(EditCarRequest request);
-
-    Car delete(long id);
+  boolean updateStorage(UpdateStorage request) throws FileNotFoundException;
 
 }

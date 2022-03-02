@@ -13,6 +13,18 @@ services:
 #          aliases:
 #            - "configserver"
 
+    storage:
+      image: storage:0.0.1-SNAPSHOT
+      build: ./Storage
+      container_name: storage
+      ports:
+        - "127.0.0.1:8083:8083"
+      networks:
+        backend2:
+          aliases:
+            - "storage"
+      environment:
+        - SPRING_RABBITMQ_HOST=rabbitmq
 
     gateway:
       image: gateway:0.0.1-SNAPSHOT
@@ -99,6 +111,8 @@ services:
 networks:
   backend2:
     driver: bridge
+
+
 
 
 #    environment:

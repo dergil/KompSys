@@ -1,18 +1,17 @@
 package com.kbe.storage.service.interfaces;
 
-import com.kbe.storage.domain.dto.tax.EditTaxRequest;
-import com.kbe.storage.domain.dto.tax.TaxView;
+import com.github.dergil.kompsys.dto.tax.*;
 
-import java.util.List;
 
 public interface TaxStorageService {
-    TaxView update(String id, EditTaxRequest request);
+  TaxView update(EditTaxRequest request);
 
-    TaxView create(EditTaxRequest request);
+  TaxView create(CreateTaxRequest request);
 
-    TaxView delete(String id);
+  TaxView delete(DeleteTaxRequest request);
 
-    TaxView get(String id);
+  TaxView get(ReadTaxRequest request);
 
-    List<TaxView> getAll();
+  TaxViewList getAll(ReadAllTaxesRequest request);
+
 }

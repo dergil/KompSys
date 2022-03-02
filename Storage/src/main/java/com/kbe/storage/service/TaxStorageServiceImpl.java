@@ -1,7 +1,6 @@
 package com.kbe.storage.service;
 
-import com.kbe.storage.domain.dto.tax.EditTaxRequest;
-import com.kbe.storage.domain.dto.tax.TaxView;
+import com.github.dergil.kompsys.dto.tax.*;
 import com.kbe.storage.domain.mapper.TaxEditMapper;
 import com.kbe.storage.domain.mapper.TaxViewMapper;
 import com.kbe.storage.domain.model.Tax;
@@ -39,32 +38,36 @@ public class TaxStorageServiceImpl implements TaxStorageService {
   }
 
   @Override
-  public TaxView create(EditTaxRequest request) {
-    Tax tax = taxEditMapper.create(request);
+  public TaxView create(CreateTaxRequest request) {
+    Tax tax = new Tax();
+    tax.setCountryCodeID(request.getCountryCodeID());
+    tax.setTax(request.getTax());
     taxRepository.save(tax);
     return taxViewMapper.toTaxView(tax);
   }
 
   @Override
-  public TaxView delete(String id) {
-    Tax tax = taxRepository.getTaxById(id);
+  public TaxView delete(DeleteTaxRequest request) {
+    Tax tax = taxRepository.getTaxById(request.getCountryCodeID());
     taxRepository.delete(tax);
     return taxViewMapper.toTaxView(tax);
   }
 
   @Override
-  public TaxView get(String id) {
-    Tax tax = taxRepository.getTaxById(id);
+  public TaxView get(ReadTaxRequest request) {
+    Tax tax = taxRepository.getTaxById(request.getCountryCodeID());
     return taxViewMapper.toTaxView(tax);
   }
 
   @Override
-  public List<TaxView> getAll() {
-    List<Tax> taxs = taxRepository.findAll();
+  public TaxViewList getAll(ReadAllTaxesRequest request) {
+    List<Tax> taxes = taxRepository.findAll();
     List<TaxView> taxViews = new ArrayList<>();
-    for (Tax tax : taxs) {
+    for (Tax tax : taxes) {
       taxViews.add(taxViewMapper.toTaxView(tax));
     }
-    return taxViews;
+    return new TaxViewList(taxViews);
   }
+
+
 }

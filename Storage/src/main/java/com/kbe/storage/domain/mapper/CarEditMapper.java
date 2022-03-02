@@ -1,6 +1,6 @@
 package com.kbe.storage.domain.mapper;
 
-import com.kbe.storage.domain.dto.car.EditCarRequest;
+import com.github.dergil.kompsys.dto.car.EditCarRequest;
 import com.kbe.storage.domain.model.Car;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
@@ -11,8 +11,8 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 @Mapper(componentModel = "spring")
 public interface CarEditMapper {
-    Car create(EditCarRequest request);
+  Car create(EditCarRequest request);
 
-    @BeanMapping(nullValueCheckStrategy = ALWAYS, nullValuePropertyMappingStrategy = IGNORE)
-    void update(EditCarRequest request, @MappingTarget Car car);
+  @BeanMapping(nullValueCheckStrategy = ALWAYS, nullValuePropertyMappingStrategy = IGNORE)
+  void update(EditCarRequest request, @MappingTarget Car car);
 }

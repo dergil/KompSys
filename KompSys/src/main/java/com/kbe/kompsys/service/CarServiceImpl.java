@@ -51,7 +51,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Transactional
-    public List<CarView> getAll() {
+    public CarViewList getAll(ReadAllCarsRequest request) {
         List<Car> cars = carRepository.findAll();
         List<CarView> carViews = new ArrayList<>();
         for (Car car : cars) {
