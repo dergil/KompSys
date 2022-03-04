@@ -11,7 +11,7 @@ public class Listener {
     @Autowired
     CalculatorService calculatorService;
 
-    @RabbitListener(id = "foo", queues = "#{queue.name}")
+    @RabbitListener(id = "foo", queues = "calculate")
     public CalculateResponse foo(CalculateRequest foo) {
         return calculatorService.calculate(foo);
     }

@@ -1,0 +1,97 @@
+version: '2.1'
+
+services:
+    gateway:
+      image: gateway:0.0.1-SNAPSHOT
+      ports:
+          - "127.0.0.1:8082:8082"
+      depends_on:
+          rabbitmq:
+              condition: service_started
+      networks:
+        backend2:
+          aliases:
+            - "gateway"
+
+#      environment:
+#        - SPRING_RABBITMQ_HOST=rabbitmq
+#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+#      depends_on:
+#        configserver:
+#          condition: service_started
+
+
+
+
+#    main:
+#      image: main:0.0.1-SNAPSHOT
+#      build: ./KompSys
+#      container_name: main
+#      depends_on:
+#        rabbitmq:
+#          condition: service_started
+#      networks:
+#        backend2:
+#          aliases:
+#            - "main"
+#      environment:
+#        - SPRING_RABBITMQ_HOST=rabbitmq
+#        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+#        - SPRING_DATASOURCE_USERNAME=compose-postgres
+#        - SPRING_DATASOURCE_PASSWORD=compose-postgres
+#        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+#      depends_on:
+#        configserver:
+#          condition: service_started
+
+
+  #    db:
+#      image: 'postgres:13.1-alpine'
+#      container_name: db
+#      environment:
+#        - POSTGRES_USER=compose-postgres
+#        - POSTGRES_PASSWORD=compose-postgres
+#      ports:
+#        - "5432:5432"
+#      networks:
+#        backend2:
+#          aliases:
+#            - "db"
+#
+    calculator:
+      image: calculator:0.0.1-SNAPSHOT
+      depends_on:
+          rabbitmq:
+              condition: service_started
+      networks:
+        backend2:
+          aliases:
+            - "calculator"
+
+
+#      environment:
+#        SPRING_RABBITMQ_HOST: rabbitmq
+#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+
+
+    rabbitmq:
+      image: rabbitmq:management
+      ports:
+        - "5672:5672"
+        - "15672:15672"
+      networks:
+        backend2:
+          aliases:
+            - "rabbitmq"
+#
+networks:
+  backend2:
+    driver: bridge
+
+
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/kompsys
+#      - SPRING_DATASOURCE_USERNAME=kbe
+#      - SPRING_DATASOURCE_PASSWORD=
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update

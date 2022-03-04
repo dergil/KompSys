@@ -1,38 +1,54 @@
 package com.kbe.kompsys;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.slf4j.LoggerFactory;
+import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.Network;
+import org.testcontainers.containers.RabbitMQContainer;
+import org.testcontainers.containers.output.Slf4jLogConsumer;
+import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.utility.DockerImageName;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.Duration;
 
+@Slf4j
 public class SystemIntegrationTests {
-    @ClassRule
-    public static GenericContainer gatewayServer
-            = new GenericContainer("gateway:0.0.1-SNAPSHOT")
-            .withExposedPorts(8082);
-//            .withCommand("/bin/sh", "-c", "java","-jar","/app.jar");
 
     @ClassRule
-    public static GenericContainer calculatorServer
-            = new GenericContainer("calculator:0.0.1-SNAPSHOT")
-            .withExposedPorts(8080);
-//            .withCommand("/bin/sh", "-c", "java","-jar","/app.jar");
+    public static DockerComposeContainer compose;
+
+    static {
+        compose = new DockerComposeContainer<>(
+                new File("src/test/resources/test-compose.yml"));
+        compose.withExposedService("gateway", 8082);
+        compose.withLogConsumer("gateway", new Slf4jLogConsumer(SystemIntegrationTests.log));
+        compose.withLogConsumer("calculator", new Slf4jLogConsumer(SystemIntegrationTests.log));
+        compose.waitingFor("gateway", Wait.forLogMessage(".*Started GatewayApplication.*", 1));
+        compose.waitingFor("calculator", Wait.forLogMessage(".*Started CalculatorApplication.*", 1));
+        compose.waitingFor("rabbitmq", Wait.forLogMessage(".*granted access.*", 1));
+    }
 
     @Test
     public void givenSimpleWebServerContainer_whenGetRequest_thenReturnsResponse()
             throws Exception {
         String address = "http://"
-                + gatewayServer.getContainerIpAddress()
-                + ":" + gatewayServer.getMappedPort(8082)
+                + compose.getServiceHost("gateway", 8082) + ":"
+                + compose.getServicePort("gateway", 8082)
                 + "/calculate?pricePreTax=99000&salesTax=0.19";
         String response = simpleGetRequest(address);
-        System.out.println(response);
-
-//        assertEquals(response, "Hello World!");
+        String correctResponse = "{\"pricePostTax\":117810.0,\"pricePreTax\":99000.0,\"salesTax\":0.19,\"taxAmount\":18810.0}";
+        Assertions.assertEquals(correctResponse, response);
     }
 
     private String simpleGetRequest(String address) throws Exception {

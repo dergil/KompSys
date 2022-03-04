@@ -24,8 +24,8 @@ services:
         backend2:
           aliases:
             - "gateway"
-      environment:
-        - SPRING_RABBITMQ_HOST=rabbitmq
+#      environment:
+#        - SPRING_RABBITMQ_HOST=rabbitmq
 #      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
 #      depends_on:
 #        configserver:
@@ -74,15 +74,16 @@ services:
       image: calculator:0.0.1-SNAPSHOT
       build: ./Calculator
       container_name: calculator
-      depends_on:
-        rabbitmq:
-          condition: service_started
       networks:
         backend2:
           aliases:
             - "calculator"
-      environment:
-        SPRING_RABBITMQ_HOST: rabbitmq
+#      depends_on:
+#        rabbitmq:
+#          condition: service_started
+
+#      environment:
+#        SPRING_RABBITMQ_HOST: rabbitmq
 #      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
 
 
@@ -91,10 +92,10 @@ services:
       ports:
         - "5672:5672"
         - "15672:15672"
-#      networks:
-#        backend2:
-#          aliases:
-#            - "rabbitmq"
+      networks:
+        backend2:
+          aliases:
+            - "rabbitmq"
 #
 networks:
   backend2:
