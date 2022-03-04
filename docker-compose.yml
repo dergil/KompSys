@@ -34,19 +34,19 @@ services:
 
 
 
-    main:
-      image: main:0.0.1-SNAPSHOT
-      build: ./KompSys
-      container_name: main
-      depends_on:
-        rabbitmq:
-          condition: service_started
-      networks:
-        backend2:
-          aliases:
-            - "main"
-      environment:
-        - SPRING_RABBITMQ_HOST=rabbitmq
+#    main:
+#      image: main:0.0.1-SNAPSHOT
+#      build: ./KompSys
+#      container_name: main
+#      depends_on:
+#        rabbitmq:
+#          condition: service_started
+#      networks:
+#        backend2:
+#          aliases:
+#            - "main"
+#      environment:
+#        - SPRING_RABBITMQ_HOST=rabbitmq
 #        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
 #        - SPRING_DATASOURCE_USERNAME=compose-postgres
 #        - SPRING_DATASOURCE_PASSWORD=compose-postgres
