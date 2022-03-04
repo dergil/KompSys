@@ -30,8 +30,8 @@ public class TaxStorageServiceImpl implements TaxStorageService {
   }
 
   @Override
-  public TaxView update(String id, EditTaxRequest request) {
-    Tax tax = taxRepository.getTaxById(id);
+  public TaxView update(EditTaxRequest request) {
+    Tax tax = taxRepository.getTaxById(request.getCountryCodeID());
     taxEditMapper.update(request, tax);
     tax = taxRepository.save(tax);
     return taxViewMapper.toTaxView(tax);
