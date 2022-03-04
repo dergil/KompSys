@@ -29,10 +29,10 @@ public class Config {
         return new Listener();
     }
 
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        return new CachingConnectionFactory("localhost");
-    }
+//    @Bean
+//    public ConnectionFactory connectionFactory() {
+//        return new CachingConnectionFactory("localhost");
+//    }
 
     @Bean
     public DirectExchange directExchange() {
@@ -51,21 +51,21 @@ public class Config {
                 .with(ROUTING_KEY);
     }
 
-    @Bean
-    public RabbitAdmin admin(ConnectionFactory cf) {
-        return new RabbitAdmin(cf);
-    }
-
-    @Bean
-    public RabbitTemplate template(ConnectionFactory cf) {
-        return new RabbitTemplate(cf);
-    }
-
-    @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory cf) {
-        SimpleRabbitListenerContainerFactory containerFactory = new SimpleRabbitListenerContainerFactory();
-        containerFactory.setConnectionFactory(cf);
-        return containerFactory;
-    }
+//    @Bean
+//    public RabbitAdmin admin(ConnectionFactory cf) {
+//        return new RabbitAdmin(cf);
+//    }
+//
+//    @Bean
+//    public RabbitTemplate template(ConnectionFactory cf) {
+//        return new RabbitTemplate(cf);
+//    }
+//
+//    @Bean
+//    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory cf) {
+//        SimpleRabbitListenerContainerFactory containerFactory = new SimpleRabbitListenerContainerFactory();
+//        containerFactory.setConnectionFactory(cf);
+//        return containerFactory;
+//    }
 
 }
