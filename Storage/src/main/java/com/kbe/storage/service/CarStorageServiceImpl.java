@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class CarStorageServiceImpl implements CarStorageService {
 
-  private final String CSVPATH = "S:\\\\___Studium\\\\5.Semester\\\\Storage\\\\src\\\\main\\\\resources\\\\cars.csv";
+  private final String CSVPATH = "cars.csv";
 
   @Autowired
   private final CsvImportServiceImpl csvImportService;

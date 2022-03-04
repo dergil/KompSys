@@ -39,7 +39,9 @@ public class TaxApi {
 
   @GetMapping("/all")
   public TaxViewList getAll() {
+    log.info("getmap");
     return transferRequest(new ReadAllTaxesRequest());
+
   }
 
   @PutMapping
