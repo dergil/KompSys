@@ -13,9 +13,6 @@ services:
           aliases:
             - "gateway"
 
-#      environment:
-#        - SPRING_RABBITMQ_HOST=rabbitmq
-#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
 #      depends_on:
 #        configserver:
 #          condition: service_started
@@ -23,19 +20,16 @@ services:
 
 
 
-#    main:
-#      image: main:0.0.1-SNAPSHOT
-#      build: ./KompSys
-#      container_name: main
-#      depends_on:
-#        rabbitmq:
-#          condition: service_started
-#      networks:
-#        backend2:
-#          aliases:
-#            - "main"
+    main:
+      image: main:0.0.1-SNAPSHOT
+      depends_on:
+        rabbitmq:
+          condition: service_started
+      networks:
+        backend2:
+          aliases:
+            - "main"
 #      environment:
-#        - SPRING_RABBITMQ_HOST=rabbitmq
 #        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
 #        - SPRING_DATASOURCE_USERNAME=compose-postgres
 #        - SPRING_DATASOURCE_PASSWORD=compose-postgres
@@ -68,12 +62,6 @@ services:
         backend2:
           aliases:
             - "calculator"
-
-
-#      environment:
-#        SPRING_RABBITMQ_HOST: rabbitmq
-#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
-
 
     rabbitmq:
       image: rabbitmq:management

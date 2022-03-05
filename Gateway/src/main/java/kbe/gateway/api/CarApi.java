@@ -52,9 +52,10 @@ public class CarApi {
         return transferRequest(request);
     }
 
-    @DeleteMapping
-    public CarView delete(@RequestBody @Valid DeleteCarRequest request) {
-        return transferRequest(request);
+    @DeleteMapping("/{id}")
+    public CarView delete(@PathVariable @Valid long id) {
+        System.out.println("ID: " + id);
+        return transferRequest(new DeleteCarRequest(id));
     }
 
     @GetMapping("/tax")

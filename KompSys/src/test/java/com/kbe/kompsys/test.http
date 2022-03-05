@@ -56,13 +56,13 @@ Content-Type: application/json
   "origin":"USA"
 }
 
-### GET request with a header
-DELETE http://localhost:8082/car
-Content-Type: application/json
+###
+DELETE http://localhost:8082/car/3
 
-{
-  "id": 111
-}
+#
+#{
+#  "id": 111
+#}
 
 ### GET request with a header
 GET http://localhost:8082/car/all
