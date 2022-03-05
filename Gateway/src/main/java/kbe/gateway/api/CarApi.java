@@ -47,14 +47,24 @@ public class CarApi {
         return transferRequest(new ReadAllCarsRequest());
     }
 
+//    @DeleteMapping("/{id}")
+//    public CarView me(@PathVariable long id) {
+//        CarView carView = new CarView();
+//        carView.setId(id);
+//        return carView;
+//    }
+
     @PutMapping
     public CarView update(@RequestBody @Valid EditCarRequest request) {
         return transferRequest(request);
     }
 
     @DeleteMapping("/{id}")
-    public CarView delete(@PathVariable @Valid long id) {
+    public CarView delete(@PathVariable long id) {
         System.out.println("ID: " + id);
+//        CarView carView = new CarView();
+//        carView.setId(id);
+//        return carView;
         return transferRequest(new DeleteCarRequest(id));
     }
 

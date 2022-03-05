@@ -1,3 +1,6 @@
+cd "$(pwd)/kompsys_dtos"
+mvn clean install -DskipTests=true
+
 cd "$(pwd)/Calculator"
 mvn clean install -DskipTests=true
 

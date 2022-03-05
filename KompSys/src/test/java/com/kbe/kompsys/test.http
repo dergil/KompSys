@@ -1,3 +1,7 @@
+DELETE http://localhost:8082/car/3
+
+###
+
 GET http://localhost:8082/calculate?pricePreTax=99000&salesTax=0.19
 Accept: application/json
 
