@@ -5,7 +5,9 @@ import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.repository.CarRepository;
+import com.kbe.kompsys.repository.VersionRepository;
 import com.kbe.kompsys.service.interfaces.CarService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class CarServiceImpl implements CarService {
     @Autowired
@@ -21,11 +24,15 @@ public class CarServiceImpl implements CarService {
     private CarViewMapper carViewMapper;
     @Autowired
     private CarRepository carRepository;
+    @Autowired
+    private VersionRepository versionRepository;
 
     @Transactional
     public CarView create(CreateCarRequest request) {
         Car car = carEditMapper.create(request);
+        log.info("Create CAR pre: " + versionRepository.findAll());
         carRepository.save(car);
+        log.info("Create CAR post: " + versionRepository.findAll());
         return carViewMapper.toCarView(car);
     }
 

@@ -83,17 +83,11 @@ public class CsvExporter {
         ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
         csvWriter.writeHeader(csvHeader);
 
-        switch (dto) {
-            case "Car":
-                List<Car> listCars = carRepository.findAll(); // todo Crud in CarService sollte Car returnen nicht die View direkt, hier dann Crud CarService.Getall()
-                for (Car car : listCars) {
-                    csvWriter.write(car, nameMapping);
-                }
-            case "Tax":
-//                List<Tax> listTax = taxRepository.findAll();
-//                for (Tax tax : listTax) {
-//                    csvWriter.write(tax, nameMapping);
-//                }
+        if ("Car".equals(dto)) {
+            List<Car> listCars = carRepository.findAll(); // todo Crud in CarService sollte Car returnen nicht die View direkt, hier dann Crud CarService.Getall()
+            for (Car car : listCars) {
+                csvWriter.write(car, nameMapping);
+            }
         }
         csvWriter.close();
 

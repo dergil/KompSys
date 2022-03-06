@@ -10,4 +10,5 @@ public interface TaxRepository extends JpaRepository<Tax, String> {
     default Tax getTaxById(String id) {
         return findById(id).orElseThrow(() -> new NotFoundException(Tax.class, id));
     }
+
 }

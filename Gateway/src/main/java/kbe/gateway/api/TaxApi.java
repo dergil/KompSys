@@ -19,8 +19,8 @@ public class TaxApi {
 
   private final RabbitTemplate rabbitTemplate;
   private final DirectExchange directExchange;
-  @Value("${tax_queue_routing_key:tax}")
-  private String tax_queue_routing_key;
+  @Value("${tax_queue_routing_key:storage}")
+  private String storage_queue_routing_key;
 
   public TaxApi(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
     this.rabbitTemplate = rabbitTemplate;
@@ -68,7 +68,7 @@ public class TaxApi {
     log.info("Sending " + request.toString());
     return (Serializable) rabbitTemplate.convertSendAndReceive(
             directExchange.getName(),
-            tax_queue_routing_key,
+            storage_queue_routing_key,
             request
     );
   }

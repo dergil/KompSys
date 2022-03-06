@@ -27,6 +27,18 @@ public class CarStorageServiceImpl implements CarStorageService {
     this.csvImportService = csvImportService;
   }
 
+  @Override
+  public boolean updateStorage(UpdateStorage request) throws FileNotFoundException {
+    try {
+      List<List<String>> csv_cars = csvImportService.importCsv(CSVPATH);
+      List<Car> cars = readCars(csv_cars);
+      carRepository.saveAll(cars);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
   private static List<Car> readCars(List<List<String>> csv_cars) {
     List<Car> cars = new ArrayList<>();
     for (int i = 1; i < csv_cars.size(); i++) {
@@ -45,17 +57,5 @@ public class CarStorageServiceImpl implements CarStorageService {
       System.out.println(ecr);
     }
     return cars;
-  }
-
-  @Override
-  public boolean updateStorage(UpdateStorage request) throws FileNotFoundException {
-    try {
-      List<List<String>> csv_cars = csvImportService.importCsv(CSVPATH);
-      List<Car> cars = readCars(csv_cars);
-      carRepository.saveAll(cars);
-      return true;
-    } catch (Exception e) {
-      return false;
-    }
   }
 }

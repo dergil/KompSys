@@ -8,6 +8,7 @@ import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.domain.model.Tax;
 import com.kbe.kompsys.repository.CarRepository;
 import com.kbe.kompsys.repository.TaxRepository;
+import com.kbe.kompsys.repository.VersionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,12 +30,23 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     private CarRepository carRepository;
     @Autowired
     private TaxRepository taxRepository;
+    @Autowired
+    private VersionRepository versionRepository;
 
 
     @Override
     public void onApplicationEvent(@NotNull ApplicationReadyEvent applicationReadyEvent) {
+
+
+        com.kbe.kompsys.domain.model.Version v = new com.kbe.kompsys.domain.model.Version();
+        v.setVersionName(VersionRepository.CAR_REPO_VERSION);
+        v.setVersionNumber(100L);
+        versionRepository.save(v);
+
         importCars();
         importTaxes();
+
+
     }
 
     private void importCars() {
@@ -49,7 +61,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         taxRepository.saveAll(taxes);
     }
 
-//    https://stackoverflow.com/questions/14876836/file-inside-jar-is-not-visible-for-spring
+    //    https://stackoverflow.com/questions/14876836/file-inside-jar-is-not-visible-for-spring
     private InputStream importJsonAsFile(String jsonFilename) {
         InputStream file = null;
         try {
@@ -92,7 +104,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         return mapper;
     }
 
-//    https://stackoverflow.com/questions/11664894/jackson-deserialize-using-generic-class
+    //    https://stackoverflow.com/questions/11664894/jackson-deserialize-using-generic-class
     @Nullable
     private <T> List<T> mapFromJsonToList(InputStream file, ObjectMapper mapper, Class<T> contentClass) {
         List<T> objects = null;

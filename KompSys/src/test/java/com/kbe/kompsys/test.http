@@ -1,23 +1,36 @@
-GET http://localhost:8082/calculate?price=99000&salesTax=0.19
+GET http://localhost:8082/calculate?pricePreTax=99000&salesTax=0.19
+Accept: application/json
+
+###
+
+GET http://localhost:8082/storage?countryCodeID=DE
 Accept: application/json
 
 ###
 
 
+GET http://localhost:8082/storage/all
+Accept: application/json
+
+###
+GET http://localhost:8082/tax?countryCodeID=DE
+Accept: application/json
+
+###
 POST http://localhost:8082/car
 Content-Type: application/json
 
 {
-    "name":"chevrolet chevelle malibu",
+    "name": "chevrolet chevelle malibu",
     "price": 100000,
-    "milesPerGallon":18,
-    "cylinders":8,
-    "displacement":307,
-    "horsepower":130,
-    "weightInPounds":3504,
-    "acceleration":12,
-    "year":"1970-01-01",
-    "origin":"USA"
+    "milesPerGallon": 18,
+    "cylinders": 8,
+    "displacement": 307,
+    "horsepower": 130,
+    "weightInPounds": 3504,
+    "acceleration": 12,
+    "year": "1970-01-01",
+    "origin": "USA"
 }
 
 ###
@@ -26,17 +39,17 @@ PUT http://localhost:8082/car
 Content-Type: application/json
 
 {
-  "id": 11,
-  "name":"cchevrolet chevelle malibu",
-  "price": 100000,
-  "milesPerGallon":18,
-  "cylinders":8,
-  "displacement":307,
-  "horsepower":130,
-  "weightInPounds":3504,
-  "acceleration":12,
-  "year":"1970-01-01",
-  "origin":"USA"
+    "id": 11,
+    "name": "cchevrolet chevelle malibu",
+    "price": 100000,
+    "milesPerGallon": 18,
+    "cylinders": 8,
+    "displacement": 307,
+    "horsepower": 130,
+    "weightInPounds": 3504,
+    "acceleration": 12,
+    "year": "1970-01-01",
+    "origin": "USA"
 }
 
 ###
@@ -44,16 +57,16 @@ POST http://localhost:8082/car
 Content-Type: application/json
 
 {
-  "name":"chevrolet chevelle malibu",
-  "price": 100000,
-  "milesPerGallon":18,
-  "cylinders":8,
-  "displacement":307,
-  "horsepower":130,
-  "weightInPounds":3504,
-  "acceleration":12,
-  "year":"1970-01-01",
-  "origin":"USA"
+    "name": "chevrolet chevelle malibu",
+    "price": 100000,
+    "milesPerGallon": 18,
+    "cylinders": 8,
+    "displacement": 307,
+    "horsepower": 130,
+    "weightInPounds": 3504,
+    "acceleration": 12,
+    "year": "1970-01-01",
+    "origin": "USA"
 }
 
 ### GET request with a header
@@ -61,7 +74,7 @@ DELETE http://localhost:8082/car
 Content-Type: application/json
 
 {
-  "id": 111
+    "id": 111
 }
 
 ### GET request with a header

@@ -1,4 +1,4 @@
-package com.kbe.storage.api;
+package com.kbe.storage.amqp;
 
 
 import com.github.dergil.kompsys.dto.tax.*;
@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.FileNotFoundException;
 
@@ -41,19 +40,19 @@ public class Receiver {
     return taxStorageService.delete(request);
   }
 
-  @GetMapping()
+  @RabbitHandler
   public TaxView get(ReadTaxRequest request) {
     log.info("Received " + request.toString());
     return taxStorageService.get(request);
   }
 
-  @GetMapping("/all")
+  @RabbitHandler
   public TaxViewList getAll(ReadAllTaxesRequest request) {
     log.info("Received " + request.toString());
     return taxStorageService.getAll(request);
   }
 
-  @GetMapping("/update")
+  @RabbitHandler
   public boolean updateStorage(UpdateStorage request) throws FileNotFoundException {
     log.info("Received " + request.toString());
     return carStorageService.updateStorage(request);
