@@ -1,0 +1,10 @@
+version: '2.1'
+
+# compile services, then docker-compose up
+services:
+    sftp:
+      image: sftp:0.0.1-SNAPSHOT
+      build: .
+      container_name: sftp
+      ports:
+        - "127.0.0.1:2224:22"
