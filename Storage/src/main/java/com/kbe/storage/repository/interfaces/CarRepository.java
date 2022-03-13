@@ -1,4 +1,4 @@
-package com.kbe.storage.repository;
+package com.kbe.storage.repository.interfaces;
 
 import com.kbe.storage.domain.exception.NotFoundException;
 import com.kbe.storage.domain.model.Car;

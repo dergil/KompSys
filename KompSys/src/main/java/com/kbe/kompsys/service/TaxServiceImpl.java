@@ -6,13 +6,10 @@ import com.github.dergil.kompsys.dto.calculate.CalculateResponse;
 import com.github.dergil.kompsys.dto.car.tax.CarTaxCalculateView;
 import com.github.dergil.kompsys.dto.car.tax.CarTaxRequest;
 import com.github.dergil.kompsys.dto.geolocation.GeolocationResponse;
-import com.kbe.kompsys.domain.mapper.CalculateViewMapper;
-import com.kbe.kompsys.domain.mapper.CarViewMapper;
-import com.kbe.kompsys.domain.mapper.TaxViewMapper;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.domain.model.Tax;
-import com.kbe.kompsys.repository.CarRepository;
-import com.kbe.kompsys.repository.TaxRepository;
+import com.kbe.kompsys.repository.interfaces.CarRepository;
+import com.kbe.kompsys.repository.interfaces.TaxRepository;
 import com.kbe.kompsys.service.interfaces.TaxService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +53,7 @@ public class TaxServiceImpl implements TaxService {
         return geolocationService.getGeolocation(ipAdress);
     }
 
-    private CalculateResponse queryCalculator (Car car, Tax tax) {
+    private CalculateResponse queryCalculator(Car car, Tax tax) {
         CalculateRequest calculateRequest = new CalculateRequest();
         calculateRequest.setPricePreTax(car.getPrice());
         calculateRequest.setSalesTax(tax.getTax());

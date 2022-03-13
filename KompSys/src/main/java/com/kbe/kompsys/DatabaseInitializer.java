@@ -6,9 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.domain.model.Tax;
-import com.kbe.kompsys.repository.CarRepository;
-import com.kbe.kompsys.repository.TaxRepository;
-import com.kbe.kompsys.repository.VersionRepository;
+import com.kbe.kompsys.repository.interfaces.CarRepository;
+import com.kbe.kompsys.repository.interfaces.TaxRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,23 +29,12 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     private CarRepository carRepository;
     @Autowired
     private TaxRepository taxRepository;
-    @Autowired
-    private VersionRepository versionRepository;
 
 
     @Override
     public void onApplicationEvent(@NotNull ApplicationReadyEvent applicationReadyEvent) {
-
-
-        com.kbe.kompsys.domain.model.Version v = new com.kbe.kompsys.domain.model.Version();
-        v.setVersionName(VersionRepository.CAR_REPO_VERSION);
-        v.setVersionNumber(100L);
-        versionRepository.save(v);
-
         importCars();
         importTaxes();
-
-
     }
 
     private void importCars() {

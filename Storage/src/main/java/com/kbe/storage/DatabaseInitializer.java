@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.github.dergil.kompsys.dto.update.UpdateStorage;
 import com.kbe.storage.domain.model.Tax;
-import com.kbe.storage.repository.TaxRepository;
+import com.kbe.storage.repository.interfaces.TaxRepository;
 import com.kbe.storage.service.interfaces.CarStorageService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

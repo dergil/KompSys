@@ -2,46 +2,74 @@ version: '2.1'
 
 # compile services, then docker-compose up
 services:
-#    configserver:
-#      image: config:0.0.1-SNAPSHOT
-#      build: ./Config
-#      container_name: config
-#      ports:
-#        - "127.0.0.1:8888:8888"
-#      networks:
-#        backend2:
-#          aliases:
-#            - "configserver"
 
     storage:
       image: storage:0.0.1-SNAPSHOT
       build: ./Storage
       container_name: storage
-      ports:
-        - "127.0.0.1:8083:8083"
+#      ports:
+#        - "127.0.0.1:8083:8083"
       networks:
         backend2:
           aliases:
             - "storage"
       environment:
         - SPRING_RABBITMQ_HOST=rabbitmq
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db-storage
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/db-storage
         - SPRING_DATASOURCE_USERNAME=compose-postgres
         - SPRING_DATASOURCE_PASSWORD=compose-postgres
         - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      depends_on:
+        db-storage:
+          condition: service_started
 
     db-storage:
       image: 'postgres:13.1-alpine'
       container_name: db-storage
+      hostname: db-storage
       environment:
+        - POSTGRES_DB=db-storage
         - POSTGRES_USER=compose-postgres
         - POSTGRES_PASSWORD=compose-postgres
-      ports:
-        - "5432:5432"
       networks:
         backend2:
           aliases:
             - "db-storage"
+
+    main:
+      image: main:0.0.1-SNAPSHOT
+      build: ./KompSys
+      container_name: main
+      ports:
+        - "127.0.0.1:8081:8081"
+      networks:
+        backend2:
+          aliases:
+            - "main"
+      environment:
+        - SPRING_RABBITMQ_HOST=rabbitmq
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://db-main:5432/db-main
+        - SPRING_DATASOURCE_USERNAME=compose-postgres
+        - SPRING_DATASOURCE_PASSWORD=compose-postgres
+        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+      depends_on:
+        db-main:
+          condition: service_started
+
+
+    db-main:
+      image: 'postgres:14.2-alpine'
+      container_name: db-main
+      hostname: db-main
+      environment:
+        - POSTGRES_DB=db-main
+        - POSTGRES_USER=compose-postgres
+        - POSTGRES_PASSWORD=compose-postgres
+      networks:
+        backend2:
+          aliases:
+            - "db-main"
 
     gateway:
       image: gateway:0.0.1-SNAPSHOT
@@ -55,62 +83,7 @@ services:
             - "gateway"
       environment:
         - SPRING_RABBITMQ_HOST=rabbitmq
-#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
-#      depends_on:
-#        configserver:
-#          condition: service_started
-
-
-
-
-    main:
-      image: main:0.0.1-SNAPSHOT
-      build: ./KompSys
-      container_name: main
-      networks:
-        backend2:
-          aliases:
-            - "main"
-      environment:
-        - SPRING_RABBITMQ_HOST=rabbitmq
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-        - SPRING_DATASOURCE_USERNAME=compose-postgres
-        - SPRING_DATASOURCE_PASSWORD=compose-postgres
-        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
-#      depends_on:
-#        configserver:
-#          condition: service_started
-
-
-    db-main:
-      image: 'postgres:13.1-alpine'
-      container_name: db
-      environment:
-        - POSTGRES_USER=compose-postgres
-        - POSTGRES_PASSWORD=compose-postgres
-      ports:
-        - "5444:5444"
-      networks:
-        backend2:
-          aliases:
-            - "db-main"
-
-    calculator:
-      image: calculator:0.0.1-SNAPSHOT
-      build: ./Calculator
-      container_name: calculator
-      depends_on:
-        rabbitmq:
-          condition: service_started
-      networks:
-        backend2:
-          aliases:
-            - "calculator"
-      environment:
-        SPRING_RABBITMQ_HOST: rabbitmq
-#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
-
+  #      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
 
     rabbitmq:
       image: rabbitmq:management
@@ -122,11 +95,42 @@ services:
           aliases:
             - "rabbitmq"
 
+    grafana:
+      image: grafana/grafana:latest
+      container_name: grafana
+      ports:
+        - "3000:3000"
 networks:
   backend2:
     driver: bridge
 
 
+
+  #    calculator:
+#      image: calculator:0.0.1-SNAPSHOT
+#      build: ./Calculator
+#      container_name: calculator
+#      depends_on:
+#        rabbitmq:
+#          condition: service_started
+#      networks:
+#        backend2:
+#          aliases:
+#            - "calculator"
+#      environment:
+#        SPRING_RABBITMQ_HOST: rabbitmq
+#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+
+#    configserver:
+#      image: config:0.0.1-SNAPSHOT
+#      build: ./Config
+#      container_name: config
+#      ports:
+#        - "127.0.0.1:8888:8888"
+#      networks:
+#        backend2:
+#          aliases:
+#            - "configserver"
 
 
 #    environment:

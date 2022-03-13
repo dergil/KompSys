@@ -2,9 +2,9 @@ package com.kbe.kompsys.entityListener;
 
 
 import com.kbe.kompsys.domain.model.Car;
-import com.kbe.kompsys.domain.model.Version;
-import com.kbe.kompsys.repository.VersionRepository;
-import lombok.RequiredArgsConstructor;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Metrics;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -14,26 +14,27 @@ import javax.persistence.PostUpdate;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class CarListener {
+    MeterRegistry registry = new SimpleMeterRegistry();
 
-    private VersionRepository versionRepository;
+    //    final Counter counter = Counter
+//            .builder("my.counter")
+//            .description("counts db changes")
+//            .tag("environment", "test")
+//            .register(oneSimpleMeter);
+//    @PostConstruct
+//    public void init() {
+//        Metrics.addRegistry(new SimpleMeterRegistry());
+//    }
 
     @PostPersist
     @PostUpdate
     @PostRemove
     public void onPostAction(Car o) {
-        if (versionRepository == null) {
-            versionRepository = BeanUtil.getBean(VersionRepository.class);
-            log.info("init repo" + versionRepository);
-        }
 
-        log.info("@Reference: " + versionRepository);
-        log.info("Changing Version pre: " + versionRepository.getVersionByName(VersionRepository.CAR_REPO_VERSION));
-        Version version = versionRepository.getVersionByName(VersionRepository.CAR_REPO_VERSION);
-        log.info("Current Versionnumber: " + version.getVersionNumber());
-        version.setVersionNumber(version.getVersionNumber() + 1);
-        versionRepository.save(version);
+        Metrics.counter("db.changes", "change", "car").increment();
+        log.info(String.valueOf(registry.counter("db.changes", "change", "car").count()));
     }
 
 }
+

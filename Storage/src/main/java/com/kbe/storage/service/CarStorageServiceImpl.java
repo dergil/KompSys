@@ -2,7 +2,7 @@ package com.kbe.storage.service;
 
 import com.github.dergil.kompsys.dto.update.UpdateStorage;
 import com.kbe.storage.domain.model.Car;
-import com.kbe.storage.repository.CarRepository;
+import com.kbe.storage.repository.interfaces.CarRepository;
 import com.kbe.storage.service.interfaces.CarStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
