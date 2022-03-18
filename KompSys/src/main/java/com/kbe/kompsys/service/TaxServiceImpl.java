@@ -45,7 +45,9 @@ public class TaxServiceImpl implements TaxService {
         Car car = carRepository.getById(request.getId());
         Tax tax = determineTax(geolocationResponse);
         CalculateResponse calculateResponse = queryCalculator(car, tax);
-        return taxServiceMapper.mapToCarTaxCalculateView(car, calculateResponse, tax);
+        CarTaxCalculateView response = taxServiceMapper.mapToCarTaxCalculateView(car, calculateResponse, tax);
+        log.info("Returning: " + response);
+        return response;
     }
 
     private Tax determineTax(GeolocationResponse geolocation) {

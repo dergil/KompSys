@@ -59,13 +59,9 @@ public class CarApi {
 
     @GetMapping("/tax")
     public CarTaxCalculateView tax(@RequestParam @Valid long id, HttpServletRequest httpRequest) {
-//        , ServerHttpRequest httpRequest
         CarTaxRequest carTaxRequest = new CarTaxRequest();
         carTaxRequest.setId(id);
-//        String ip = Objects.requireNonNull(httpRequest.getRemoteAddress()).getAddress().getHostAddress();
         String ip = Objects.requireNonNull(httpRequest.getRemoteAddr());
-//        String ip = "127.0.0.1";
-        log.info(ip);
         carTaxRequest.setIpAddress(ip);
         return transferRequest(carTaxRequest);
     }
@@ -86,13 +82,11 @@ public class CarApi {
     }
 
     private Serializable sendRequestAndReceiveResponseObject(java.io.Serializable request) {
-        log.info("Sending " + request.toString());
+        log.info("Received and sending " + request.toString());
         return  (Serializable) rabbitTemplate.convertSendAndReceive(
                 directExchange.getName(),
                 car_queue_routing_key,
                 request
         );
     }
-
-
 }

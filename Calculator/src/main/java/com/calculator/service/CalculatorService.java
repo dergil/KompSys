@@ -3,8 +3,10 @@ package com.calculator.service;
 
 import com.github.dergil.kompsys.dto.calculate.CalculateRequest;
 import com.github.dergil.kompsys.dto.calculate.CalculateResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class CalculatorService {
 
@@ -21,6 +23,7 @@ public class CalculatorService {
         calculateResponse.setPricePreTax(price);
         calculateResponse.setSalesTax(salesTax);
         calculateResponse.setTaxAmount(taxAmount);
+        log.info("Responding: " + calculateResponse.toString());
         return calculateResponse;
     }
 }
