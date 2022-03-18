@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dergil.kompsys.dto.geolocation.GeolocationResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12,10 +13,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+@Slf4j
 @Service
 public class GeolocationService {
 
-    GeolocationResponse getGeolocation(String ipAddr) throws JsonProcessingException, UnknownHostException {
+    public GeolocationResponse getGeolocation(String ipAddr) throws JsonProcessingException, UnknownHostException {
+        log.info("Geolocating IP " + ipAddr);
         InetAddress inetAddress = validateIP(ipAddr);
         WebClient client = WebClient.create();
         String response = client.get()
@@ -23,7 +26,9 @@ public class GeolocationService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        return extractGeolocationResponse(response);
+        GeolocationResponse geolocationResponse = extractGeolocationResponse(response);
+        log.info(geolocationResponse.toString());
+        return geolocationResponse;
     }
 
     private InetAddress validateIP(String ipAddr) throws UnknownHostException {

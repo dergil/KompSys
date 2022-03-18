@@ -33,6 +33,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
 
     @Override
     public void onApplicationEvent(@NotNull ApplicationReadyEvent applicationReadyEvent) {
+        log.info("Initializing database with cars");
         importCars();
         importTaxes();
     }

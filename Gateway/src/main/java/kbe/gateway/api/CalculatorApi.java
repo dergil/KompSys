@@ -22,6 +22,7 @@ public class CalculatorApi {
         CalculateRequest calculateRequest = new CalculateRequest();
         calculateRequest.setPricePreTax(pricePreTax);
         calculateRequest.setSalesTax(salesTax);
+        log.info("Received " + calculateRequest.toString());
         return calculatorService.getCalculateResponse(calculateRequest);
     }
 
