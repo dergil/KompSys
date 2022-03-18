@@ -12,11 +12,20 @@ public class StorageServiceImpl implements StorageService {
     private int port = 22;
 
     @Override
-    public void transferFile (String localFile, String remoteDir) throws JSchException, SftpException {
+    public void putFile(String localFile, String remoteDir) throws JSchException, SftpException {
         ChannelSftp channelSftp = setupJsch();
         channelSftp.connect();
         System.out.println(localFile);
-        channelSftp.put(localFile, remoteDir + "file.txt");
+//        leading slash needed
+        channelSftp.put(localFile, remoteDir + "/file.txt");
+        channelSftp.exit();
+    }
+
+    @Override
+    public void getFile(String src, String destination) throws JSchException, SftpException {
+        ChannelSftp channelSftp = setupJsch();
+        channelSftp.connect();
+        channelSftp.get(src, destination);
         channelSftp.exit();
     }
 

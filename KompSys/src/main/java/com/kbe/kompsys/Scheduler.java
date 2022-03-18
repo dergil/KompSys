@@ -2,7 +2,6 @@ package com.kbe.kompsys;
 
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import com.kbe.kompsys.service.StorageServiceImpl;
 import com.kbe.kompsys.service.interfaces.StorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,10 @@ public class Scheduler {
 
     @Scheduled(fixedDelay = 5000)
     public void scheduleFixedDelayTask() throws JSchException, SftpException {
-        log.info("SFTP transfer");
-        storageService.transferFile("/home/spring/csv/file.txt", "/upload/");
+        log.info("SFTP put");
+        storageService.putFile("/home/spring/csv/file.txt", "/upload/");
+
+        log.info("SFTP get");
+        storageService.getFile("/upload/file.txt", "/home/spring/csv2/");
     }
 }
