@@ -3,6 +3,8 @@ RUN apt-get update
 RUN apt-get install -y wait-for-it
 RUN adduser --system --group spring
 USER spring:spring
+RUN mkdir /home/spring/csv
+RUN touch /home/spring/csv/file.txt
 EXPOSE 8081
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar

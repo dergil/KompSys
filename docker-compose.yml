@@ -47,28 +47,48 @@ services:
             - "main"
       environment:
         - SPRING_RABBITMQ_HOST=rabbitmq
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
-        - SPRING_DATASOURCE_USERNAME=compose-postgres
-        - SPRING_DATASOURCE_PASSWORD=compose-postgres
-        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#        - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+#        - SPRING_DATASOURCE_USERNAME=compose-postgres
+#        - SPRING_DATASOURCE_PASSWORD=compose-postgres
+#        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 #      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
 #      depends_on:
 #        configserver:
 #          condition: service_started
 
-
-    db:
-      image: 'postgres:13.1-alpine'
-      container_name: db
-      environment:
-        - POSTGRES_USER=compose-postgres
-        - POSTGRES_PASSWORD=compose-postgres
-      ports:
-        - "5432:5432"
+    sftp:
+      image: atmoz/sftp
+#      volumes:
+#        - /home/archdoc/temp7/upload:/upload
+#      ports:
+#        - "2222:22"
+      command: foo:Mypassword123:::upload
       networks:
         backend2:
           aliases:
-            - "db"
+            - "sftp"
+#    sftp:
+#      image: sftp:0.0.1-SNAPSHOT
+#      build: ./sftp
+#      container_name: sftp
+#      ports:
+#        - "127.0.0.1:8888:8888"
+#      networks:
+#        backend2:
+#          aliases:
+#            - "sftp"
+#  db:
+#    image: 'postgres:13.1-alpine'
+#    container_name: db
+#    environment:
+#      - POSTGRES_USER=compose-postgres
+#      - POSTGRES_PASSWORD=compose-postgres
+#    ports:
+#      - "5432:5432"
+#    networks:
+#      backend2:
+#        aliases:
+#          - "db"
 #
 #    calculator:
 #      image: calculator:0.0.1-SNAPSHOT
@@ -95,7 +115,7 @@ services:
         backend2:
           aliases:
             - "rabbitmq"
-
+#
 networks:
   backend2:
     driver: bridge
