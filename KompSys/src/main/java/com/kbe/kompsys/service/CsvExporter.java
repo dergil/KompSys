@@ -2,7 +2,7 @@ package com.kbe.kompsys.service;
 
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.repository.interfaces.CarRepository;
-import com.kbe.kompsys.service.interfaces.CarService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,16 +17,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
+@Slf4j
 @Controller
 public class CsvExporter {
 
     @Autowired
-    private CarService service;
-    @Autowired
     private CarRepository carRepository;
-//    @Autowired
-//    private TaxRepository taxRepository;
 
     @GetMapping("/cars/export")
     public void exportCarsToCSV(HttpServletResponse response) throws IOException {
@@ -84,7 +80,7 @@ public class CsvExporter {
         csvWriter.writeHeader(csvHeader);
 
         if ("Car".equals(dto)) {
-            List<Car> listCars = carRepository.findAll(); // todo Crud in CarService sollte Car returnen nicht die View direkt, hier dann Crud CarService.Getall()
+            List<Car> listCars = carRepository.findAll();
             for (Car car : listCars) {
                 csvWriter.write(car, nameMapping);
             }

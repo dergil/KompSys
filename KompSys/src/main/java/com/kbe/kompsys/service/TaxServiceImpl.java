@@ -46,7 +46,7 @@ public class TaxServiceImpl implements TaxService {
     }
 
     private Tax determineTax(GeolocationResponse geolocation) {
-        return taxRepository.getTaxById(geolocation.getCountryCode());
+        return taxRepository.getTaxById(geolocation.getCountryCode()); //todo request an storage
     }
 
     private GeolocationResponse queryGeolocation(String ipAdress) throws JsonProcessingException, UnknownHostException {

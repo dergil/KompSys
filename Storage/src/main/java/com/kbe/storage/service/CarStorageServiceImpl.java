@@ -1,6 +1,7 @@
 package com.kbe.storage.service;
 
 import com.github.dergil.kompsys.dto.update.UpdateStorage;
+import com.github.dergil.kompsys.dto.update.UpdateStorageResponse;
 import com.kbe.storage.domain.model.Car;
 import com.kbe.storage.repository.interfaces.CarRepository;
 import com.kbe.storage.service.interfaces.CarStorageService;
@@ -28,14 +29,14 @@ public class CarStorageServiceImpl implements CarStorageService {
   }
 
   @Override
-  public boolean updateStorage(UpdateStorage request) throws FileNotFoundException {
+  public UpdateStorageResponse updateStorage(UpdateStorage request) throws FileNotFoundException {
     try {
       List<List<String>> csv_cars = csvImportService.importCsv(CSVPATH);
       List<Car> cars = readCars(csv_cars);
       carRepository.saveAll(cars);
-      return true;
-    } catch (Exception e) {
-      return false;
+      return new UpdateStorageResponse(request.changesMade);
+    } catch (FileNotFoundException e) {
+      return new UpdateStorageResponse(-1);
     }
   }
 

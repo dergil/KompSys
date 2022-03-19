@@ -95,11 +95,6 @@ services:
           aliases:
             - "rabbitmq"
 
-    grafana:
-      image: grafana/grafana:latest
-      container_name: grafana
-      ports:
-        - "3000:3000"
 networks:
   backend2:
     driver: bridge

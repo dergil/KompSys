@@ -36,9 +36,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
   @SneakyThrows
   @Override
   public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-    // todo flag setzen, nur updaten wenn flag vorhanden. hidden file mit True/False ?
-
-    carStorageService.updateStorage(new UpdateStorage());
+    carStorageService.updateStorage(new UpdateStorage(1337));
     importTaxes();
   }
 
