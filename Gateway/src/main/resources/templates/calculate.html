@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css"/>
+    <title>Calculate View</title>
+</head>
+<body>
+<div class="container-fluid text-center">
+    <div><h1>Calculate Page</h1></div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>PostTax</th>
+                <th>PreTax</th>
+                <th>salesTax</th>
+                <th>TaxAmount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <td th:text="${#numbers.formatDecimal(calculateResponse.pricePostTax,1,'COMMA',2,'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(calculateResponse.pricePreTax,1,'COMMA',2,'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(calculateResponse.salesTax,1,'COMMA',2,'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(calculateResponse.taxAmount,1,'COMMA',2,'POINT')}"></td>
+            </tbody>
+        </table>
+    </div>
+</div>
+<button class="btn btn-primary" onclick="location.href = '/';" type="button">Return to home</button>
+
+</body>
+</html>

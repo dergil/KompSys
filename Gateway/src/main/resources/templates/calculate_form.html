@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css"/>
+</head>
+<body>
+<div class="container-fluid text-center">
+    <h1>Welcome to Calculate Form</h1>
+    <!--    <a class="h2" th:href="@{/calculate?pricePreTax=99000&salesTax=0.19}">Get Calc</a></div>-->
+
+</div>
+<div>
+    <form method="post" th:action="@{/calculate}" th:object="${calculateRequest}">
+        <div class="form-group">
+            <label for="inputCalculationPrice">Brutto</label>
+            <input class="form-control"
+                   id="inputCalculationPrice"
+                   th:field="*{pricePreTax}"
+                   type="number">
+        </div>
+        <br>
+        <div class="container-fluid text-center">
+            <span id="valBox">0.0</span>
+            <div class="form-group">
+                <label for="formControlRange">Tax Range</label>
+                <input class="form-control-range"
+                       id="formControlRange"
+                       max="50.0"
+                       min="0.0"
+                       oninput="document.getElementById('valBox').innerHTML = parseFloat(this.value).toFixed(1)"
+                       step="0.1"
+                       th:field="*{salesTax}"
+                       type="range">
+            </div>
+            <br>
+            <button class="btn btn-primary" type="submit">Calculate</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
