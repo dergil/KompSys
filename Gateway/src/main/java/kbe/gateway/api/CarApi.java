@@ -34,65 +34,45 @@ public class CarApi {
 
     @PostMapping
     public CarView create(@RequestBody @Valid CreateCarRequest request){
-        return transferRequest(request);
+        return (CarView) transferRequest(request);
     }
 
     @GetMapping
     public CarView get(@RequestParam @Valid long id) {
-        return transferRequest(new ReadCarRequest(id));
+        return (CarView) transferRequest(new ReadCarRequest(id));
     }
 
     @GetMapping("/all")
     public CarViewList getAll() {
-        return transferRequest(new ReadAllCarsRequest());
+        return (CarViewList) transferRequest(new ReadAllCarsRequest());
     }
 
     @PutMapping
     public CarView update(@RequestBody @Valid EditCarRequest request) {
-        return transferRequest(request);
+        return (CarView) transferRequest(request);
     }
 
     @DeleteMapping
     public CarView delete(@RequestBody @Valid DeleteCarRequest request) {
-        return transferRequest(request);
+        return (CarView) transferRequest(request);
     }
 
     @GetMapping("/tax")
     public CarTaxCalculateView tax(@RequestParam @Valid long id, HttpServletRequest httpRequest) {
-//        , ServerHttpRequest httpRequest
         CarTaxRequest carTaxRequest = new CarTaxRequest();
         carTaxRequest.setId(id);
-//        String ip = Objects.requireNonNull(httpRequest.getRemoteAddress()).getAddress().getHostAddress();
         String ip = Objects.requireNonNull(httpRequest.getRemoteAddr());
-//        String ip = "127.0.0.1";
-        log.info(ip);
         carTaxRequest.setIpAddress(ip);
-        return transferRequest(carTaxRequest);
+        return (CarTaxCalculateView) transferRequest(carTaxRequest);
     }
 
-    @Nullable
-    private CarView transferRequest(java.io.Serializable request) {
-        return (CarView) sendRequestAndReceiveResponseObject(request);
-    }
 
-    @Nullable
-    private CarViewList transferRequest(ReadAllCarsRequest request) {
-        return (CarViewList) sendRequestAndReceiveResponseObject(request);
-    }
-
-    @Nullable
-    private CarTaxCalculateView transferRequest(CarTaxRequest request) {
-        return (CarTaxCalculateView) sendRequestAndReceiveResponseObject(request);
-    }
-
-    private Serializable sendRequestAndReceiveResponseObject(java.io.Serializable request) {
-        log.info("Sending " + request.toString());
+    private Serializable transferRequest(java.io.Serializable request) {
+        log.info("Received and sending " + request.toString());
         return  (Serializable) rabbitTemplate.convertSendAndReceive(
                 directExchange.getName(),
                 car_queue_routing_key,
                 request
         );
     }
-
-
 }
