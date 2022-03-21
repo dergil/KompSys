@@ -58,7 +58,7 @@ public class TaxServiceImpl implements TaxService {
     }
 
     private TaxView determineTax(GeolocationResponse geolocation) {
-        return transferRequest(new ReadTaxRequest(geolocation.getCountryCode()));
+        return (TaxView) sendRequestAndReceiveResponseObject(new ReadTaxRequest(geolocation.getCountryCode()));
 //        return taxRepository.getTaxById(geolocation.getCountryCode());
     }
 
@@ -71,11 +71,6 @@ public class TaxServiceImpl implements TaxService {
         calculateRequest.setPricePreTax(car.getPrice());
         calculateRequest.setSalesTax(tax.getTax());
         return carCalculatorService.queryCalculator(calculateRequest);
-    }
-
-    @Nullable
-    private TaxView transferRequest(java.io.Serializable request) {
-        return (TaxView) sendRequestAndReceiveResponseObject(request);
     }
 
     private Serializable sendRequestAndReceiveResponseObject(java.io.Serializable request) {
