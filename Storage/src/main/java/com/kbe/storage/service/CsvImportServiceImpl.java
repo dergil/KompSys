@@ -4,6 +4,7 @@ import com.kbe.storage.service.interfaces.CsvImportService;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -19,10 +20,10 @@ import java.util.List;
 public class CsvImportServiceImpl implements CsvImportService {
 
 
-  public List<List<String>> importCsv(String filename) throws FileNotFoundException {
+  public List<List<String>> importCsv(String path) throws FileNotFoundException {
 
     List<List<String>> cars = new ArrayList<>();
-    try (CSVReader csvReader = new CSVReader(new InputStreamReader(new ClassPathResource(filename).getInputStream(), StandardCharsets.UTF_8))) {
+    try (CSVReader csvReader = new CSVReader(new InputStreamReader(new FileSystemResource(path).getInputStream(), StandardCharsets.UTF_8))) {
       String[] values;
       while ((values = csvReader.readNext()) != null) {
         cars.add(Arrays.asList(values));

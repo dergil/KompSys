@@ -1,6 +1,6 @@
 package com.kbe.storage.repository.interfaces;
 
-import com.kbe.storage.domain.exception.NotFoundException;
+import com.github.dergil.kompsys.dto.exception.NotFoundException;
 import com.kbe.storage.domain.model.Tax;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
