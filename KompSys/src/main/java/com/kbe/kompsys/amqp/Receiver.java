@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.net.UnknownHostException;
 
 @Slf4j
-@RabbitListener(id = "foo", queues = "car", returnExceptions = "true")
+@RabbitListener(id = "car_listener", queues = "car", returnExceptions = "true")
 public class Receiver {
     @Autowired
     private CarService carService;

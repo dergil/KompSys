@@ -4,8 +4,9 @@ import com.github.dergil.kompsys.dto.car.*;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.model.Car;
-import com.kbe.kompsys.repository.CarRepository;
+import com.kbe.kompsys.repository.interfaces.CarRepository;
 import com.kbe.kompsys.service.interfaces.CarService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class CarServiceImpl implements CarService {
     @Autowired
@@ -22,11 +24,14 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private CarRepository carRepository;
 
+
     @Transactional
     public CarView create(CreateCarRequest request) {
         Car car = carEditMapper.create(request);
         carRepository.save(car);
-        return carViewMapper.toCarView(car);
+        CarView carView = carViewMapper.toCarView(car);
+        log.info("Returning: " + carView.toString());
+        return carView;
     }
 
     @Transactional
@@ -34,20 +39,26 @@ public class CarServiceImpl implements CarService {
         Car car = carRepository.getCarById(request.getId());
         carEditMapper.update(request, car);
         car = carRepository.save(car);
-        return carViewMapper.toCarView(car);
+        CarView carView = carViewMapper.toCarView(car);
+        log.info("Returning: " + carView.toString());
+        return carView;
     }
 
     @Transactional
     public CarView delete(DeleteCarRequest request) {
         Car car = carRepository.getCarById(request.getId());
         carRepository.delete(car);
-        return carViewMapper.toCarView(car);
+        CarView carView = carViewMapper.toCarView(car);
+        log.info("Returning: " + carView.toString());
+        return carView;
     }
 
     @Transactional
     public CarView get(ReadCarRequest request) {
         Car car = carRepository.getCarById(request.getId());
-        return carViewMapper.toCarView(car);
+        CarView carView = carViewMapper.toCarView(car);
+        log.info("Returning: " + carView.toString());
+        return carView;
     }
 
     @Transactional
@@ -57,6 +68,8 @@ public class CarServiceImpl implements CarService {
         for (Car car : cars) {
             carViews.add(carViewMapper.toCarView(car));
         }
-        return new CarViewList(carViews);
+        CarViewList carViewList = new CarViewList(carViews);
+        log.info("Returning: " + carViewList);
+        return carViewList;
     }
 }

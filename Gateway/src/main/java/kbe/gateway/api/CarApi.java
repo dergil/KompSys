@@ -66,8 +66,9 @@ public class CarApi {
         return (CarTaxCalculateView) transferRequest(carTaxRequest);
     }
 
+
     private Serializable transferRequest(java.io.Serializable request) {
-        log.info("Sending " + request.toString());
+        log.info("Received and sending " + request.toString());
         return  (Serializable) rabbitTemplate.convertSendAndReceive(
                 directExchange.getName(),
                 car_queue_routing_key,

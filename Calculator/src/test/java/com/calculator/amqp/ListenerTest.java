@@ -45,11 +45,11 @@ public class ListenerTest {
     void receivesRequest() throws InterruptedException {
         CalculateRequest calculateRequest = new CalculateRequest(0.19, 20000);
         this.rabbitTemplate.convertSendAndReceive(this.queue.getName(), calculateRequest);
-        Listener listener = this.harness.getSpy("foo");
+        Listener listener = this.harness.getSpy("calculate");
         assertThat(listener).isNotNull();
-        verify(listener).foo(calculateRequest);
+        verify(listener).calculate(calculateRequest);
 
-        InvocationData invocationData = this.harness.getNextInvocationDataFor("foo", 10, TimeUnit.SECONDS);
+        InvocationData invocationData = this.harness.getNextInvocationDataFor("calculate", 10, TimeUnit.SECONDS);
         assertThat(invocationData).isNotNull();
         assertThat((CalculateRequest) invocationData.getArguments()[0]).isEqualTo(calculateRequest);
     }

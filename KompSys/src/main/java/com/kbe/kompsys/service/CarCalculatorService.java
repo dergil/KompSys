@@ -21,7 +21,7 @@ public class CarCalculatorService {
     }
 
     public CalculateResponse queryCalculator(CalculateRequest request) {
-        log.info("Sending " + request);
+        log.info("Sending " + request.toString());
         CalculateResponse response = (CalculateResponse) rabbitTemplate.convertSendAndReceive(
                 directExchange.getName(),
                 ROUTING_KEY,

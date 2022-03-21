@@ -57,7 +57,7 @@ public class IntegrationTests {
                 "car",
                 readCarRequest);
 
-        InvocationData invocationData = this.harness.getNextInvocationDataFor("foo", 10, TimeUnit.SECONDS);
+        InvocationData invocationData = this.harness.getNextInvocationDataFor("car_listener", 10, TimeUnit.SECONDS);
         assertThat(invocationData).isNotNull();
         assertThat(invocationData.getThrowable().toString()).contains("NotFoundException");
     }

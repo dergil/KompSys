@@ -1,15 +1,14 @@
 package com.kbe.kompsys.domain.model;
 
+import com.kbe.kompsys.entityListener.CarListener;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Data
+@EntityListeners(value = CarListener.class)
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,5 +24,8 @@ public class Car {
     private int acceleration;
     private LocalDate year;
     private String origin;
-
+    private String hash;
 }
+
+
+
