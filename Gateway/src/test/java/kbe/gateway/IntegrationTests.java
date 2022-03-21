@@ -43,28 +43,28 @@ import static org.awaitility.Awaitility.await;
 @SpringRabbitTest
 @RabbitAvailable(queues = "calculate")
 public class IntegrationTests {
-    @Autowired
-    protected RabbitTemplate template;
+   @Autowired
+   protected RabbitTemplate template;
 
-    private final String ROUTE = "calculate";
+   private final String ROUTE = "calculate";
 
 
-    private CalculateRequest createCalculateRequest() {
-        CalculateRequest calculateRequest = new CalculateRequest();
-        calculateRequest.setSalesTax(0.19);
-        calculateRequest.setPricePreTax(10000);
-        return calculateRequest;
-    }
+   private CalculateRequest createCalculateRequest() {
+       CalculateRequest calculateRequest = new CalculateRequest();
+       calculateRequest.setSalesTax(0.19);
+       calculateRequest.setPricePreTax(10000);
+       return calculateRequest;
+   }
 
-    @Test
-    public void testReceiveBlocking() {
-        CalculateRequest calculateRequest = createCalculateRequest();
-        template.convertSendAndReceive(
-                "kompsys",
-                ROUTE,
-                calculateRequest);
-        CalculateRequest out = (CalculateRequest) this.template.receiveAndConvert(ROUTE, 10);
-        assertThat(out.getPricePreTax()).isEqualTo(calculateRequest.getPricePreTax());
-        assertThat(this.template.receive(ROUTE)).isNull();
-    }
+   @Test
+   public void testReceiveBlocking() {
+       CalculateRequest calculateRequest = createCalculateRequest();
+       template.convertSendAndReceive(
+               "kompsys",
+               ROUTE,
+               calculateRequest);
+       CalculateRequest out = (CalculateRequest) this.template.receiveAndConvert(ROUTE, 10);
+       assertThat(out.getPricePreTax()).isEqualTo(calculateRequest.getPricePreTax());
+       assertThat(this.template.receive(ROUTE)).isNull();
+   }
 }

@@ -4,7 +4,7 @@ import com.github.dergil.kompsys.dto.car.*;
 import com.kbe.kompsys.domain.mapper.CarEditMapper;
 import com.kbe.kompsys.domain.mapper.CarViewMapper;
 import com.kbe.kompsys.domain.model.Car;
-import com.kbe.kompsys.repository.CarRepository;
+import com.kbe.kompsys.repository.interfaces.CarRepository;
 import com.kbe.kompsys.service.interfaces.CarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ public class CarServiceImpl implements CarService {
     private CarViewMapper carViewMapper;
     @Autowired
     private CarRepository carRepository;
+
 
     @Transactional
     public CarView create(CreateCarRequest request) {
