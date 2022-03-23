@@ -38,7 +38,6 @@ public class CarStorageServiceImpl implements CarStorageService {
   }
 
   @Override
-//  @Scheduled(fixedRate = 5000)
   public UpdateStorageResponse updateStorage(UpdateStorage request) throws JSchException, SftpException {
     sftpService.getFile("/upload/"+FILENAME, CSVPATH);
     try {

@@ -56,7 +56,7 @@ public class Receiver {
   }
 
   @RabbitHandler
-  public UpdateStorageResponse updateStorage(UpdateStorage request) throws FileNotFoundException, JSchException, SftpException {
+  public UpdateStorageResponse updateStorage(UpdateStorage request) throws JSchException, SftpException {
     log.info("Received " + request.toString());
     return carStorageService.updateStorage(request);
   }

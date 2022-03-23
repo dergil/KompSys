@@ -1,13 +1,17 @@
 package com.kbe.storage;
 
 import com.jcraft.jsch.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SftpService {
-    private String remoteHost = "sftp";
-    private String username = "foo";
-    private String password = "Mypassword123";
+    @Value("${remoteHost}")
+    private String remoteHost;
+    @Value("${sftp_username}")
+    private String username;
+    @Value("${sftp_password}")
+    private String password;
     private int port = 22;
 
     public void getFile(String src, String destination) throws JSchException, SftpException {

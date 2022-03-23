@@ -2,13 +2,20 @@ package com.kbe.kompsys.service;
 
 import com.jcraft.jsch.*;
 import com.kbe.kompsys.service.interfaces.StorageService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StorageServiceImpl implements StorageService {
-    private String remoteHost = "sftp";
-    private String username = "foo";
-    private String password = "Mypassword123";
+    @Value("${remoteHost}")
+    private String remoteHost;
+    @Value("${sftp_username}")
+    private String username;
+    @Value("${sftp_password}")
+    private String password;
+    //    private String remoteHost = "sftp";
+//    private String username = "foo";
+    //    private String password = "Mypassword123";
     private int port = 22;
 
     @Override

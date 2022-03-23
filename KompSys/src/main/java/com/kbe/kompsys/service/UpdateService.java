@@ -33,20 +33,17 @@ public class UpdateService {
 
     @Scheduled(fixedRate = 5000)
     private void updateCarRepositoryByMetric() throws IOException, JSchException, SftpException {
-        csvExporter.exportCarsToCSV();
-        storageService.putFile("/home/spring/csv/cars.csv", "/upload/");
-        queryUpdateStorage(new UpdateStorage(10.0));
-//        double counter = Metrics.counter("db_changes", "change", "car").count();
-//        if (counter > 10) {
-//            log.info("Changes are greater then 10");
-//            queryUpdateStorage(new UpdateStorage(counter));
-//            Metrics.counter("db_changes", "change", "car").increment(-counter);
-//
-//            log.info("DECREMENT: " + Metrics.counter("db_changes", "change", "car").count());
-//
-//        } else {
-//            log.info("...waiting for more changes to be made - currently: " + counter);
-//        }
+        double counter = Metrics.counter("db_changes", "change", "car").count();
+        if (counter > 10) {
+            log.info("Changes are greater then 10");
+            csvExporter.exportCarsToCSV();
+            storageService.putFile("/home/spring/csv/cars.csv", "/upload/");
+            queryUpdateStorage(new UpdateStorage(counter));
+            Metrics.counter("db_changes", "change", "car").increment(-counter);
+            log.info("DECREMENT: " + Metrics.counter("db_changes", "change", "car").count());
+        } else {
+            log.info("...waiting for more changes to be made - currently: " + counter);
+        }
     }
 
     public UpdateStorageResponse queryUpdateStorage(UpdateStorage request) {
