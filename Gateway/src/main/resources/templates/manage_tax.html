@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" th:href="@{/}">Home</a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/calculate}">Calculation Api</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   href="#"
+                   id="navbarDropdown1" role="button">
+                    Tax Api
+                </a>
+                <div aria-labelledby="navbarDropdown1" class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/tax}">Tax Management<span>(current)</span></a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/tax/all}">Taxlist</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   href="#"
+                   id="navbarDropdown2" role="button">
+                    Car Api
+                </a>
+                <div aria-labelledby="navbarDropdown2" class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/car}">Car Management</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/car/all}">Carlist</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div>
+    <form id="getForm" method="get" th:action="@{/tax}">
+        <div class="form-group mx-auto" style="width: 400px;">
+            <label for="getCC">Taxrate by Country Code</label>
+            <br>
+            <input class="form-control"
+                   id="getCC"
+                   name="countryCodeID"
+                   placeholder="Enter Country Code"
+                   type="text">
+            <br>
+            <button class="btn btn-primary mx-auto" style="width: 400px;" type="submit">Fetch</button>
+        </div>
+    </form>
+</div>
+<hr>
+<div>
+    <form id="createForm" method="post" th:action="@{/tax}">
+        <div class="form-group mx-auto" style="width: 400px;">
+            <label for="inputCC">Create new Taxrate</label>
+            <br>
+            <input class="form-control"
+                   id="inputCC"
+                   placeholder="Enter Country Code"
+                   th:name="countryCodeID"
+                   type="text">
+
+            <div class="form-group mx-auto" style="width: 400px;">
+                <label for="inputTax">Tax</label>
+                <br>
+                <input class="form-control"
+                       id="inputTax"
+                       placeholder="Enter Taxrate"
+                       th:name="tax"
+                       type="number">
+
+            </div>
+            <br>
+            <button class="btn btn-primary mx-auto" style="width: 400px;" type="submit">Push</button>
+        </div>
+    </form>
+</div>
+<hr>
+<div>
+    <form id="editForm" method="post" th:action="@{/tax}" th:object=" ${countryList}
+    ">
+        <div class="form-group mx-auto" style="width: 400px;">
+            <label for="dropDownList">Update Taxrate</label>
+            <br>
+
+            <select class="form-control" id="dropDownList" th:name="countryCodeIDtoUpdate">
+                <option value="0">select country</option>
+                <option th:each="option : ${countryList}" th:text="${option}" th:value="${option}"
+                ></option>
+            </select>
+            <div class="form-group mx-auto" style="width: 400px;">
+                <label for="inputUpdatedTax">Tax</label>
+                <br>
+                <input class="form-control"
+                       id="inputUpdatedTax"
+                       placeholder="Enter Taxrate"
+                       th:name="taxUpdate"
+                       type="number">
+
+            </div>
+            <br>
+            <button class="btn btn-primary mx-auto" style="width: 400px;" type="submit">Update</button>
+        </div>
+        <br>
+    </form>
+</div>
+<div>
+    <form id="deleteForm" method="post" th:action="@{/tax}">
+        <div class="form-group mx-auto" style="width: 400px;">
+            <label for="dropDownListDelete">Delete Taxrate</label>
+            <br>
+            <select class="form-control" id="dropDownListDelete" th:name="countryCodeIDtoDelete">
+                <option value="0">select country</option>
+                <option th:each="option : ${countryList}"
+                        th:text="${option}"
+                        th:value="${option}"></option>
+            </select>
+            <br>
+
+            <button class="btn btn-primary mx-auto" form="deleteForm" style="width: 400px;" type="submit">Delete
+            </button>
+        </div>
+        <br>
+    </form>
+</div>
+
+<script crossorigin="anonymous"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
