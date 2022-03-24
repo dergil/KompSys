@@ -71,19 +71,19 @@ services:
           aliases:
             - "db-main"
 
-    gateway:
-      image: gateway:0.0.1-SNAPSHOT
-      build: ./Gateway
-      container_name: gateway
-      ports:
-        - "127.0.0.1:8082:8082"
-      networks:
-        backend2:
-          aliases:
-            - "gateway"
-      environment:
-        - SPRING_RABBITMQ_HOST=rabbitmq
-  #      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+#    gateway:
+#      image: gateway:0.0.1-SNAPSHOT
+#      build: ./Gateway
+#      container_name: gateway
+#      ports:
+#        - "127.0.0.1:8082:8082"
+#      networks:
+#        backend2:
+#          aliases:
+#            - "gateway"
+#      environment:
+#        - SPRING_RABBITMQ_HOST=rabbitmq
+#  #      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
 
     rabbitmq:
       image: rabbitmq:management
@@ -94,27 +94,27 @@ services:
         backend2:
           aliases:
             - "rabbitmq"
-
+    calculator:
+      image: calculator:0.0.1-SNAPSHOT
+      build: ./Calculator
+      container_name: calculator
+      depends_on:
+        rabbitmq:
+          condition: service_started
+      networks:
+        backend2:
+          aliases:
+            - "calculator"
+      environment:
+        SPRING_RABBITMQ_HOST: rabbitmq
+#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
 networks:
   backend2:
     driver: bridge
 
 
 
-  #    calculator:
-#      image: calculator:0.0.1-SNAPSHOT
-#      build: ./Calculator
-#      container_name: calculator
-#      depends_on:
-#        rabbitmq:
-#          condition: service_started
-#      networks:
-#        backend2:
-#          aliases:
-#            - "calculator"
-#      environment:
-#        SPRING_RABBITMQ_HOST: rabbitmq
-#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+
 
 #    configserver:
 #      image: config:0.0.1-SNAPSHOT

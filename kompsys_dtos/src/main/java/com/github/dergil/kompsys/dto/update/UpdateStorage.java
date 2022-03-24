@@ -9,5 +9,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 public class UpdateStorage implements Serializable {
-  public double changesMade;
+
+  private double changesMade;
+
+
 }

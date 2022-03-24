@@ -34,7 +34,7 @@ public class CarStorageServiceImpl implements CarStorageService {
       List<List<String>> csv_cars = csvImportService.importCsv(CSVPATH);
       List<Car> cars = readCars(csv_cars);
       carRepository.saveAll(cars);
-      return new UpdateStorageResponse(request.changesMade);
+      return new UpdateStorageResponse(request.getChangesMade());
     } catch (FileNotFoundException e) {
       return new UpdateStorageResponse(-1);
     }
