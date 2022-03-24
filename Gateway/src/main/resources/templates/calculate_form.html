@@ -1,21 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css"/>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
 </head>
 <body>
-<div class="container-fluid text-center">
-    <h1>Welcome to Calculate Form</h1>
-    <!--    <a class="h2" th:href="@{/calculate?pricePreTax=99000&salesTax=0.19}">Get Calc</a></div>-->
 
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" th:href="@{/}">Home</a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/calculate}">Calculation Api<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   href="#"
+                   id="navbarDropdown1" role="button">
+                    Tax Api
+                </a>
+                <div aria-labelledby="navbarDropdown1" class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/tax}">Tax Management</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/tax/all}">Taxlist</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   href="#"
+                   id="navbarDropdown2" role="button">
+                    Car Api
+                </a>
+                <div aria-labelledby="navbarDropdown2" class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/car}">Car Management</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/car/all}">Carlist</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
 <div>
     <form method="post" th:action="@{/calculate}" th:object="${calculateRequest}">
-        <div class="form-group">
+        <div class="form-group mx-auto" style="width: 200px;">
             <label for="inputCalculationPrice">Brutto</label>
             <input class="form-control"
                    id="inputCalculationPrice"
@@ -23,7 +61,7 @@
                    type="number">
         </div>
         <br>
-        <div class="container-fluid text-center">
+        <div class="container-fluid text-center mx-auto" style="width: 200px;">
             <span id="valBox">0.0</span>
             <div class="form-group">
                 <label for="formControlRange">Tax Range</label>
@@ -41,5 +79,14 @@
         </div>
     </form>
 </div>
+<script crossorigin="anonymous"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
