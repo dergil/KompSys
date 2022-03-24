@@ -1,6 +1,6 @@
 package com.kbe.kompsys.domain.model;
 
-import com.kbe.kompsys.entityListener.CarListener;
+import com.kbe.kompsys.entity_listener.CarListener;
 import lombok.Data;
 
 import javax.persistence.*;

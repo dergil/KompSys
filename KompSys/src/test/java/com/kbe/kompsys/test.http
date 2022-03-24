@@ -1,3 +1,9 @@
+GET http://sftp:8888/
+Accept: application/json
+
+###
+
+
 GET http://localhost:8082/calculate?pricePreTax=99000&salesTax=0.19
 Accept: application/json
 

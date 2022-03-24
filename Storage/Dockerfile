@@ -3,6 +3,7 @@ RUN apt-get update
 RUN apt-get install -y wait-for-it
 RUN adduser --system --group spring
 USER spring:spring
+RUN cd /home/spring/
 EXPOSE 8083
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
