@@ -1,7 +1,7 @@
-package com.kbe.kompsys.service;
+package com.kbe.kompsys.service.storage_update;
 
 import com.kbe.kompsys.domain.model.Car;
-import com.kbe.kompsys.repository.interfaces.CarRepository;
+import com.kbe.kompsys.repository.CarRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

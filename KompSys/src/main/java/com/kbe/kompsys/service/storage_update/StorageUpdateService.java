@@ -1,4 +1,4 @@
-package com.kbe.kompsys.service;
+package com.kbe.kompsys.service.storage_update;
 
 import com.github.dergil.kompsys.dto.update.UpdateStorage;
 import com.github.dergil.kompsys.dto.update.UpdateStorageResponse;
@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Service
 @Slf4j
-public class UpdateService {
+public class StorageUpdateService {
     public static final String ROUTING_KEY = "storage";
     private final RabbitTemplate rabbitTemplate;
     private final DirectExchange directExchange;
@@ -24,9 +24,9 @@ public class UpdateService {
     @Autowired
     private CsvExporter csvExporter;
     @Autowired
-    private StorageServiceImpl storageService;
+    private SftpServiceImpl storageService;
 
-    public UpdateService(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
+    public StorageUpdateService(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
         this.rabbitTemplate = rabbitTemplate;
         this.directExchange = directExchange;
     }
@@ -38,7 +38,8 @@ public class UpdateService {
             log.info("Changes are greater then 10");
             csvExporter.exportCarsToCSV();
             storageService.putFile("/home/spring/csv/cars.csv", "/upload/");
-            queryUpdateStorage(new UpdateStorage(counter));
+            UpdateStorageResponse response = queryUpdateStorage(new UpdateStorage(counter));
+            log.info("Changes made in storage: " + response.changesMade);
             Metrics.counter("db_changes", "change", "car").increment(-counter);
             log.info("DECREMENT: " + Metrics.counter("db_changes", "change", "car").count());
         } else {
@@ -46,7 +47,7 @@ public class UpdateService {
         }
     }
 
-    public UpdateStorageResponse queryUpdateStorage(UpdateStorage request) {
+    private UpdateStorageResponse queryUpdateStorage(UpdateStorage request) {
         log.info("Sending " + request);
         UpdateStorageResponse response = (UpdateStorageResponse) rabbitTemplate.convertSendAndReceive(
                 directExchange.getName(),

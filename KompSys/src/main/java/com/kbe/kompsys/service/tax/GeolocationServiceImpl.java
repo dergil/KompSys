@@ -1,9 +1,10 @@
-package com.kbe.kompsys.service;
+package com.kbe.kompsys.service.tax;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dergil.kompsys.dto.geolocation.GeolocationResponse;
+import com.kbe.kompsys.service.interfaces.GeolocationService;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,9 @@ import java.net.UnknownHostException;
 
 @Slf4j
 @Service
-public class GeolocationService {
+public class GeolocationServiceImpl implements GeolocationService {
 
+    @Override
     public GeolocationResponse getGeolocation(String ipAddr) throws JsonProcessingException, UnknownHostException {
         log.info("Geolocating IP " + ipAddr);
         InetAddress inetAddress = validateIP(ipAddr);

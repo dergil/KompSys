@@ -179,7 +179,7 @@
     <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-library:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-amqp:2.5.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-messaging:5.3.12" level="project" />
-    <orderEntry type="library" name="Maven: com.github.dergil:kompsys_dtos:0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="kompsys_dtos" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:23.0.0" level="project" />
     <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-api:5.7.2" level="project" />

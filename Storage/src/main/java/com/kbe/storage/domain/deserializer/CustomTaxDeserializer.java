@@ -1,4 +1,4 @@
-package com.kbe.storage;
+package com.kbe.storage.domain.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;

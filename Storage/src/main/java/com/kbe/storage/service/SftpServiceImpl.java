@@ -1,11 +1,12 @@
-package com.kbe.storage;
+package com.kbe.storage.service;
 
 import com.jcraft.jsch.*;
+import com.kbe.storage.service.interfaces.SftpService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SftpService {
+public class SftpServiceImpl implements SftpService {
     @Value("${remoteHost}")
     private String remoteHost;
     @Value("${sftp_username}")
@@ -14,6 +15,7 @@ public class SftpService {
     private String password;
     private int port = 22;
 
+    @Override
     public void getFile(String src, String destination) throws JSchException, SftpException {
         ChannelSftp channelSftp = setupJsch();
         channelSftp.connect();

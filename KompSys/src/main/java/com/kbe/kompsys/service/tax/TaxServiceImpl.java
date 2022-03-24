@@ -1,4 +1,4 @@
-package com.kbe.kompsys.service;
+package com.kbe.kompsys.service.tax;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.dergil.kompsys.dto.calculate.CalculateRequest;
@@ -8,11 +8,12 @@ import com.github.dergil.kompsys.dto.car.tax.CarTaxRequest;
 import com.github.dergil.kompsys.dto.geolocation.GeolocationResponse;
 import com.github.dergil.kompsys.dto.tax.ReadTaxRequest;
 import com.github.dergil.kompsys.dto.tax.TaxView;
+import com.kbe.kompsys.domain.mapper.TaxServiceMapper;
 import com.kbe.kompsys.domain.model.Car;
-import com.kbe.kompsys.repository.interfaces.CarRepository;
+import com.kbe.kompsys.repository.CarRepository;
+import com.kbe.kompsys.service.calculator.CalculatorServiceImpl;
 import com.kbe.kompsys.service.interfaces.TaxService;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class TaxServiceImpl implements TaxService {
     private String storage_queue_routing_key;
 
     // Mapper
+//    @Autowired
+//    private TaxServiceMapper2 taxServiceMapper2;
     @Autowired
     private TaxServiceMapper taxServiceMapper;
     // Repos
@@ -39,9 +42,9 @@ public class TaxServiceImpl implements TaxService {
     private CarRepository carRepository;
     // Services
     @Autowired
-    private GeolocationService geolocationService;
+    private GeolocationServiceImpl geolocationServiceImpl;
     @Autowired
-    private CarCalculatorService carCalculatorService;
+    private CalculatorServiceImpl calculatorServiceImpl;
 
     public TaxServiceImpl(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
         this.rabbitTemplate = rabbitTemplate;
@@ -54,7 +57,7 @@ public class TaxServiceImpl implements TaxService {
         Car car = carRepository.getById(request.getId());
         TaxView tax = determineTax(geolocationResponse);
         CalculateResponse calculateResponse = queryCalculator(car, tax);
-        CarTaxCalculateView response = taxServiceMapper.mapToCarTaxCalculateView(car, calculateResponse, tax);
+        CarTaxCalculateView response = taxServiceMapper.toCarTaxCalculateView(car, calculateResponse, tax);
         log.info("Returning: " + response);
         return response;
     }
@@ -65,14 +68,14 @@ public class TaxServiceImpl implements TaxService {
     }
 
     private GeolocationResponse queryGeolocation(String ipAdress) throws JsonProcessingException, UnknownHostException {
-        return geolocationService.getGeolocation(ipAdress);
+        return geolocationServiceImpl.getGeolocation(ipAdress);
     }
 
     private CalculateResponse queryCalculator(Car car, TaxView tax) {
         CalculateRequest calculateRequest = new CalculateRequest();
         calculateRequest.setPricePreTax(car.getPrice());
         calculateRequest.setSalesTax(tax.getTax());
-        return carCalculatorService.queryCalculator(calculateRequest);
+        return calculatorServiceImpl.queryCalculator(calculateRequest);
     }
 
     private Serializable sendRequestAndReceiveResponseObject(java.io.Serializable request) {

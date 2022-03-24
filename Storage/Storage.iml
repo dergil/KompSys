@@ -37,7 +37,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.github.dergil:kompsys_dtos:0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="kompsys_dtos" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:23.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.0" level="project" />

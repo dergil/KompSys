@@ -5,7 +5,6 @@ import com.jcraft.jsch.SftpException;
 
 import java.io.File;
 
-public interface StorageService {
+public interface SftpService {
     void putFile(String localFile, String remoteDir) throws JSchException, SftpException;
-    public void getFile(String src, String destination) throws JSchException, SftpException;
 }

@@ -4,13 +4,11 @@ import com.github.dergil.kompsys.dto.update.UpdateStorage;
 import com.github.dergil.kompsys.dto.update.UpdateStorageResponse;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import com.kbe.storage.SftpService;
 import com.kbe.storage.domain.model.Car;
-import com.kbe.storage.repository.interfaces.CarRepository;
+import com.kbe.storage.repository.CarRepository;
 import com.kbe.storage.service.interfaces.CarStorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -31,7 +29,7 @@ public class CarStorageServiceImpl implements CarStorageService {
   @Autowired
   private CarRepository carRepository;
   @Autowired
-  private SftpService sftpService;
+  private SftpServiceImpl sftpServiceImpl;
 
   public CarStorageServiceImpl(CsvImportServiceImpl csvImportService) {
     this.csvImportService = csvImportService;
@@ -39,7 +37,7 @@ public class CarStorageServiceImpl implements CarStorageService {
 
   @Override
   public UpdateStorageResponse updateStorage(UpdateStorage request) throws JSchException, SftpException {
-    sftpService.getFile("/upload/"+FILENAME, CSVPATH);
+    sftpServiceImpl.getFile("/upload/"+FILENAME, CSVPATH);
     try {
       List<List<String>> csv_cars = csvImportService.importCsv(CSVPATH+FILENAME);
       List<Car> cars = readCars(csv_cars);

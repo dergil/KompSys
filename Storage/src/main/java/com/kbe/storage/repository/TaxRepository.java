@@ -1,4 +1,4 @@
-package com.kbe.storage.repository.interfaces;
+package com.kbe.storage.repository;
 
 import com.github.dergil.kompsys.dto.exception.NotFoundException;
 import com.kbe.storage.domain.model.Tax;
