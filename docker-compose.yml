@@ -86,19 +86,19 @@ services:
 
 
 #
-#    calculator:
-#      image: calculator:0.0.1-SNAPSHOT
-#      build: ./Calculator
-#      container_name: calculator
-#      depends_on:
-#        rabbitmq:
-#          condition: service_started
-#      networks:
-#        backend2:
-#          aliases:
-#            - "calculator"
-#      environment:
-#        SPRING_RABBITMQ_HOST: rabbitmq
+    calculator:
+      image: calculator:0.0.1-SNAPSHOT
+      build: ./Calculator
+      container_name: calculator
+      depends_on:
+        rabbitmq:
+          condition: service_started
+      networks:
+        backend2:
+          aliases:
+            - "calculator"
+      environment:
+        SPRING_RABBITMQ_HOST: rabbitmq
 
     gateway:
       image: gateway:0.0.1-SNAPSHOT
