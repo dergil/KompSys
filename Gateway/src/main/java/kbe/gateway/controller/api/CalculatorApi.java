@@ -23,8 +23,7 @@ public class CalculatorApi {
   private RabbitMqTransferService transferService;
 
   @GetMapping("/calculate")
-  public CalculateResponse calculate(
-          @RequestParam double pricePreTax, @RequestParam double salesTax) {
+  public CalculateResponse calculate(@RequestParam double pricePreTax, @RequestParam double salesTax) {
     CalculateRequest calculateRequest = new CalculateRequest(pricePreTax, salesTax);
     return (CalculateResponse) transferService.transferRequest(calculateRequest, CALCULATE_QUEUE_ROUTING_KEY);
   }

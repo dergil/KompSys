@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableJpaRepositories
 public class KompSysApplication {
 
     public static void main(String[] args) {

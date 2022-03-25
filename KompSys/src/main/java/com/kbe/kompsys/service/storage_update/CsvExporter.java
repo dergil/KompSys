@@ -11,9 +11,6 @@ import org.supercsv.prefs.CsvPreference;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -49,13 +46,9 @@ public class CsvExporter {
                 "origin",};
 
         exportToCSV(csvHeader, nameMapping, "Car");
-
     }
 
     private void exportToCSV(String[] csvHeader, String[] nameMapping, String dto) throws IOException {
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        String currentDateTime = dateFormatter.format(new Date());
-
         log.info("Attempting csv export");
         ICsvBeanWriter csvWriter = new CsvBeanWriter(new FileWriter("/home/spring/csv/cars.csv"), CsvPreference.STANDARD_PREFERENCE);
         csvWriter.writeHeader(csvHeader);

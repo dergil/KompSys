@@ -54,7 +54,6 @@ public class Receiver {
     }
 
     @RabbitHandler
-    @Transactional
     public CarTaxCalculateView handleCarTaxRequest(CarTaxRequest request) throws JsonProcessingException, UnknownHostException {
         log.info("Received " + request.toString());
         return taxService.queryCarTaxView(request);

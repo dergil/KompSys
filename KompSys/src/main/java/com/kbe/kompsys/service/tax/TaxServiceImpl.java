@@ -11,11 +11,10 @@ import com.github.dergil.kompsys.dto.tax.TaxView;
 import com.kbe.kompsys.domain.mapper.TaxServiceMapper;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.repository.CarRepository;
+import com.kbe.kompsys.service.RabbitMqTransferService;
 import com.kbe.kompsys.service.calculator.CalculatorServiceImpl;
 import com.kbe.kompsys.service.interfaces.TaxService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,14 +26,12 @@ import java.net.UnknownHostException;
 @Slf4j
 public class TaxServiceImpl implements TaxService {
 
-    private final RabbitTemplate rabbitTemplate;
-    private final DirectExchange directExchange;
     @Value("${tax_queue_routing_key:storage}")
     private String storage_queue_routing_key;
 
+    @Autowired
+    private RabbitMqTransferService transferService;
     // Mapper
-//    @Autowired
-//    private TaxServiceMapper2 taxServiceMapper2;
     @Autowired
     private TaxServiceMapper taxServiceMapper;
     // Repos
@@ -45,11 +42,6 @@ public class TaxServiceImpl implements TaxService {
     private GeolocationServiceImpl geolocationServiceImpl;
     @Autowired
     private CalculatorServiceImpl calculatorServiceImpl;
-
-    public TaxServiceImpl(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
-        this.rabbitTemplate = rabbitTemplate;
-        this.directExchange = directExchange;
-    }
 
     @Override
     public CarTaxCalculateView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException, UnknownHostException {
@@ -64,7 +56,6 @@ public class TaxServiceImpl implements TaxService {
 
     private TaxView determineTax(GeolocationResponse geolocation) {
         return (TaxView) sendRequestAndReceiveResponseObject(new ReadTaxRequest(geolocation.getCountryCode()));
-//        return taxRepository.getTaxById(geolocation.getCountryCode());
     }
 
     private GeolocationResponse queryGeolocation(String ipAdress) throws JsonProcessingException, UnknownHostException {
@@ -80,10 +71,6 @@ public class TaxServiceImpl implements TaxService {
 
     private Serializable sendRequestAndReceiveResponseObject(java.io.Serializable request) {
         log.info("Sending " + request.toString());
-        return (Serializable) rabbitTemplate.convertSendAndReceive(
-                directExchange.getName(),
-                storage_queue_routing_key,
-                request
-        );
+        return (Serializable) transferService.transferRequest(request, storage_queue_routing_key);
     }
 }

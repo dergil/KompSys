@@ -9,7 +9,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-@RabbitListener(id = "foo", queues = "calculate", returnExceptions = "true")
+@RabbitListener(id = "calculate_listener", queues = "calculate", returnExceptions = "true")
 public class Receiver {
 
   @Autowired
