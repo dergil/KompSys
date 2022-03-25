@@ -1,9 +1,9 @@
-package kbe.gateway.controller;
+package com.kbe.frontend.controller;
 
 import com.github.dergil.kompsys.dto.car.*;
 import com.github.dergil.kompsys.dto.car.tax.CarTaxCalculateView;
 import com.github.dergil.kompsys.dto.car.tax.CarTaxRequest;
-import kbe.gateway.factory.UriFactory;
+import com.kbe.frontend.factory.UriFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.http.HttpEntity;

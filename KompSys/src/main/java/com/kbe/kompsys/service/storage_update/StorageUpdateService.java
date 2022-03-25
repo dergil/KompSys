@@ -31,6 +31,11 @@ public class StorageUpdateService {
         this.directExchange = directExchange;
     }
 
+    public void forceUpdateCarRepo() throws JSchException, SftpException, IOException {
+        Metrics.counter("db_changes", "change", "car").increment(11);
+        updateCarRepositoryByMetric();
+    }
+
     @Scheduled(fixedRate = 5000)
     private void updateCarRepositoryByMetric() throws IOException, JSchException, SftpException {
         double counter = Metrics.counter("db_changes", "change", "car").count();

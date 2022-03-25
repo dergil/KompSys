@@ -54,16 +54,17 @@ public class CarStorageServiceImpl implements CarStorageService {
     List<Car> cars = new ArrayList<>();
     for (int i = 1; i < csv_cars.size(); i++) {
       Car ecr = new Car();
-      ecr.setName(csv_cars.get(i).get(0));
-      ecr.setPrice(Integer.parseInt(csv_cars.get(i).get(1)));
-      ecr.setMilesPerGallon(Double.parseDouble(csv_cars.get(i).get(2)));
-      ecr.setCylinders(Integer.parseInt(csv_cars.get(i).get(3)));
-      ecr.setDisplacement(Integer.parseInt(csv_cars.get(i).get(4)));
-      ecr.setHorsepower(Integer.parseInt(csv_cars.get(i).get(5)));
-      ecr.setWeightInPounds(Integer.parseInt(csv_cars.get(i).get(6)));
-      ecr.setAcceleration(Double.parseDouble(csv_cars.get(i).get(7)));
-      ecr.setYear(LocalDate.parse(csv_cars.get(i).get(8)));
-      ecr.setOrigin(csv_cars.get(i).get(9));
+      ecr.setId(Long.parseLong(csv_cars.get(i).get(0)));
+      ecr.setName(csv_cars.get(i).get(1));
+      ecr.setPrice(Integer.parseInt(csv_cars.get(i).get(2)));
+      ecr.setMilesPerGallon(Double.parseDouble(csv_cars.get(i).get(3)));
+      ecr.setCylinders(Integer.parseInt(csv_cars.get(i).get(4)));
+      ecr.setDisplacement(Integer.parseInt(csv_cars.get(i).get(5)));
+      ecr.setHorsepower(Integer.parseInt(csv_cars.get(i).get(6)));
+      ecr.setWeightInPounds(Integer.parseInt(csv_cars.get(i).get(7)));
+      ecr.setAcceleration(Double.parseDouble(csv_cars.get(i).get(8)));
+      ecr.setYear(LocalDate.parse(csv_cars.get(i).get(9)));
+      ecr.setOrigin(csv_cars.get(i).get(10));
       cars.add(ecr);
       System.out.println(ecr);
     }

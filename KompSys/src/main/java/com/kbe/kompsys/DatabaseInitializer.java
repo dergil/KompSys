@@ -10,7 +10,7 @@ import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.domain.model.Tax;
 import com.kbe.kompsys.repository.CarRepository;
 import com.kbe.kompsys.repository.TaxRepository;
-import com.kbe.kompsys.service.storage_update.SftpServiceImpl;
+import com.kbe.kompsys.service.storage_update.StorageUpdateService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +34,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     @Autowired
     private TaxRepository taxRepository;
     @Autowired
-    private SftpServiceImpl sftpServiceImpl;
+    private StorageUpdateService storageUpdateService;
 
     @SneakyThrows
     @Override
@@ -42,6 +42,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         log.info("Initializing database with cars");
         importCars();
         importTaxes();
+        storageUpdateService.forceUpdateCarRepo();
     }
 
     private void importCars() {

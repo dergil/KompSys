@@ -1,4 +1,4 @@
-package kbe.gateway.factory;
+package com.kbe.frontend.factory;
 
 
 import org.apache.http.NameValuePair;
