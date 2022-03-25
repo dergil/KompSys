@@ -22,6 +22,7 @@ public class CsvExporter {
 
     public void exportCarsToCSV() throws IOException {
         String[] csvHeader = {
+                "Id",
                 "Name",
                 "Price",
                 "MilesPerGallon",
@@ -34,6 +35,7 @@ public class CsvExporter {
                 "Origin",};
 
         String[] nameMapping = {
+                "id",
                 "name",
                 "price",
                 "milesPerGallon",

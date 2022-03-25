@@ -1,4 +1,4 @@
-package kbe.gateway.controller;
+package com.kbe.frontend.controller;
 
 import com.github.dergil.kompsys.dto.tax.CreateTaxRequest;
 import lombok.extern.slf4j.Slf4j;

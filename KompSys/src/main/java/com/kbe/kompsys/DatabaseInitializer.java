@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.kbe.kompsys.domain.deserializer.CustomCarDeserializer;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.repository.CarRepository;
+import com.kbe.kompsys.service.storage_update.StorageUpdateService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -27,12 +28,15 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
 
     @Autowired
     private CarRepository carRepository;
+    @Autowired
+    private StorageUpdateService storageUpdateService;
 
     @SneakyThrows
     @Override
     public void onApplicationEvent(@NotNull ApplicationReadyEvent applicationReadyEvent) {
         log.info("Initializing database with cars");
         importCars();
+        storageUpdateService.forceUpdateCarRepo();
     }
 
     private void importCars() {

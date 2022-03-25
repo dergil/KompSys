@@ -1,8 +1,8 @@
-package kbe.gateway.controller;
+package com.kbe.frontend.controller;
 
 import com.github.dergil.kompsys.dto.calculate.CalculateRequest;
 import com.github.dergil.kompsys.dto.calculate.CalculateResponse;
-import kbe.gateway.factory.UriFactory;
+import com.kbe.frontend.factory.UriFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;

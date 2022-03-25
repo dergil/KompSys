@@ -1,11 +1,11 @@
-Name,Price,Miles_per_Gallon,Cylinders,Displacement,Horsepower,Weight_in_lbs,Acceleration,Year,Origin
-chevrolet chevelle malibu,60000,18,8,307,130,3504,12,1970-01-01,DE
-buick skylark 320,50000,15,8,350,165,3693,11.5,1970-01-01,USA
-plymouth satellite,40000,18,8,318,150,3436,11,1970-01-01,USA
-amc rebel sst,90000,16,8,304,150,3433,12,1970-01-01,USA
-ford torino,35000,17,8,302,140,3449,10.5,1970-01-01,USA
-amc hornet,60000,22.5,6,232,90,3085,17.6,1976-01-01,USA
-chevrolet chevette,60000,29,4,85,52,2035,22.2,1976-01-01,USA
-chevrolet woody,40000,24.5,4,98,60,2164,22.1,1976-01-01,USA
-vw rabbit,50000,29,4,90,70,1937,14.2,1976-01-01,Europe
-honda civic,20000,33,4,91,53,1795,17.4,1976-01-01,Japan
+ID,Name,Price,Miles_per_Gallon,Cylinders,Displacement,Horsepower,Weight_in_lbs,Acceleration,Year,Origin
+1,chevrolet chevelle malibu,60000,18,8,307,130,3504,12,1970-01-01,DE
+2,buick skylark 320,50000,15,8,350,165,3693,11.5,1970-01-01,USA
+3,plymouth satellite,40000,18,8,318,150,3436,11,1970-01-01,USA
+4,amc rebel sst,90000,16,8,304,150,3433,12,1970-01-01,USA
+5,ford torino,35000,17,8,302,140,3449,10.5,1970-01-01,USA
+6,amc hornet,60000,22.5,6,232,90,3085,17.6,1976-01-01,USA
+7,chevrolet chevette,60000,29,4,85,52,2035,22.2,1976-01-01,USA
+8,chevrolet woody,40000,24.5,4,98,60,2164,22.1,1976-01-01,USA
+9,vw rabbit,50000,29,4,90,70,1937,14.2,1976-01-01,Europe
+10,honda civic,20000,33,4,91,53,1795,17.4,1976-01-01,Japan
