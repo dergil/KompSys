@@ -17,7 +17,7 @@ TaxServiceMapper {
     protected CalculateViewMapper calculateViewMapper;
 
     @Mapping(target = "carView", expression = "java(carViewMapper.toCarView(car))")
-    @Mapping(target="taxView", source="taxView")
+    @Mapping(target = "taxView", source = "taxView")
     @Mapping(target = "calculateView", expression = "java(calculateViewMapper.toCalculateView(calculateResponse))")
     public abstract CarTaxCalculateView toCarTaxCalculateView(Car car, CalculateResponse calculateResponse, TaxView taxView);
 }

@@ -5,12 +5,10 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.kbe.kompsys.domain.model.Car;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class CustomCarDeserializer extends StdDeserializer<Car> {
     public CustomCarDeserializer() {

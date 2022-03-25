@@ -36,14 +36,15 @@ public class CarStorageServiceImpl implements CarStorageService {
   }
 
   @Override
-  public UpdateStorageResponse updateStorage(UpdateStorage request) throws JSchException, SftpException {
-    sftpServiceImpl.getFile("/upload/"+FILENAME, CSVPATH);
+  public UpdateStorageResponse updateStorage(UpdateStorage request) throws FileNotFoundException, JSchException, SftpException {
+
     try {
-      List<List<String>> csv_cars = csvImportService.importCsv(CSVPATH+FILENAME);
+      sftpServiceImpl.getFile("/upload/" + FILENAME, CSVPATH);
+      List<List<String>> csv_cars = csvImportService.importCsv(CSVPATH + FILENAME);
       List<Car> cars = readCars(csv_cars);
       log.info("Read cars from CSV file: " + cars.toString());
       carRepository.saveAll(cars);
-      return new UpdateStorageResponse(request.changesMade);
+      return new UpdateStorageResponse(request.getChangesMade());
     } catch (FileNotFoundException e) {
       return new UpdateStorageResponse(-1);
     }

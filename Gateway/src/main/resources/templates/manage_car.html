@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" th:href="@{/}">Home</a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/calculate}">Calculation Api</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   href="#"
+                   id="navbarDropdown1" role="button">
+                    Tax Api
+                </a>
+                <div aria-labelledby="navbarDropdown1" class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/tax}">Tax Management</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/tax/all}">Taxlist</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   href="#"
+                   id="navbarDropdown2" role="button">
+                    Car Api
+                </a>
+                <div aria-labelledby="navbarDropdown2" class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/car}">Car Management<span>(current)</span></a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/car/all}">Carlist</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div>
+    <form id="getForm" method="get" th:action="@{/car}">
+        <div class="form-group mx-auto" style="width: 400px;">
+            <label for="carID">Get Car by ID</label>
+            <br>
+            <input class="form-control"
+                   id="carID"
+                   placeholder="Enter Car ID"
+                   th:name="id"
+                   type="text">
+            <br>
+            <button class="btn btn-primary mx-auto" style="width: 400px;" type="submit">Fetch</button>
+        </div>
+    </form>
+</div>
+<hr>
+<div>
+    <form id="createForm" method="post" th:action="@{/car}">
+        <div class="form-group mx-auto" id="formCreate" style="width: 400px;">
+            <label for="formCreate">Create new Car</label>
+            <input class="form-control"
+                   id="inputName"
+                   placeholder="Enter name"
+                   th:name="name"
+                   type="text">
+            <br>
+            <input class="form-control"
+                   id="inputPrice"
+                   placeholder="Enter price"
+                   th:name="price"
+                   type="number"
+                   value="0">
+            <br>
+            <input class="form-control"
+                   id="inputmilesPerGallon"
+                   placeholder="Enter milesPerGallon"
+                   th:name="milesPerGallon"
+                   type="number"
+                   value="0">
+            <br>
+            <input class="form-control"
+                   id="inputcylinders"
+                   placeholder="Enter cylinders"
+                   th:name="cylinders"
+                   type="number"
+                   value="0">
+            <br>
+            <input class="form-control"
+                   id="inputdisplacement"
+                   placeholder="Enter displacement"
+                   th:name="displacement"
+                   type="number"
+                   value="0">
+            <br>
+            <input class="form-control"
+                   id="inputhorsepower"
+                   placeholder="Enter horsepower"
+                   th:name="horsepower"
+                   type="number"
+                   value="0">
+            <br>
+            <input class="form-control"
+                   id="inputweightInPounds"
+                   placeholder="Enter weightInPounds"
+                   th:name="weightInPounds"
+                   type="number"
+                   value="0">
+            <br>
+            <input class="form-control"
+                   id="inputacceleration"
+                   placeholder="Enter acceleration"
+                   th:name="acceleration"
+                   type="number"
+                   value="0">
+            <br>
+            <input class="form-control"
+                   id="inputLocalDate"
+                   placeholder="Enter LocalDate - yyyy-MM-dd"
+                   th:name="year"
+                   type="text"
+                   value="1901-01-01">
+            <br>
+            <input class="form-control"
+                   id="inputorigin"
+                   placeholder="Enter origin"
+                   th:name="origin"
+                   type="text"
+                   value="-">
+            <br>
+            <button class="btn btn-primary mx-auto" style="width: 400px;" type="submit">Push</button>
+        </div>
+        <br>
+    </form>
+</div>
+<hr>
+<div>
+    <form id="editForm" method="post" th:action="@{/car}" th:object=" ${carMap}
+    ">
+        <div class="form-group mx-auto" style="width: 400px;">
+            <label for="dropDownList">Update Car</label>
+            <br>
+            <select class="form-control" id="dropDownList" th:name="carToUpdate">
+                <option value="0">select car</option>
+                <option th:each="option : ${carMap}"
+                        th:text="${option.key}+' - '+${option.value}"
+                        th:value="${option.key}"
+                ></option>
+            </select>
+            <br>
+            <div class="form-group" id="formUpdate">
+                <input class="form-control"
+                       id="inputNameUpdate"
+                       placeholder="Enter name"
+                       th:name="name"
+                       type="text">
+                <br>
+                <input class="form-control"
+                       id="inputPriceUpdate"
+                       placeholder="Enter price"
+                       th:name="price"
+                       type="number"
+                       value="0">
+                <br>
+                <input class="form-control"
+                       id="inputmilesPerGallonUpdate"
+                       placeholder="Enter milesPerGallon"
+                       th:name="milesPerGallon"
+                       type="number"
+                       value="0">
+                <br>
+                <input class="form-control"
+                       id="inputcylindersUpdate"
+                       placeholder="Enter cylinders"
+                       th:name="cylinders"
+                       type="number"
+                       value="0">
+                <br>
+                <input class="form-control"
+                       id="inputdisplacementUpdate"
+                       placeholder="Enter displacement"
+                       th:name="displacement"
+                       type="number"
+                       value="0">
+                <br>
+                <input class="form-control"
+                       id="inputhorsepowerUpdate"
+                       placeholder="Enter horsepower"
+                       th:name="horsepower"
+                       type="number"
+                       value="0">
+                <br>
+                <input class="form-control"
+                       id="inputweightInPoundsUpdate"
+                       placeholder="Enter weightInPounds"
+                       th:name="weightInPounds"
+                       type="number"
+                       value="0">
+                <br>
+                <input class="form-control"
+                       id="inputaccelerationUpdate"
+                       placeholder="Enter acceleration"
+                       th:name="acceleration"
+                       type="number"
+                       value="0">
+                <br>
+                <input class="form-control"
+                       id="inputLocalDateUpdate"
+                       placeholder="Enter LocalDate - yyyy-MM-dd"
+                       th:name="year"
+                       type="text"
+                       value="1901-01-01">
+                <br>
+                <input class="form-control"
+                       id="inputoriginUpdate"
+                       placeholder="Enter origin"
+                       th:name="origin"
+                       type="text"
+                       value="-">
+            </div>
+            <br>
+            <button class="btn btn-primary mx-auto" style="width: 400px;" type="submit">Update</button>
+        </div>
+        <br>
+    </form>
+</div>
+<hr>
+<div>
+    <form id="deleteForm" method="post" th:action="@{/car}">
+        <div class="form-group mx-auto" style="width: 400px;">
+            <label for="dropDownListDelete">Delete Car</label>
+            <br>
+            <select class="form-control" id="dropDownListDelete" th:name="idToDelete">
+                <option value="0">select car</option>
+                <option th:each="option : ${carMap}"
+                        th:text="${option.key}+' - '+${option.value}"
+                        th:value="${option.key}"
+                ></option>
+            </select>
+            <br>
+
+            <button class="btn btn-primary mx-auto" form="deleteForm" style="width: 400px;" type="submit">Delete
+            </button>
+        </div>
+        <br>
+    </form>
+</div>
+<hr>
+<div>
+    <form id="calcForm" method="get" th:action="@{/car/tax}">
+        <div class="form-group mx-auto" style="width: 400px;">
+            <label for="dropDownListCalc">Calculate Car Tax</label>
+            <br>
+            <select class="form-control" id="dropDownListCalc" th:name="calculateId">
+                <option value="0">select car</option>
+                <option th:each="option : ${carMap}"
+                        th:text="${option.key}+' - '+${option.value}"
+                        th:value="${option.key}"
+                ></option>
+            </select>
+            <br>
+
+            <button class="btn btn-primary mx-auto" form="calcForm" style="width: 400px;" type="submit">Calculate
+            </button>
+        </div>
+        <br>
+    </form>
+</div>
+
+<script crossorigin="anonymous"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

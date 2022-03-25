@@ -20,14 +20,10 @@ public class Config {
   private String main_service_exchange_name;
 
   @Bean
-  public Listener listener() {
-    return new Listener();
+  public Receiver listener() {
+    return new Receiver();
   }
 
-//    @Bean
-//    public ConnectionFactory connectionFactory() {
-//        return new CachingConnectionFactory("localhost");
-//    }
 
   @Bean
   public DirectExchange directExchange() {
@@ -45,22 +41,5 @@ public class Config {
             .to(directExchange)
             .with(ROUTING_KEY);
   }
-
-//    @Bean
-//    public RabbitAdmin admin(ConnectionFactory cf) {
-//        return new RabbitAdmin(cf);
-//    }
-//
-//    @Bean
-//    public RabbitTemplate template(ConnectionFactory cf) {
-//        return new RabbitTemplate(cf);
-//    }
-//
-//    @Bean
-//    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory cf) {
-//        SimpleRabbitListenerContainerFactory containerFactory = new SimpleRabbitListenerContainerFactory();
-//        containerFactory.setConnectionFactory(cf);
-//        return containerFactory;
-//    }
 
 }
