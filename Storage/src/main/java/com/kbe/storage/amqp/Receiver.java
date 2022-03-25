@@ -4,6 +4,8 @@ package com.kbe.storage.amqp;
 import com.github.dergil.kompsys.dto.tax.*;
 import com.github.dergil.kompsys.dto.update.UpdateStorage;
 import com.github.dergil.kompsys.dto.update.UpdateStorageResponse;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import com.kbe.storage.service.CarStorageServiceImpl;
 import com.kbe.storage.service.TaxStorageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +56,7 @@ public class Receiver {
   }
 
   @RabbitHandler
-  public UpdateStorageResponse updateStorage(UpdateStorage request) throws FileNotFoundException {
+  public UpdateStorageResponse updateStorage(UpdateStorage request) throws JSchException, SftpException, FileNotFoundException {
     log.info("Received " + request.toString());
     return carStorageService.updateStorage(request);
   }

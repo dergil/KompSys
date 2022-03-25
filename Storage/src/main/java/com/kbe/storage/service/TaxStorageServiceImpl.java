@@ -4,7 +4,7 @@ import com.github.dergil.kompsys.dto.tax.*;
 import com.kbe.storage.domain.mapper.TaxEditMapper;
 import com.kbe.storage.domain.mapper.TaxViewMapper;
 import com.kbe.storage.domain.model.Tax;
-import com.kbe.storage.repository.interfaces.TaxRepository;
+import com.kbe.storage.repository.TaxRepository;
 import com.kbe.storage.service.interfaces.TaxStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

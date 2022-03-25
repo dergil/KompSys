@@ -7,14 +7,15 @@ services:
       image: storage:0.0.1-SNAPSHOT
       build: ./Storage
       container_name: storage
-#      ports:
-#        - "127.0.0.1:8083:8083"
       networks:
         backend2:
           aliases:
             - "storage"
       environment:
         - SPRING_RABBITMQ_HOST=rabbitmq
+        - remoteHost=sftp
+        - sftp_username=foo
+        - sftp_password=Mypassword123
         - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/db-storage
         - SPRING_DATASOURCE_USERNAME=compose-postgres
         - SPRING_DATASOURCE_PASSWORD=compose-postgres
@@ -48,11 +49,14 @@ services:
             - "main"
       environment:
         - SPRING_RABBITMQ_HOST=rabbitmq
+        - remoteHost=sftp
+        - sftp_username=foo
+        - sftp_password=Mypassword123
         - SPRING_DATASOURCE_URL=jdbc:postgresql://db-main:5432/db-main
         - SPRING_DATASOURCE_USERNAME=compose-postgres
         - SPRING_DATASOURCE_PASSWORD=compose-postgres
         - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+
       depends_on:
         db-main:
           condition: service_started
@@ -71,29 +75,17 @@ services:
           aliases:
             - "db-main"
 
-#    gateway:
-#      image: gateway:0.0.1-SNAPSHOT
-#      build: ./Gateway
-#      container_name: gateway
-#      ports:
-#        - "127.0.0.1:8082:8082"
-#      networks:
-#        backend2:
-#          aliases:
-#            - "gateway"
-#      environment:
-#        - SPRING_RABBITMQ_HOST=rabbitmq
-#  #      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
 
-    rabbitmq:
-      image: rabbitmq:management
-      ports:
-        - "5672:5672"
-        - "15672:15672"
+    sftp:
+      image: atmoz/sftp
+      command: foo:Mypassword123:::upload
       networks:
         backend2:
           aliases:
-            - "rabbitmq"
+            - "sftp"
+
+
+#
     calculator:
       image: calculator:0.0.1-SNAPSHOT
       build: ./Calculator
@@ -107,29 +99,31 @@ services:
             - "calculator"
       environment:
         SPRING_RABBITMQ_HOST: rabbitmq
-#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
+
+    gateway:
+      image: gateway:0.0.1-SNAPSHOT
+      build: ./Gateway
+      container_name: gateway
+      ports:
+        - "127.0.0.1:8082:8082"
+      networks:
+        backend2:
+          aliases:
+            - "gateway"
+      environment:
+        - SPRING_RABBITMQ_HOST=rabbitmq
+
+    rabbitmq:
+      image: rabbitmq:management
+      ports:
+        - "5672:5672"
+        - "15672:15672"
+      networks:
+        backend2:
+          aliases:
+            - "rabbitmq"
+
 networks:
   backend2:
     driver: bridge
 
-
-
-
-
-#    configserver:
-#      image: config:0.0.1-SNAPSHOT
-#      build: ./Config
-#      container_name: config
-#      ports:
-#        - "127.0.0.1:8888:8888"
-#      networks:
-#        backend2:
-#          aliases:
-#            - "configserver"
-
-
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/kompsys
-#      - SPRING_DATASOURCE_USERNAME=kbe
-#      - SPRING_DATASOURCE_PASSWORD=
-#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update

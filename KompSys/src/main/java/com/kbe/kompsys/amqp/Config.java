@@ -27,12 +27,6 @@ public class Config {
         return new Receiver();
     }
 
-
-//    @Bean
-//    public ConnectionFactory connectionFactory() {
-//        return new CachingConnectionFactory("localhost");
-//    }
-
     @Bean
     public DirectExchange directExchange() {
         return new DirectExchange(main_service_exchange_name);
@@ -50,21 +44,4 @@ public class Config {
                 .to(directExchange)
                 .with(car_queue_routing_key);
     }
-
-//    @Bean
-//    public RabbitAdmin admin(ConnectionFactory cf) {
-//        return new RabbitAdmin(cf);
-//    }
-//
-//    @Bean
-//    public RabbitTemplate template(ConnectionFactory cf) {
-//        return new RabbitTemplate(cf);
-//    }
-//
-//    @Bean
-//    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory cf) {
-//        SimpleRabbitListenerContainerFactory containerFactory = new SimpleRabbitListenerContainerFactory();
-//        containerFactory.setConnectionFactory(cf);
-//        return containerFactory;
-//    }
 }

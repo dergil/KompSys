@@ -4,10 +4,14 @@ import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.kbe.kompsys.domain.deserializer.CustomCarDeserializer;
+import com.kbe.kompsys.domain.deserializer.CustomTaxDeserializer;
 import com.kbe.kompsys.domain.model.Car;
 import com.kbe.kompsys.domain.model.Tax;
-import com.kbe.kompsys.repository.interfaces.CarRepository;
-import com.kbe.kompsys.repository.interfaces.TaxRepository;
+import com.kbe.kompsys.repository.CarRepository;
+import com.kbe.kompsys.repository.TaxRepository;
+import com.kbe.kompsys.service.storage_update.SftpServiceImpl;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,10 +33,13 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     private CarRepository carRepository;
     @Autowired
     private TaxRepository taxRepository;
+    @Autowired
+    private SftpServiceImpl sftpServiceImpl;
 
-
+    @SneakyThrows
     @Override
     public void onApplicationEvent(@NotNull ApplicationReadyEvent applicationReadyEvent) {
+        log.info("Initializing database with cars");
         importCars();
         importTaxes();
     }
