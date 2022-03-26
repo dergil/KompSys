@@ -37,7 +37,7 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
   @SneakyThrows
   @Override
   public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-//    carStorageService.updateStorage(new UpdateStorage(1337));
+    carStorageService.updateStorage(new UpdateStorage(1337));
     importTaxes();
   }
 

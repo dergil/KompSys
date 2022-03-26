@@ -16,7 +16,7 @@ public class SftpServiceImpl implements SftpService {
   private int port = 22;
 
   @Override
-  public void getFile(String src, String destination) throws JSchException, SftpException {
+  public void getFile(String src, String destination) throws JSchException {
     ChannelSftp channelSftp = setupJsch();
     channelSftp.connect();
     try {

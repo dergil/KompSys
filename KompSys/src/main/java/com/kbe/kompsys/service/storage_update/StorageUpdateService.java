@@ -4,10 +4,9 @@ import com.github.dergil.kompsys.dto.update.UpdateStorage;
 import com.github.dergil.kompsys.dto.update.UpdateStorageResponse;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+import com.kbe.kompsys.service.RabbitMqTransferService;
 import io.micrometer.core.instrument.Metrics;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -17,19 +16,14 @@ import java.io.IOException;
 @Service
 @Slf4j
 public class StorageUpdateService {
-    public static final String ROUTING_KEY = "storage";
-    private final RabbitTemplate rabbitTemplate;
-    private final DirectExchange directExchange;
+    @Autowired
+    private RabbitMqTransferService transferService;
+    public final String ROUTING_KEY = "storage";
 
     @Autowired
     private CsvExporter csvExporter;
     @Autowired
     private SftpServiceImpl storageService;
-
-    public StorageUpdateService(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
-        this.rabbitTemplate = rabbitTemplate;
-        this.directExchange = directExchange;
-    }
 
     public void forceUpdateCarRepo() throws JSchException, SftpException, IOException {
         Metrics.counter("db_changes", "change", "car").increment(11);
@@ -54,10 +48,7 @@ public class StorageUpdateService {
 
     private UpdateStorageResponse queryUpdateStorage(UpdateStorage request) {
         log.info("Sending " + request);
-        UpdateStorageResponse response = (UpdateStorageResponse) rabbitTemplate.convertSendAndReceive(
-                directExchange.getName(),
-                ROUTING_KEY,
-                request);
+        UpdateStorageResponse response = (UpdateStorageResponse) transferService.transferRequest(request, ROUTING_KEY);
         log.info("Received " + response);
         return response;
     }

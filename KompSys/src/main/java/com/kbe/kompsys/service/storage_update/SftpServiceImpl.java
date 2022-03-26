@@ -13,14 +13,12 @@ public class SftpServiceImpl implements SftpService {
     private String username;
     @Value("${sftp_password}")
     private String password;
-
     private int port = 22;
 
     @Override
     public void putFile(String localFile, String remoteDir) throws JSchException, SftpException {
         ChannelSftp channelSftp = setupJsch();
         channelSftp.connect();
-        System.out.println(localFile);
 //        leading slash needed
         channelSftp.put(localFile, remoteDir + "/file.txt");
         channelSftp.exit();

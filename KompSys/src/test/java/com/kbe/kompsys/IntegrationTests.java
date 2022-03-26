@@ -19,7 +19,10 @@ import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+
+// start RabbitMQ beforehand
+@SpringBootTest(args={"--remoteHost=sftp", "--sftp_username=foo", "--sftp_password=Mypassword123",
+        "--spring.sql.init.platform=", "--spring.datasource.driver-class-name=", "--spring.jpa.database-platform="})
 @SpringJUnitConfig
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RabbitAvailable
