@@ -38,6 +38,10 @@ public class StorageUpdateService {
             csvExporter.exportCarsToCSV();
             storageService.putFile("/home/spring/csv/cars.csv", "/upload/");
             UpdateStorageResponse response = queryUpdateStorage(new UpdateStorage(counter));
+            if (response == null){
+                log.info("No response from storage microservice");
+                return;
+            }
             log.info("Changes made in storage: " + response.changesMade);
             Metrics.counter("db_changes", "change", "car").increment(-counter);
             log.info("DECREMENT: " + Metrics.counter("db_changes", "change", "car").count());

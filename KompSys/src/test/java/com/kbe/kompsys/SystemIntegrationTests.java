@@ -55,7 +55,7 @@ public class SystemIntegrationTests {
         String address = "http://"
                 + compose.getServiceHost("gateway", 8082) + ":"
                 + compose.getServicePort("gateway", 8082)
-                + "/calculate?pricePreTax=99000&salesTax=0.19";
+                + "/api/v1/calculate?pricePreTax=99000&salesTax=0.19";
         String response = simpleGetRequest(address);
         String correctResponse = "{\"pricePostTax\":117810.0,\"pricePreTax\":99000.0,\"salesTax\":0.19,\"taxAmount\":18810.0}";
         Assertions.assertEquals(correctResponse, response);
@@ -66,7 +66,7 @@ public class SystemIntegrationTests {
         String address = "http://"
                 + compose.getServiceHost("gateway", 8082) + ":"
                 + compose.getServicePort("gateway", 8082)
-                + "/car?id=3";
+                + "/api/v1/car?id=3";
         String response = simpleGetRequest(address);
         System.out.println("MYRESPONSE: " + response);
         String correctResponse = "{\"id\":3,\"name\":\"plymouth satellite\",\"price\":40000,\"milesPerGallon\":18,\"cylinders\":8,\"displacement\":318,\"horsepower\":150,\"weightInPounds\":3436,\"acceleration\":11,\"year\":\"1970-01-01\",\"origin\":\"USA\"}";
@@ -81,7 +81,7 @@ public class SystemIntegrationTests {
                 + compose.getServicePort("gateway", 8082);
         WebClient webClient = WebClient.create(address);
         CarView carView = webClient.delete()
-                .uri("/car/" + id)
+                .uri("/api/v1/car/" + id)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(CarView.class)

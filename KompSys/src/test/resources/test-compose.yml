@@ -8,16 +8,12 @@ services:
       depends_on:
           rabbitmq:
               condition: service_started
+      environment:
+          - SPRING_RABBITMQ_HOST=rabbitmq
       networks:
         backend2:
           aliases:
             - "gateway"
-
-#      depends_on:
-#        configserver:
-#          condition: service_started
-
-
 
 
     main:
@@ -25,6 +21,11 @@ services:
       depends_on:
         rabbitmq:
           condition: service_started
+      environment:
+          - SPRING_RABBITMQ_HOST=rabbitmq
+          - remoteHost=sftp
+          - sftp_username=foo
+          - sftp_password=Mypassword123
       networks:
         backend2:
           aliases:
@@ -34,10 +35,6 @@ services:
 #        - SPRING_DATASOURCE_USERNAME=compose-postgres
 #        - SPRING_DATASOURCE_PASSWORD=compose-postgres
 #        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-#      command: [ "wait-for-it", "configserver:8888", "--", "java","-jar","/app.jar" ]
-#      depends_on:
-#        configserver:
-#          condition: service_started
 
 
   #    db:
@@ -58,16 +55,26 @@ services:
       depends_on:
           rabbitmq:
               condition: service_started
+      environment:
+          - SPRING_RABBITMQ_HOST=rabbitmq
       networks:
         backend2:
           aliases:
             - "calculator"
 
+    sftp:
+        image: atmoz/sftp
+        command: foo:Mypassword123:::upload
+        networks:
+            backend2:
+                aliases:
+                    - "sftp"
+
     rabbitmq:
       image: rabbitmq:management
-      ports:
-        - "5672:5672"
-        - "15672:15672"
+#      ports:
+#        - "5672:5672"
+#        - "15672:15672"
       networks:
         backend2:
           aliases:
@@ -78,8 +85,3 @@ networks:
     driver: bridge
 
 
-#    environment:
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/kompsys
-#      - SPRING_DATASOURCE_USERNAME=kbe
-#      - SPRING_DATASOURCE_PASSWORD=
-#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
