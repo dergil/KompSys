@@ -36,7 +36,7 @@ public class CarStorageServiceImpl implements CarStorageService {
   }
 
   @Override
-  public UpdateStorageResponse updateStorage(UpdateStorage request) throws FileNotFoundException, JSchException, SftpException {
+  public UpdateStorageResponse updateStorage(UpdateStorage request) throws JSchException {
 
     try {
       sftpServiceImpl.getFile("/upload/" + FILENAME, CSVPATH);
