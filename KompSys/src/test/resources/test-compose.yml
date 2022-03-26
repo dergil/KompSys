@@ -1,0 +1,64 @@
+version: '2.1'
+
+services:
+    gateway:
+      image: gateway:0.0.1-SNAPSHOT
+      ports:
+          - "127.0.0.1:8082:8082"
+      depends_on:
+          rabbitmq:
+              condition: service_started
+      environment:
+          - SPRING_RABBITMQ_HOST=rabbitmq
+      networks:
+        backend2:
+          aliases:
+            - "gateway"
+
+    main:
+      image: main:0.0.1-SNAPSHOT
+      depends_on:
+        rabbitmq:
+          condition: service_started
+      environment:
+          - SPRING_RABBITMQ_HOST=rabbitmq
+          - remoteHost=sftp
+          - sftp_username=foo
+          - sftp_password=Mypassword123
+      networks:
+        backend2:
+          aliases:
+            - "main"
+
+    calculator:
+      image: calculator:0.0.1-SNAPSHOT
+      depends_on:
+          rabbitmq:
+              condition: service_started
+      environment:
+          - SPRING_RABBITMQ_HOST=rabbitmq
+      networks:
+        backend2:
+          aliases:
+            - "calculator"
+
+    sftp:
+        image: atmoz/sftp
+        command: foo:Mypassword123:::upload
+        networks:
+            backend2:
+                aliases:
+                    - "sftp"
+
+    rabbitmq:
+      image: rabbitmq:management
+      networks:
+        backend2:
+          aliases:
+            - "rabbitmq"
+#
+networks:
+  backend2:
+    driver: bridge
+
+
