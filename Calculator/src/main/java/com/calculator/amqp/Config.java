@@ -24,7 +24,6 @@ public class Config {
     return new Receiver();
   }
 
-
   @Bean
   public DirectExchange directExchange() {
     return new DirectExchange(main_service_exchange_name);

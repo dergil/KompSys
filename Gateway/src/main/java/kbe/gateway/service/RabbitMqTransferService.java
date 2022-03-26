@@ -25,7 +25,7 @@ public class RabbitMqTransferService {
 
   @Nullable
   public Serializable transferRequest(java.io.Serializable request, String routingKey) {
-    log.info("Sending " + request.toString() + " - Routingkey is " + routingKey);
+    log.info("Sending " + request.toString() + " \n- Routingkey is " + routingKey);
 
     return (Serializable) rabbitTemplate.convertSendAndReceive(
             directExchange.getName(),

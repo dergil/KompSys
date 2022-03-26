@@ -5,11 +5,8 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.kbe.kompsys.domain.deserializer.CustomCarDeserializer;
-import com.kbe.kompsys.domain.deserializer.CustomTaxDeserializer;
 import com.kbe.kompsys.domain.model.Car;
-import com.kbe.kompsys.domain.model.Tax;
 import com.kbe.kompsys.repository.CarRepository;
-import com.kbe.kompsys.repository.TaxRepository;
 import com.kbe.kompsys.service.storage_update.StorageUpdateService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +29,6 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     @Autowired
     private CarRepository carRepository;
     @Autowired
-    private TaxRepository taxRepository;
-    @Autowired
     private StorageUpdateService storageUpdateService;
 
     @SneakyThrows
@@ -41,7 +36,6 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     public void onApplicationEvent(@NotNull ApplicationReadyEvent applicationReadyEvent) {
         log.info("Initializing database with cars");
         importCars();
-        importTaxes();
         storageUpdateService.forceUpdateCarRepo();
     }
 
@@ -49,12 +43,6 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         InputStream jsonfile_cars = importJsonAsFile("cars.json");
         List<Car> cars = readCars(jsonfile_cars);
         carRepository.saveAll(cars);
-    }
-
-    private void importTaxes() {
-        InputStream jsonfile_taxes = importJsonAsFile("taxes.json");
-        List<Tax> taxes = readTaxes(jsonfile_taxes);
-        taxRepository.saveAll(taxes);
     }
 
     //    https://stackoverflow.com/questions/14876836/file-inside-jar-is-not-visible-for-spring
@@ -73,11 +61,6 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         return mapFromJsonToList(file, mapper, Car.class);
     }
 
-    private List<Tax> readTaxes(InputStream file) {
-        ObjectMapper mapper = configureTaxMapper();
-        return mapFromJsonToList(file, mapper, Tax.class);
-    }
-
     @NotNull
     private ObjectMapper configureCarMapper() {
         ObjectMapper mapper = new ObjectMapper();
@@ -85,17 +68,6 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
                 new SimpleModule("CustomCarDeserializer",
                         new Version(1, 0, 0, null, null, null));
         module.addDeserializer(Car.class, new CustomCarDeserializer());
-        mapper.registerModule(module);
-        return mapper;
-    }
-
-    @NotNull
-    private ObjectMapper configureTaxMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        SimpleModule module =
-                new SimpleModule("CustomTaxDeserializer",
-                        new Version(1, 0, 0, null, null, null));
-        module.addDeserializer(Tax.class, new CustomTaxDeserializer());
         mapper.registerModule(module);
         return mapper;
     }
