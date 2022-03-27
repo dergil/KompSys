@@ -1,33 +1,22 @@
 package com.kbe.kompsys;
 
 import com.github.dergil.kompsys.dto.car.CarView;
-import com.github.dergil.kompsys.dto.car.CreateCarRequest;
-import com.github.dergil.kompsys.dto.car.DeleteCarRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.testcontainers.containers.DockerComposeContainer;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.Network;
-import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
-import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.utility.DockerImageName;
-import reactor.core.publisher.Mono;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.Duration;
 
 @Slf4j
 public class SystemIntegrationTests {

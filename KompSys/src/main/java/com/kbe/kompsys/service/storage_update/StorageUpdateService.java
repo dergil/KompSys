@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 @Service
 @Slf4j
@@ -32,6 +34,7 @@ public class StorageUpdateService {
 
     @Scheduled(fixedRate = 5000)
     private void updateCarRepositoryByMetric() throws IOException, JSchException, SftpException {
+        if (!new File("/home/spring/csv/").exists()) return;
         double counter = Metrics.counter("db_changes", "change", "car").count();
         if (counter > 10) {
             log.info("Changes are greater then 10");
