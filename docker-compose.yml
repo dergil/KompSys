@@ -3,37 +3,39 @@ version: '2.1'
 # compile services, then docker-compose up
 services:
 
-#    storage:
-#      image: storage:0.0.1-SNAPSHOT
-#      build: ./Storage
-#      container_name: storage
-#      networks:
-#        backend2:
-#          aliases:
-#            - "storage"
-#      environment:
-#        - SPRING_RABBITMQ_HOST=rabbitmq
-#        - remoteHost=sftp
-#        - sftp_username=foo
-#        - sftp_password=Mypassword123
-#        - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/db-storage
-#        - SPRING_DATASOURCE_USERNAME=compose-postgres
-#        - SPRING_DATASOURCE_PASSWORD=compose-postgres
-#        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-#
-#
-#    db-storage:
-#      image: 'postgres:13.1-alpine'
-#      container_name: db-storage
-#      hostname: db-storage
-#      environment:
-#        - POSTGRES_DB=db-storage
-#        - POSTGRES_USER=compose-postgres
-#        - POSTGRES_PASSWORD=compose-postgres
-#      networks:
-#        backend2:
-#          aliases:
-#            - "db-storage"
+    storage:
+      image: storage:0.0.1-SNAPSHOT
+      build: ./Storage
+      container_name: storage
+      networks:
+        backend2:
+          aliases:
+            - "storage"
+      environment:
+        - SPRING_RABBITMQ_HOST=rabbitmq
+        - remoteHost=sftp
+        - sftp_username=foo
+        - sftp_password=Mypassword123
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/db-storage
+        - SPRING_DATASOURCE_USERNAME=compose-postgres
+        - SPRING_DATASOURCE_PASSWORD=compose-postgres
+        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+
+    db-storage:
+      image: 'postgres:13.1-alpine'
+      container_name: db-storage
+      hostname: db-storage
+      volumes:
+        - ./postgres-data/db-storage:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_DB=db-storage
+        - POSTGRES_USER=compose-postgres
+        - POSTGRES_PASSWORD=compose-postgres
+      networks:
+        backend2:
+          aliases:
+            - "db-storage"
 
     main:
       image: main:0.0.1-SNAPSHOT
@@ -71,6 +73,8 @@ services:
         - POSTGRES_DB=db-main
         - POSTGRES_USER=compose-postgres
         - POSTGRES_PASSWORD=compose-postgres
+      volumes:
+        - ./postgres-data/db-main:/var/lib/postgresql/data
       networks:
         backend2:
           aliases:
