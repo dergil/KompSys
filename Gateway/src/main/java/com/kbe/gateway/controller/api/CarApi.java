@@ -1,8 +1,10 @@
 package com.kbe.gateway.controller.api;
 
 import com.github.dergil.kompsys.dto.car.*;
+import com.github.dergil.kompsys.dto.car.CreateCarRequest;
 import com.github.dergil.kompsys.dto.car.tax.CarTaxCalculateView;
 import com.github.dergil.kompsys.dto.car.tax.CarTaxRequest;
+import com.kbe.gateway.MyCreateCarRequest;
 import com.kbe.gateway.service.RabbitMqTransferService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +21,9 @@ import java.util.Objects;
 public class CarApi {
 
   @Autowired
-  private final RabbitMqTransferService transferService;
+  private RabbitMqTransferService transferService;
   @Value("${car_queue_routing_key:car}")
   private String car_queue_routing_key;
-
-  public CarApi(RabbitMqTransferService transferService) {
-    this.transferService = transferService;
-  }
 
   @PostMapping
   public CarView create(@RequestBody @Valid CreateCarRequest request) {

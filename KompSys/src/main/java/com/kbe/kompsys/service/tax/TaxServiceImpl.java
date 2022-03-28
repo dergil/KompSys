@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.net.UnknownHostException;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -46,7 +47,7 @@ public class TaxServiceImpl implements TaxService {
     @Override
     public CarTaxCalculateView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException, UnknownHostException {
         GeolocationResponse geolocationResponse = queryGeolocation(request.getIpAddress());
-        Car car = carRepository.getById(request.getId());
+        Car car = carRepository.getCarById(request.getId());
         TaxView tax = determineTax(geolocationResponse);
         CalculateResponse calculateResponse = queryCalculator(car, tax);
         CarTaxCalculateView response = taxServiceMapper.toCarTaxCalculateView(car, calculateResponse, tax);

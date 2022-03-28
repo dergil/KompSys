@@ -4,6 +4,7 @@ import com.kbe.kompsys.entity_listener.CarListener;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Entity
@@ -14,6 +15,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotBlank(message = "Name is mandatory")
     private String name;
     private int price;
     private int milesPerGallon;

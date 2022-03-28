@@ -1,4 +1,4 @@
-package com.github.dergil.kompsys.dto.car;
+package com.kbe.gateway;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -10,30 +10,25 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditCarRequest implements Serializable {
+public class MyCreateCarRequest implements Serializable {
 
-  long id;
     @NotBlank
     private String name;
+    //    @NotNull
     @Min(0)
     private Double price;
-    @Min(0)
     private float milesPerGallon;
-    @Min(0)
     private int cylinders;
-    @Min(0)
     private int displacement;
-    @Min(0)
     private int horsepower;
-    @Min(0)
     private int weightInPounds;
-    @Min(0)
     private float acceleration;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate year;
-    @NotBlank
     private String origin;
+
 }
