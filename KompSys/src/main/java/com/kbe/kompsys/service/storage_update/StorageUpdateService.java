@@ -25,11 +25,11 @@ public class StorageUpdateService {
     private SftpServiceImpl storageService;
 
     public void forceUpdateCarRepo() throws JSchException, SftpException, IOException {
-//        Metrics.counter("db_changes", "change", "car").increment(11);
-//        updateCarRepositoryByMetric();
+        Metrics.counter("db_changes", "change", "car").increment(11);
+        updateCarRepositoryByMetric();
     }
 
-//    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 5000)
     private void updateCarRepositoryByMetric() throws IOException, JSchException, SftpException {
         double counter = Metrics.counter("db_changes", "change", "car").count();
         if (counter > 10) {
