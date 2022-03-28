@@ -1,6 +1,5 @@
 package com.calculator.service;
 
-import com.calculator.service.CalculatorService;
 import com.github.dergil.kompsys.dto.calculate.CalculateRequest;
 import com.github.dergil.kompsys.dto.calculate.CalculateResponse;
 import org.junit.jupiter.api.Assertions;

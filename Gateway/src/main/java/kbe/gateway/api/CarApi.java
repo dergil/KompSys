@@ -1,4 +1,4 @@
-package kbe.gateway.controller.api;
+package kbe.gateway.api;
 
 import com.github.dergil.kompsys.dto.car.*;
 import com.github.dergil.kompsys.dto.car.tax.CarTaxCalculateView;

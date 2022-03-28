@@ -1,4 +1,4 @@
-package kbe.gateway.controller.api;
+package kbe.gateway.api;
 
 import com.github.dergil.kompsys.dto.tax.*;
 import kbe.gateway.service.RabbitMqTransferService;

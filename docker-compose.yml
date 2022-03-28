@@ -1,14 +1,13 @@
 version: '2.1'
 
-# compile services, then docker-compose up
+# compile services, then "docker-compose up -d"
 services:
-
     storage:
       image: storage:0.0.1-SNAPSHOT
       build: ./Storage
       container_name: storage
       networks:
-        backend2:
+        backend:
           aliases:
             - "storage"
       environment:
@@ -33,7 +32,7 @@ services:
         - POSTGRES_USER=compose-postgres
         - POSTGRES_PASSWORD=compose-postgres
       networks:
-        backend2:
+        backend:
           aliases:
             - "db-storage"
 
@@ -44,7 +43,7 @@ services:
       ports:
         - "127.0.0.1:8081:8081"
       networks:
-        backend2:
+        backend:
           aliases:
             - "main"
       environment:
@@ -76,7 +75,7 @@ services:
       volumes:
         - ./postgres-data/db-main:/var/lib/postgresql/data
       networks:
-        backend2:
+        backend:
           aliases:
             - "db-main"
 
@@ -85,7 +84,7 @@ services:
       image: atmoz/sftp
       command: foo:Mypassword123:::upload
       networks:
-        backend2:
+        backend:
           aliases:
             - "sftp"
 #
@@ -94,7 +93,7 @@ services:
       build: ./Calculator
       container_name: calculator
       networks:
-        backend2:
+        backend:
           aliases:
             - "calculator"
       environment:
@@ -108,7 +107,7 @@ services:
       ports:
         - "127.0.0.1:8082:8082"
       networks:
-        backend2:
+        backend:
           aliases:
             - "gateway"
       environment:
@@ -120,11 +119,11 @@ services:
         - "5672:5672"
         - "15672:15672"
       networks:
-        backend2:
+        backend:
           aliases:
             - "rabbitmq"
 
 networks:
-  backend2:
+  backend:
     driver: bridge
 
