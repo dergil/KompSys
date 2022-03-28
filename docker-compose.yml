@@ -1,128 +1,142 @@
 version: '2.1'
 
 # compile services, then docker-compose up
+
 services:
 
-    storage:
-      image: storage:0.0.1-SNAPSHOT
-      build: ./Storage
-      container_name: storage
-      networks:
-        backend2:
-          aliases:
-            - "storage"
-      environment:
-        - SPRING_RABBITMQ_HOST=rabbitmq
-        - remoteHost=sftp
-        - sftp_username=foo
-        - sftp_password=Mypassword123
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/db-storage
-        - SPRING_DATASOURCE_USERNAME=compose-postgres
-        - SPRING_DATASOURCE_PASSWORD=compose-postgres
-        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  storage:
+    image: storage:0.0.1-SNAPSHOT
+    build: ./Storage
+    container_name: storage
+    networks:
+      backend2:
+        aliases:
+          - "storage"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - remoteHost=sftp
+      - sftp_username=foo
+      - sftp_password=Mypassword123
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-storage:5432/db-storage
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      db-storage:
+        condition: service_started
+
+  db-storage:
+    image: 'postgres:13.1-alpine'
+    container_name: db-storage
+    hostname: db-storage
+    environment:
+      - POSTGRES_DB=db-storage
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+    networks:
+      backend2:
+        aliases:
+          - "db-storage"
+
+  main:
+    image: main:0.0.1-SNAPSHOT
+    build: ./KompSys
+    container_name: main
+    ports:
+      - "127.0.0.1:8081:8081"
+    networks:
+      backend2:
+        aliases:
+          - "main"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - remoteHost=sftp
+      - sftp_username=foo
+      - sftp_password=Mypassword123
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-main:5432/db-main
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+    depends_on:
+      db-main:
+        condition: service_started
 
 
-    db-storage:
-      image: 'postgres:13.1-alpine'
-      container_name: db-storage
-      hostname: db-storage
-      volumes:
-        - ./postgres-data/db-storage:/var/lib/postgresql/data
-      environment:
-        - POSTGRES_DB=db-storage
-        - POSTGRES_USER=compose-postgres
-        - POSTGRES_PASSWORD=compose-postgres
-      networks:
-        backend2:
-          aliases:
-            - "db-storage"
-
-    main:
-      image: main:0.0.1-SNAPSHOT
-      build: ./KompSys
-      container_name: main
-      ports:
-        - "127.0.0.1:8081:8081"
-      networks:
-        backend2:
-          aliases:
-            - "main"
-      environment:
-        - SPRING_RABBITMQ_HOST=rabbitmq
-        - remoteHost=sftp
-        - sftp_username=foo
-        - sftp_password=Mypassword123
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://db-main:5432/db-main
-        - SPRING_DATASOURCE_USERNAME=compose-postgres
-        - SPRING_DATASOURCE_PASSWORD=compose-postgres
-        - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-        - spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-        - spring.jpa.show-sql=false
-        - spring.sql.init.platform=postgres
-        - spring.datasource.driver-class-name=org.postgresql.Driver
-      depends_on:
-        db-main:
-          condition: service_started
+  db-main:
+    image: 'postgres:14.2-alpine'
+    container_name: db-main
+    hostname: db-main
+    environment:
+      - POSTGRES_DB=db-main
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+    networks:
+      backend2:
+        aliases:
+          - "db-main"
 
 
-    db-main:
-      image: 'postgres:14.2-alpine'
-      container_name: db-main
-      hostname: db-main
-      environment:
-        - POSTGRES_DB=db-main
-        - POSTGRES_USER=compose-postgres
-        - POSTGRES_PASSWORD=compose-postgres
-      volumes:
-        - ./postgres-data/db-main:/var/lib/postgresql/data
-      networks:
-        backend2:
-          aliases:
-            - "db-main"
+  sftp:
+    image: atmoz/sftp
+    command: foo:Mypassword123:::upload
+    networks:
+      backend2:
+        aliases:
+          - "sftp"
 
 
-    sftp:
-      image: atmoz/sftp
-      command: foo:Mypassword123:::upload
-      networks:
-        backend2:
-          aliases:
-            - "sftp"
-#
-    calculator:
-      image: calculator:0.0.1-SNAPSHOT
-      build: ./Calculator
-      container_name: calculator
-      networks:
-        backend2:
-          aliases:
-            - "calculator"
-      environment:
-        SPRING_RABBITMQ_HOST: rabbitmq
+  #
+  calculator:
+    image: calculator:0.0.1-SNAPSHOT
+    build: ./Calculator
+    container_name: calculator
+    depends_on:
+      rabbitmq:
+        condition: service_started
+    networks:
+      backend2:
+        aliases:
+          - "calculator"
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
 
 
-    gateway:
-      image: gateway:0.0.1-SNAPSHOT
-      build: ./Gateway
-      container_name: gateway
-      ports:
-        - "127.0.0.1:8082:8082"
-      networks:
-        backend2:
-          aliases:
-            - "gateway"
-      environment:
-        - SPRING_RABBITMQ_HOST=rabbitmq
+  gateway:
+    image: gateway:0.0.1-SNAPSHOT
+    build: ./Gateway
+    container_name: gateway
+    ports:
+      - "127.0.0.1:8082:8082"
+    networks:
+      backend2:
+        aliases:
+          - "gateway"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
 
-    rabbitmq:
-      image: rabbitmq:management
-      ports:
-        - "5672:5672"
-        - "15672:15672"
-      networks:
-        backend2:
-          aliases:
-            - "rabbitmq"
+  frontend:
+    image: frontend:0.0.1-SNAPSHOT
+    build: ./Frontend
+    container_name: frontend
+    ports:
+      - "127.0.0.1:8085:8085"
+    networks:
+      backend2:
+        aliases:
+          - "frontend"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmqgat
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      backend2:
+        aliases:
+          - "rabbitmq"
 
 networks:
   backend2:

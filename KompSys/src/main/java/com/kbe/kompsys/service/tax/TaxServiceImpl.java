@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.net.UnknownHostException;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -46,9 +47,10 @@ public class TaxServiceImpl implements TaxService {
     @Override
     public CarTaxCalculateView queryCarTaxView(CarTaxRequest request) throws JsonProcessingException, UnknownHostException {
         GeolocationResponse geolocationResponse = queryGeolocation(request.getIpAddress());
-        Car car = carRepository.getById(request.getId());
+        Car car = carRepository.getCarById(request.getId());
         TaxView tax = determineTax(geolocationResponse);
         CalculateResponse calculateResponse = queryCalculator(car, tax);
+        log.info("Creating Response: " + calculateResponse);
         CarTaxCalculateView response = taxServiceMapper.toCarTaxCalculateView(car, calculateResponse, tax);
         log.info("Returning: " + response);
         return response;
@@ -63,14 +65,16 @@ public class TaxServiceImpl implements TaxService {
     }
 
     private CalculateResponse queryCalculator(Car car, TaxView tax) {
+        log.info("Query CalculateRequest" + tax + "Car: " + car);
         CalculateRequest calculateRequest = new CalculateRequest();
         calculateRequest.setPricePreTax(car.getPrice());
         calculateRequest.setSalesTax(tax.getTax());
+        log.info("Created Calculaterequest object " + calculateRequest);
         return calculatorServiceImpl.queryCalculator(calculateRequest);
     }
 
-    private Serializable sendRequestAndReceiveResponseObject(java.io.Serializable request) {
+    private TaxView sendRequestAndReceiveResponseObject(java.io.Serializable request) {
         log.info("Sending " + request.toString());
-        return (Serializable) transferService.transferRequest(request, storage_queue_routing_key);
+        return (TaxView) transferService.transferRequest(request, storage_queue_routing_key);
     }
 }
