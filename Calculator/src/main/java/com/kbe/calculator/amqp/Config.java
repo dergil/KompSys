@@ -13,32 +13,33 @@ import org.springframework.context.annotation.Configuration;
 @RabbitListenerTest(capture = true)
 public class Config {
 
-  @Value("${calculate_routingkey:calculate}")
-  private String ROUTING_KEY;
+    @Value("${calculate_routingkey:calculate}")
+    private String ROUTING_KEY;
 
-  @Value("${main_service_exchange_name:kompsys}")
-  private String main_service_exchange_name;
+    @Value("${main_service_exchange_name:kompsys}")
+    private String main_service_exchange_name;
 
-  @Bean
-  public Receiver listener() {
-    return new Receiver();
-  }
+    @Bean
+    public Receiver listener() {
+        return new Receiver();
+    }
 
-  @Bean
-  public DirectExchange directExchange() {
-    return new DirectExchange(main_service_exchange_name);
-  }
+    @Bean
+    public DirectExchange directExchange() {
+        return new DirectExchange(main_service_exchange_name);
+    }
 
-  @Bean
-  public Queue queue() {
-    return new Queue("calculate");
-  }
 
-  @Bean
-  public Binding binding(DirectExchange directExchange, Queue queue) {
-    return BindingBuilder.bind(queue)
-            .to(directExchange)
-            .with(ROUTING_KEY);
-  }
+    @Bean
+    public Queue queue() {
+        return new Queue("calculate");
+    }
 
+    @Bean
+    public Binding binding(DirectExchange directExchange, Queue queue) {
+        return BindingBuilder.bind(queue)
+                .to(directExchange)
+                .with(ROUTING_KEY);
+    }
 }
+
