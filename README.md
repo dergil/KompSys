@@ -67,7 +67,7 @@ The architecture is microservice based, the application is ready for deployment 
 ### Architecture
 ![](architecture.jpeg)
 ### Sequence for Calling the calculation API on a Car
-![](Sequenz.png)
+![](CarTaxCalculate_sequence.jpeg)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
