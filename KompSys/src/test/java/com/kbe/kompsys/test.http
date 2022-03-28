@@ -43,7 +43,7 @@ Content-Type: application/json
 
 {
     "name": "chevrolet chevelle malibu",
-    "price": 100000,
+    "price": -100000,
     "milesPerGallon": 18,
     "cylinders": 8,
     "displacement": 307,
@@ -146,7 +146,7 @@ Content-Type: application/json
 
 
 ### GET request with a header
-GET http://localhost:8082/car/tax?id=3
+GET http://localhost:8082/api/v1/car/tax?id=3
 Accept: application/json
 
 ### GET request with a header

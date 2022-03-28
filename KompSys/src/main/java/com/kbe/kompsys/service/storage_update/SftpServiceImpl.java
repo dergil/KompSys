@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SftpServiceImpl implements SftpService {
-    @Value("${remoteHost}")
+    @Value("${remoteHost:sftp}")
     private String remoteHost;
-    @Value("${sftp_username}")
+    @Value("${sftp_username:foo}")
     private String username;
-    @Value("${sftp_password}")
+    @Value("${sftp_password:Mypassword123}")
     private String password;
     private int port = 22;
 

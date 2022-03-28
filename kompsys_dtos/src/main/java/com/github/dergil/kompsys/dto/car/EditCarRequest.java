@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,16 +16,24 @@ import java.time.LocalDate;
 public class EditCarRequest implements Serializable {
 
   long id;
-  @NotBlank
-  private String name;
-  private Double price;
-  private float milesPerGallon;
-  private int cylinders;
-  private int displacement;
-  private int horsepower;
-  private int weightInPounds;
-  private float acceleration;
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  private LocalDate year;
-  private String origin;
+    @NotBlank
+    private String name;
+    @Min(0)
+    private Double price;
+    @Min(0)
+    private float milesPerGallon;
+    @Min(0)
+    private int cylinders;
+    @Min(0)
+    private int displacement;
+    @Min(0)
+    private int horsepower;
+    @Min(0)
+    private int weightInPounds;
+    @Min(0)
+    private float acceleration;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate year;
+    @NotBlank
+    private String origin;
 }

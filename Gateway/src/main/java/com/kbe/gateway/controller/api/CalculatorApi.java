@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
@@ -23,7 +25,7 @@ public class CalculatorApi {
   private RabbitMqTransferService transferService;
 
   @GetMapping("/calculate")
-  public CalculateResponse calculate(@RequestParam double pricePreTax, @RequestParam double salesTax) {
+  public CalculateResponse calculate(@Valid @RequestParam double pricePreTax, @Valid @RequestParam double salesTax) {
     CalculateRequest calculateRequest = new CalculateRequest(pricePreTax, salesTax);
     return (CalculateResponse) transferService.transferRequest(calculateRequest, CALCULATE_QUEUE_ROUTING_KEY);
   }

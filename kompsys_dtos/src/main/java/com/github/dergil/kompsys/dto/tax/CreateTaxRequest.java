@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -12,45 +13,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateTaxRequest implements Serializable {
-  /**
-   * Gets countryCodeID
-   *
-   * @return value of countryCodeID
-   */
-  public String getCountryCodeID() {
-    return countryCodeID;
-  }
-
-  /**
-   * Sets countryCodeID
-   *
-   * @return value of countryCodeID
-   */
-  public void setCountryCodeID(String countryCodeID) {
-    this.countryCodeID = countryCodeID;
-  }
-
-  /**
-   * Gets tax
-   *
-   * @return value of tax
-   */
-  public double getTax() {
-    return tax;
-  }
-
-  /**
-   * Sets tax
-   *
-   * @return value of tax
-   */
-  public void setTax(double tax) {
-    this.tax = tax;
-  }
 
   @NotBlank
   private String countryCodeID;
-  @NotNull
+  @Min(0)
   private double tax;
 }
 

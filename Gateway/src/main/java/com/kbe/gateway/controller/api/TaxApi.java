@@ -15,13 +15,9 @@ import javax.validation.Valid;
 public class TaxApi {
 
   @Autowired
-  private final RabbitMqTransferService transferService;
+  private RabbitMqTransferService transferService;
   @Value("${tax_queue_routing_key:storage}")
   private String storage_queue_routing_key;
-
-  public TaxApi(RabbitMqTransferService transferService) {
-    this.transferService = transferService;
-  }
 
   @PostMapping
   public TaxView create(@RequestBody @Valid CreateTaxRequest request) {
