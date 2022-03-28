@@ -106,15 +106,11 @@ For this project to run you need to have Docker installed. For instructions foll
    ```sh
    git clone https://github.com/dergil/KompSys
    ```
-2. Install project library
+2. Install Dependencies with Maven
    ```sh
-   mvn clean package 'kompsys_dtos'
+   mvn clean package -DskipTests 'KBE_microservices'
    ```
-3. Install Dependencies with Maven
-   ```sh
-   mvn clean package -DskipTests 'module_name'
-   ```
-4. Build and run containers with docker-compose
+3. Build and run containers with docker-compose
    ```sh
    docker-compose up -d
    ```
