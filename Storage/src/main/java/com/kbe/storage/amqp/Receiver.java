@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
 
 
 @Slf4j
-@RabbitListener(id = "storage", queues = "storage", returnExceptions = "true")
+@RabbitListener(id = "storage_listener", queues = "storage", returnExceptions = "true")
 public class Receiver {
   @Autowired
   private TaxStorageServiceImpl taxStorageService;

@@ -6,6 +6,7 @@ import com.kbe.storage.domain.mapper.TaxViewMapper;
 import com.kbe.storage.domain.model.Tax;
 import com.kbe.storage.repository.TaxRepository;
 import com.kbe.storage.service.interfaces.TaxStorageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class TaxStorageServiceImpl implements TaxStorageService {
 
 
@@ -56,7 +58,9 @@ public class TaxStorageServiceImpl implements TaxStorageService {
   @Override
   public TaxView get(ReadTaxRequest request) {
     Tax tax = taxRepository.getTaxById(request.getCountryCodeID());
-    return taxViewMapper.toTaxView(tax);
+    TaxView taxView = taxViewMapper.toTaxView(tax);
+    log.info("Returning: " + taxView.toString());
+    return taxView;
   }
 
   @Override

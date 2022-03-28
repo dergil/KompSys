@@ -26,6 +26,10 @@ GET http://localhost:8082/api/v1/car/all
 Accept: application/json
 
 ###
+GET http://localhost:8082/api/v1/car/tax?id=2
+Accept: application/json
+
+###
 GET http://localhost:8085/tax?countryCodeID=DE
 Accept: application/json
 
@@ -89,6 +93,7 @@ Content-Type: application/json
 {
     "id": 1
 }
+
 ###
 DELETE http://localhost:8082/car/3
 
