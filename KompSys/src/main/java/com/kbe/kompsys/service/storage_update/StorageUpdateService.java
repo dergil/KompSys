@@ -16,10 +16,9 @@ import java.io.IOException;
 @Service
 @Slf4j
 public class StorageUpdateService {
+    public final String ROUTING_KEY = "storage";
     @Autowired
     private RabbitMqTransferService transferService;
-    public final String ROUTING_KEY = "storage";
-
     @Autowired
     private CsvExporter csvExporter;
     @Autowired
@@ -38,7 +37,9 @@ public class StorageUpdateService {
             csvExporter.exportCarsToCSV();
             storageService.putFile("/home/spring/csv/cars.csv", "/upload/");
             UpdateStorageResponse response = queryUpdateStorage(new UpdateStorage(counter));
-            log.info("Changes made in storage: " + response.changesMade);
+            if (response != null) {
+                log.info("Changes made in storage: " + response.changesMade);
+            }
             Metrics.counter("db_changes", "change", "car").increment(-counter);
             log.info("DECREMENT: " + Metrics.counter("db_changes", "change", "car").count());
         } else {

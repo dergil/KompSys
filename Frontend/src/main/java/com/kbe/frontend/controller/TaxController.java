@@ -4,9 +4,11 @@ import com.github.dergil.kompsys.dto.tax.*;
 import com.kbe.frontend.factory.UriFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,9 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/tax")
 public class TaxController {
-
+  //  private final HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+//  private final RestTemplate restTemplate = new RestTemplate(factory);
+  @Autowired
   private final RestTemplate restTemplate = new RestTemplate();
 
   @GetMapping
@@ -69,6 +73,7 @@ public class TaxController {
 
   @GetMapping("/all")
   public String getAll(Model model) {
+
     URIBuilder builder = UriFactory.buildUri("/api/v1/tax/all", null);
     List<TaxView> taxViewList = Objects.requireNonNull(restTemplate.getForObject(builder.toString(), TaxViewList.class)).getTaxViews();
 

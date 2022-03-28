@@ -6,6 +6,7 @@ import com.github.dergil.kompsys.dto.car.tax.CarTaxRequest;
 import com.kbe.frontend.factory.UriFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/car")
 public class CarController {
+  @Autowired
   private final RestTemplate restTemplate = new RestTemplate();
 
   @GetMapping
@@ -84,6 +86,7 @@ public class CarController {
   @GetMapping("/all")
   public String getAll(Model model) {
     URIBuilder builder = UriFactory.buildUri("/api/v1/car/all", null);
+    log.info(builder.toString());
     List<CarView> carViewList = Objects.requireNonNull(restTemplate.getForObject(builder.toString(), CarViewList.class)).getCarViews();
 
     assert carViewList != null;

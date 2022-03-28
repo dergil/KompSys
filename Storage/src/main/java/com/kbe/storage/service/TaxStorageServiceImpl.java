@@ -15,14 +15,14 @@ import java.util.List;
 @Service
 public class TaxStorageServiceImpl implements TaxStorageService {
 
-  @Autowired
+
   private final TaxRepository taxRepository;
-  @Autowired
+
   private final TaxEditMapper taxEditMapper;
-  @Autowired
+
   private final TaxViewMapper taxViewMapper;
 
-
+  @Autowired
   public TaxStorageServiceImpl(TaxRepository taxRepository, TaxEditMapper taxEditMapper, TaxViewMapper taxViewMapper) {
     this.taxRepository = taxRepository;
     this.taxEditMapper = taxEditMapper;

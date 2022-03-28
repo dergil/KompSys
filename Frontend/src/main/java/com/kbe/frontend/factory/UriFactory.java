@@ -7,8 +7,8 @@ import org.apache.http.client.utils.URIBuilder;
 import java.util.List;
 
 public class UriFactory {
-
-  private static final String HOST = "localhost:8082";
+  //Docker doesnt allow localhost, connect via container uri
+  private static final String HOST = "gateway:8082";
 
   private UriFactory() {
   }

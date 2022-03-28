@@ -1,4 +1,4 @@
-package com.kbe.storage.amqp;
+package com.kbe.calculator.amqp;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-//@RabbitListenerTest(capture = true)
+@RabbitListenerTest(capture = true)
 public class Config {
 
-  @Value("${storage_routingkey:storage}")
+  @Value("${calculate_routingkey:calculate}")
   private String ROUTING_KEY;
 
   @Value("${main_service_exchange_name:kompsys}")
@@ -31,7 +31,7 @@ public class Config {
 
   @Bean
   public Queue queue() {
-    return new Queue("storage");
+    return new Queue("calculate");
   }
 
   @Bean
@@ -40,4 +40,5 @@ public class Config {
             .to(directExchange)
             .with(ROUTING_KEY);
   }
+
 }
