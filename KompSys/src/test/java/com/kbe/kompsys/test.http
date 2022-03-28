@@ -30,6 +30,10 @@ GET http://localhost:8082/api/v1/car/tax?id=2
 Accept: application/json
 
 ###
+GET http://localhost:8082/api/v1/car/tax?id=2
+Accept: application/json
+
+###
 GET http://localhost:8085/tax?countryCodeID=DE
 Accept: application/json
 
@@ -48,6 +52,15 @@ Content-Type: application/json
     "acceleration": 12,
     "year": "1970-01-01",
     "origin": "USA"
+}
+
+###
+PUT http://localhost:8082/api/v1/tax
+Content-Type: application/json
+
+{
+    "countryCodeID": "DE",
+    "tax": -18
 }
 
 ###

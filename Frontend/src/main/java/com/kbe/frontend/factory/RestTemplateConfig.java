@@ -15,6 +15,7 @@ public class RestTemplateConfig {
     return builder
             .setConnectTimeout(Duration.ofMillis(60000))
             .setReadTimeout(Duration.ofMillis(60000))
+            .errorHandler(new RestTemplateResponseErrorHandler())
             .build();
   }
 }
