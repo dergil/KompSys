@@ -4,7 +4,6 @@ import com.github.dergil.kompsys.dto.car.*;
 import com.github.dergil.kompsys.dto.car.CreateCarRequest;
 import com.github.dergil.kompsys.dto.car.tax.CarTaxCalculateView;
 import com.github.dergil.kompsys.dto.car.tax.CarTaxRequest;
-import com.kbe.gateway.MyCreateCarRequest;
 import com.kbe.gateway.service.RabbitMqTransferService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
