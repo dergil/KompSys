@@ -1,22 +1,29 @@
 package com.kbe.kompsys;
 
 import com.github.dergil.kompsys.dto.car.CarView;
+import com.github.dergil.kompsys.dto.car.DeleteCarRequest;
+import com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.net.URIBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
+import reactor.core.publisher.Mono;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 
 @Slf4j
 public class SystemIntegrationTests {
@@ -63,21 +70,22 @@ public class SystemIntegrationTests {
     }
 
     @Test
-    public void deleteCar() {
-        String id = "3";
+    public void deleteCar() throws JSONException {
+        long id = 1;
         String address = "http://"
                 + compose.getServiceHost("gateway", 8082) + ":"
                 + compose.getServicePort("gateway", 8082);
         WebClient webClient = WebClient.create(address);
-        CarView carView = webClient.delete()
-                .uri("/api/v1/car/" + id)
+
+        CarView carView = webClient.method(HttpMethod.DELETE)
+                .uri("/api/v1/car/")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(BodyInserters.fromProducer(Mono.just(new JSONObject().put("id", "1").toString()), String.class))
                 .retrieve()
                 .bodyToMono(CarView.class)
                 .block();
-        System.out.println("MYRESPONSE: " + carView);
-        Assertions.assertEquals(Long.valueOf(id), carView.getId());
 
+        Assertions.assertEquals(id, carView.getId());
     }
 
     private String simpleGetRequest(String address) throws Exception {
