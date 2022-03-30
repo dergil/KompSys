@@ -44,9 +44,9 @@ public class CarApi {
     return (CarView) transferService.transferRequest(request, car_queue_routing_key);
   }
 
-  @DeleteMapping("/{id}")
-  public CarView delete(@PathVariable @Valid long id) {
-      return (CarView) transferService.transferRequest(new DeleteCarRequest(id), car_queue_routing_key);
+  @DeleteMapping
+  public CarView delete(@RequestBody @Valid DeleteCarRequest request) {
+    return (CarView) transferService.transferRequest(request, car_queue_routing_key);
   }
 
   @GetMapping("/tax")
