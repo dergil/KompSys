@@ -60,19 +60,19 @@ Content-Type: application/json
 
 {
     "countryCodeID": "DE",
-    "tax": -18
+    "tax": 0.19
 }
 
 ###
 # hro
-PUT http://localhost:8082/car
+PUT http://localhost:8082/api/v1/car
 Content-Type: application/json
 
 {
     "id": 2,
     "name": "cchevrolet chevelle malibu",
     "price": 100000,
-    "milesPerGallon": 18,
+    "milesPerGallon": -18,
     "cylinders": 8,
     "displacement": 307,
     "horsepower": 130,

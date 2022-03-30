@@ -1,4 +1,4 @@
-package com.kbe.gateway.controller.api;
+package com.kbe.gateway.api;
 
 import com.github.dergil.kompsys.dto.calculate.CalculateRequest;
 import com.github.dergil.kompsys.dto.calculate.CalculateResponse;

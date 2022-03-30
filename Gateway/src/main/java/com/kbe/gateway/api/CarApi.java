@@ -1,4 +1,4 @@
-package com.kbe.gateway.controller.api;
+package com.kbe.gateway.api;
 
 import com.github.dergil.kompsys.dto.car.*;
 import com.github.dergil.kompsys.dto.car.CreateCarRequest;

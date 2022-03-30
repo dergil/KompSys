@@ -22,12 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+//    RabbitMQ needs to be running
 @RabbitAvailable(queues = "#{queue.name}")
 @SpringBootTest
 @SpringJUnitConfig
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ReceiverTest {
-//    RabbitMQ needs to be running
 //    https://github.com/spring-projects/spring-amqp/blob/a3aedc67072bdfc01850dec7f87195cd8bf86381/spring-rabbit-test/src/test/java/org/springframework/amqp/rabbit/test/examples/ExampleRabbitListenerSpyAndCaptureTest.java
 
   @MockBean
