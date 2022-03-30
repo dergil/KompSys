@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@RabbitListenerTest(capture = true)
+//@RabbitListenerTest(capture = true)
 public class Config {
 
   @Value("${storage_routingkey:storage}")

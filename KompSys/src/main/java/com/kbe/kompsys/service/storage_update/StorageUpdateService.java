@@ -11,17 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 @Service
 @Slf4j
 public class StorageUpdateService {
+    public final String ROUTING_KEY = "storage";
     @Autowired
     private RabbitMqTransferService transferService;
-    public final String ROUTING_KEY = "storage";
-
     @Autowired
     private CsvExporter csvExporter;
     @Autowired
@@ -34,18 +31,15 @@ public class StorageUpdateService {
 
     @Scheduled(fixedRate = 5000)
     private void updateCarRepositoryByMetric() throws IOException, JSchException, SftpException {
-        if (!new File("/home/spring/csv/").exists()) return;
         double counter = Metrics.counter("db_changes", "change", "car").count();
         if (counter > 10) {
             log.info("Changes are greater then 10");
             csvExporter.exportCarsToCSV();
             storageService.putFile("/home/spring/csv/cars.csv", "/upload/");
             UpdateStorageResponse response = queryUpdateStorage(new UpdateStorage(counter));
-            if (response == null){
-                log.info("No response from storage microservice");
-                return;
+            if (response != null) {
+                log.info("Changes made in storage: " + response.changesMade);
             }
-            log.info("Changes made in storage: " + response.changesMade);
             Metrics.counter("db_changes", "change", "car").increment(-counter);
             log.info("DECREMENT: " + Metrics.counter("db_changes", "change", "car").count());
         } else {
